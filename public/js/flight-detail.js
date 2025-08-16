@@ -1,6 +1,7 @@
 /**
- * FLIGHT DETAIL (dinámico hasta 10 vuelos)
- * Archivo completo para reemplazar.
+ * FLIGHT DETAIL (dinámico hasta 10 vuelos) — v2
+ * - Renderiza hasta 10 tarjetas
+ * - Al hacer click en una tarjeta: fija precios XS/S/M y deja listo el botón (nextStep)
  */
 
 const loader = document.querySelector('.loader');
@@ -20,11 +21,8 @@ function priceTable() {
 
 function asPrice(v) {
   if (typeof formatPrice === 'function') return formatPrice(v);
-  try {
-    return new Intl.NumberFormat('es-CO').format(Number(v));
-  } catch (e) {
-    return String(v);
-  }
+  try { return new Intl.NumberFormat('es-CO').format(Number(v)); }
+  catch { return String(v); }
 }
 
 const flightSlots = [
@@ -40,26 +38,44 @@ const flightSlots = [
   { start: '22:10', end: '23:25', code: 'AV 8809', duration: '1h 15m' },
 ];
 
-function flightKeyByIndex(i) {
-  return `flight_${i + 1}`;
-}
-
-function loadFlight(key) {
-  // Mantén compatibilidad con tu flujo
-  if (window.info && window.updateLS) {
-    info.flightInfo.ticket = key;
-    updateLS();
-  }
-  // Si tu flujo navega aquí, lo dejas:
-  // window.location.href = 'step-two.html';
-}
+function flightKeyByIndex(i) { return `flight_${i + 1}`; }
 
 function formatDateSafe(ts) {
-  try {
-    return formatDateType1(ts);
-  } catch (e) {
-    return '';
+  try { return formatDateType1(ts); } catch { return ''; }
+}
+
+function updateTariffPrices(key) {
+  const p = priceTable()[key];
+  if (!p) return;
+
+  const elXS = document.querySelector('#xs');
+  const elS  = document.querySelector('#s');
+  const elM  = document.querySelector('#m');
+  if (elXS) elXS.textContent = asPrice(p.xs.toFixed ? p.xs.toFixed(2) : p.xs);
+  if (elS)  elS.textContent  = asPrice(p.s.toFixed  ? p.s.toFixed(2)  : p.s);
+  if (elM)  elM.textContent  = asPrice(p.m.toFixed  ? p.m.toFixed(2)  : p.m);
+}
+
+function scrollToTariffs() {
+  const section = document.querySelector('.tickets');
+  (section || document.querySelector('.card-ticket') || document.querySelector('#xs'))
+    ?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+function setActiveCard(node) {
+  cardsContainer.querySelectorAll('.card-departure.active')
+    .forEach(n => n.classList.remove('active'));
+  node.classList.add('active');
+}
+
+function loadFlight(key, node) {
+  if (window.info) {
+    info.flightInfo.ticket = key;
+    try { updateLS && updateLS(); } catch {}
   }
+  updateTariffPrices(key);
+  if (node) setActiveCard(node);
+  scrollToTariffs();
 }
 
 function renderHeaderAndFrom() {
@@ -72,9 +88,7 @@ function renderHeaderAndFrom() {
     const idx = (info?.flightInfo?.type === 1) ? 0 : 1;
     label1.textContent = `Selecciona tu vuelo de ${info?.flightInfo?.type === 1 ? 'salida' : 'regreso'} - ${formatDateSafe(info?.flightInfo?.flightDates?.[idx])}`;
   }
-  if (label2) {
-    label2.textContent = `${info?.flightInfo?.origin?.city ?? ''} a ${info?.flightInfo?.destination?.city ?? ''}`;
-  }
+  if (label2) label2.textContent = `${info?.flightInfo?.origin?.city ?? ''} a ${info?.flightInfo?.destination?.city ?? ''}`;
   if (label3) {
     const idx = (info?.flightInfo?.type === 1) ? 0 : 1;
     label3.textContent = `${formatDateSafe(info?.flightInfo?.flightDates?.[idx])}`;
@@ -96,48 +110,49 @@ function renderCards() {
   const ptab = priceTable();
   const max = Math.min(10, flightSlots.length);
 
-  const xsList = [];
+  const xsValues = [];
   for (let i = 0; i < max; i++) {
-    const key = flightKeyByIndex(i);
-    const xs = ptab[key]?.xs ?? null;
-    xsList.push(xs);
+    const k = flightKeyByIndex(i);
+    const xs = ptab[k]?.xs;
+    if (xs != null) xsValues.push(Number(xs));
   }
-  const xsNumbers = xsList.filter(v => v != null).map(Number);
-  const minXs = xsNumbers.length ? Math.min(...xsNumbers) : null;
+  const minXs = xsValues.length ? Math.min(...xsValues) : null;
 
   for (let i = 0; i < max; i++) {
     const slot = flightSlots[i];
-    const key = flightKeyByIndex(i);
-    const prices = ptab[key];
-
+    const k = flightKeyByIndex(i);
+    const prices = ptab[k];
     if (!prices) continue;
 
-    const node = cardTpl.content.firstElementChild.cloneNode(true);
+    const card = cardTpl.content.firstElementChild.cloneNode(true);
+    card.querySelector('.time-start').textContent = slot.start;
+    card.querySelector('.time-end').textContent   = slot.end;
+    card.querySelector('.flight-code').textContent = slot.code;
+    card.querySelector('.flight-duration').textContent = slot.duration;
 
-    node.querySelector('.time-start').textContent = slot.start;
-    node.querySelector('.time-end').textContent = slot.end;
-    node.querySelector('.flight-code').textContent = slot.code;
-    node.querySelector('.flight-duration').textContent = slot.duration;
-
-    const priceEl = node.querySelector('.price-value');
-    const val = Number(prices.xs);
-    priceEl.textContent = asPrice(isNaN(val) ? prices.xs : val.toFixed(2));
+    const priceEl = card.querySelector('.price-value');
+    priceEl.textContent = asPrice((prices.xs.toFixed ? prices.xs.toFixed(2) : prices.xs));
 
     if (minXs != null && Number(prices.xs) === Number(minXs)) {
-      const best = node.querySelector('.best-price-label');
-      if (best) best.style.display = '';
+      card.querySelector('.best-price-label').style.display = '';
     }
 
-    node.addEventListener('click', () => loadFlight(key));
-    cardsContainer.appendChild(node);
+    card.style.cursor = 'pointer';
+    card.addEventListener('click', () => loadFlight(k, card));
+
+    cardsContainer.appendChild(card);
+  }
+
+  const firstKey = [...Array(max).keys()].map(i => flightKeyByIndex(i)).find(k => !!ptab[k]);
+  if (firstKey) {
+    updateTariffPrices(firstKey);
+    const firstCard = cardsContainer.querySelector('.card-departure');
+    if (firstCard) firstCard.classList.add('active');
   }
 }
 
 (function init() {
-  try {
-    document.body?.classList?.remove?.('sb-hidden');
-    loader?.classList?.remove?.('show');
-  } catch (e) {}
+  try { document.body?.classList?.remove?.('sb-hidden'); loader?.classList?.remove?.('show'); } catch {}
   renderHeaderAndFrom();
   renderCards();
 })();
