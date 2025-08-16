@@ -68,7 +68,7 @@ const countries = [
 
 const pricesNAC = {
     "flight_1": {
-        "xs": 11.95,
+        "xs": 91.95,
         "s": 17.95,
         "m": 22.95
     },
