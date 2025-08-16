@@ -48,24 +48,34 @@ document.querySelector('#flight-label-3').textContent = `${formatDateType1(info.
 
 /* --- FLIGHT CARDS --- */
 if(info.flightInfo.origin.country === 'Ecuador' && info.flightInfo.destination.country === 'Ecuador'){
-    document.querySelector('#flight-price-0').textContent = formatPrice(pricesNAC.flight_1.xs);
-    document.querySelector('#flight-price-1').textContent = formatPrice(pricesNAC.flight_1.xs);
-    document.querySelector('#flight-price-2').textContent = formatPrice(pricesNAC.flight_2.xs);
-    document.querySelector('#flight-price-3').textContent = formatPrice(pricesNAC.flight_3.xs);
-    document.querySelector('#flight-price-4').textContent = formatPrice(pricesNAC.flight_4.xs);
-    document.querySelector('#flight-price-5').textContent = formatPrice(pricesNAC.flight_5.xs);
+    // NAC
+    document.querySelector('#flight-price-0').textContent  = formatPrice(pricesNAC.flight_1.xs);
+    document.querySelector('#flight-price-1').textContent  = formatPrice(pricesNAC.flight_1.xs);
+    document.querySelector('#flight-price-2').textContent  = formatPrice(pricesNAC.flight_2.xs);
+    document.querySelector('#flight-price-3').textContent  = formatPrice(pricesNAC.flight_3.xs);
+    // añadidos 4..10 (si existen en functions.js)
+    document.querySelector('#flight-price-4') && (document.querySelector('#flight-price-4').textContent  = formatPrice(pricesNAC.flight_4.xs));
+    document.querySelector('#flight-price-5') && (document.querySelector('#flight-price-5').textContent  = formatPrice(pricesNAC.flight_5.xs));
+    document.querySelector('#flight-price-6') && (document.querySelector('#flight-price-6').textContent  = formatPrice(pricesNAC.flight_6.xs));
+    document.querySelector('#flight-price-7') && (document.querySelector('#flight-price-7').textContent  = formatPrice(pricesNAC.flight_7.xs));
+    document.querySelector('#flight-price-8') && (document.querySelector('#flight-price-8').textContent  = formatPrice(pricesNAC.flight_8.xs));
+    document.querySelector('#flight-price-9') && (document.querySelector('#flight-price-9').textContent  = formatPrice(pricesNAC.flight_9.xs));
+    document.querySelector('#flight-price-10') && (document.querySelector('#flight-price-10').textContent = formatPrice(pricesNAC.flight_10.xs));
 }else{
-    document.querySelector('#flight-price-0').textContent = formatPrice(pricesINT.flight_1.xs);
-    document.querySelector('#flight-price-1').textContent = formatPrice(pricesINT.flight_1.xs);
-    document.querySelector('#flight-price-2').textContent = formatPrice(pricesINT.flight_2.xs);
-    document.querySelector('#flight-price-3').textContent = formatPrice(pricesINT.flight_3.xs);
-    document.querySelector('#flight-price-4').textContent = formatPrice(pricesINT.flight_4.xs);
-    document.querySelector('#flight-price-5').textContent = formatPrice(pricesINT.flight_5.xs);
+    // INT
+    document.querySelector('#flight-price-0').textContent  = formatPrice(pricesINT.flight_1.xs);
+    document.querySelector('#flight-price-1').textContent  = formatPrice(pricesINT.flight_1.xs);
+    document.querySelector('#flight-price-2').textContent  = formatPrice(pricesINT.flight_2.xs);
+    document.querySelector('#flight-price-3').textContent  = formatPrice(pricesINT.flight_3.xs);
+    // añadidos 4..10 (si existen en functions.js)
+    document.querySelector('#flight-price-4') && (document.querySelector('#flight-price-4').textContent  = formatPrice(pricesINT.flight_4.xs));
+    document.querySelector('#flight-price-5') && (document.querySelector('#flight-price-5').textContent  = formatPrice(pricesINT.flight_5.xs));
+    document.querySelector('#flight-price-6') && (document.querySelector('#flight-price-6').textContent  = formatPrice(pricesINT.flight_6.xs));
+    document.querySelector('#flight-price-7') && (document.querySelector('#flight-price-7').textContent  = formatPrice(pricesINT.flight_7.xs));
+    document.querySelector('#flight-price-8') && (document.querySelector('#flight-price-8').textContent  = formatPrice(pricesINT.flight_8.xs));
+    document.querySelector('#flight-price-9') && (document.querySelector('#flight-price-9').textContent  = formatPrice(pricesINT.flight_9.xs));
+    document.querySelector('#flight-price-10') && (document.querySelector('#flight-price-10').textContent = formatPrice(pricesINT.flight_10.xs));
 }
-
-
-
-
 
 
 
@@ -79,12 +89,6 @@ btnEditFlight.addEventListener('click', ()=>{
     updateLS();
     window.location.href = 'index.html';
 });
-
-
-
-
-
-
 
 
 
@@ -121,6 +125,7 @@ function loadFlight(flight_sched){
     const xsPrice = document.querySelector('#xs');
     const sPrice = document.querySelector('#s');
     const mPrice = document.querySelector('#m');
+
     if(info.flightInfo.origin.country === 'Ecuador' && info.flightInfo.destination.country === 'Ecuador'){
         // Set type
         info.flightInfo.ticket_nat = 'NAC';
@@ -140,6 +145,34 @@ function loadFlight(flight_sched){
             xsPrice.textContent = formatPrice(pricesNAC.flight_3.xs)
             sPrice.textContent = formatPrice(pricesNAC.flight_3.s)
             mPrice.textContent = formatPrice(pricesNAC.flight_3.m)
+        }else if(flight_sched === 'flight_4'){
+            xsPrice.textContent = formatPrice(pricesNAC.flight_4.xs)
+            sPrice.textContent = formatPrice(pricesNAC.flight_4.s)
+            mPrice.textContent = formatPrice(pricesNAC.flight_4.m)
+        }else if(flight_sched === 'flight_5'){
+            xsPrice.textContent = formatPrice(pricesNAC.flight_5.xs)
+            sPrice.textContent = formatPrice(pricesNAC.flight_5.s)
+            mPrice.textContent = formatPrice(pricesNAC.flight_5.m)
+        }else if(flight_sched === 'flight_6'){
+            xsPrice.textContent = formatPrice(pricesNAC.flight_6.xs)
+            sPrice.textContent = formatPrice(pricesNAC.flight_6.s)
+            mPrice.textContent = formatPrice(pricesNAC.flight_6.m)
+        }else if(flight_sched === 'flight_7'){
+            xsPrice.textContent = formatPrice(pricesNAC.flight_7.xs)
+            sPrice.textContent = formatPrice(pricesNAC.flight_7.s)
+            mPrice.textContent = formatPrice(pricesNAC.flight_7.m)
+        }else if(flight_sched === 'flight_8'){
+            xsPrice.textContent = formatPrice(pricesNAC.flight_8.xs)
+            sPrice.textContent = formatPrice(pricesNAC.flight_8.s)
+            mPrice.textContent = formatPrice(pricesNAC.flight_8.m)
+        }else if(flight_sched === 'flight_9'){
+            xsPrice.textContent = formatPrice(pricesNAC.flight_9.xs)
+            sPrice.textContent = formatPrice(pricesNAC.flight_9.s)
+            mPrice.textContent = formatPrice(pricesNAC.flight_9.m)
+        }else if(flight_sched === 'flight_10'){
+            xsPrice.textContent = formatPrice(pricesNAC.flight_10.xs)
+            sPrice.textContent = formatPrice(pricesNAC.flight_10.s)
+            mPrice.textContent = formatPrice(pricesNAC.flight_10.m)
         }
     }else{
         // Set type
@@ -158,6 +191,34 @@ function loadFlight(flight_sched){
             xsPrice.textContent = formatPrice(pricesINT.flight_3.xs)
             sPrice.textContent = formatPrice(pricesINT.flight_3.s)
             mPrice.textContent = formatPrice(pricesINT.flight_3.m)
+        }else if(flight_sched === 'flight_4'){
+            xsPrice.textContent = formatPrice(pricesINT.flight_4.xs)
+            sPrice.textContent = formatPrice(pricesINT.flight_4.s)
+            mPrice.textContent = formatPrice(pricesINT.flight_4.m)
+        }else if(flight_sched === 'flight_5'){
+            xsPrice.textContent = formatPrice(pricesINT.flight_5.xs)
+            sPrice.textContent = formatPrice(pricesINT.flight_5.s)
+            mPrice.textContent = formatPrice(pricesINT.flight_5.m)
+        }else if(flight_sched === 'flight_6'){
+            xsPrice.textContent = formatPrice(pricesINT.flight_6.xs)
+            sPrice.textContent = formatPrice(pricesINT.flight_6.s)
+            mPrice.textContent = formatPrice(pricesINT.flight_6.m)
+        }else if(flight_sched === 'flight_7'){
+            xsPrice.textContent = formatPrice(pricesINT.flight_7.xs)
+            sPrice.textContent = formatPrice(pricesINT.flight_7.s)
+            mPrice.textContent = formatPrice(pricesINT.flight_7.m)
+        }else if(flight_sched === 'flight_8'){
+            xsPrice.textContent = formatPrice(pricesINT.flight_8.xs)
+            sPrice.textContent = formatPrice(pricesINT.flight_8.s)
+            mPrice.textContent = formatPrice(pricesINT.flight_8.m)
+        }else if(flight_sched === 'flight_9'){
+            xsPrice.textContent = formatPrice(pricesINT.flight_9.xs)
+            sPrice.textContent = formatPrice(pricesINT.flight_9.s)
+            mPrice.textContent = formatPrice(pricesINT.flight_9.m)
+        }else if(flight_sched === 'flight_10'){
+            xsPrice.textContent = formatPrice(pricesINT.flight_10.xs)
+            sPrice.textContent = formatPrice(pricesINT.flight_10.s)
+            mPrice.textContent = formatPrice(pricesINT.flight_10.m)
         }
     }
 }
