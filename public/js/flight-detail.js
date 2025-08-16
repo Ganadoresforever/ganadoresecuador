@@ -1,30 +1,49 @@
 /**
- * FLIGHT DETAIL (dinámico hasta 10 vuelos) — v2
- * - Renderiza hasta 10 tarjetas
- * - Al hacer click en una tarjeta: fija precios XS/S/M y deja listo el botón (nextStep)
+ * FLIGHT DETAIL (IDA) — dinámico hasta 10 vuelos (v2)
+ * - Ruta coherente (códigos IATA correctos)
+ * - Fecha desde selección real (no texto fijo)
+ * - Click en vuelo: selecciona, marca activo y actualiza XS/S/M
  */
 
 const loader = document.querySelector('.loader');
 const cardsContainer = document.querySelector('#flight-cards');
 const cardTpl = document.querySelector('#flight-card-template');
 
+/* ===== CÓDIGOS IATA DE FALLBACK ===== */
+const IATA_FALLBACK = {
+  // Colombia
+  "Bogotá": "BOG", "Cali": "CLO", "Medellín": "MDE",
+  // Ecuador
+  "Quito": "UIO", "Guayaquil": "GYE", "Manta": "MEC", "Cuenca": "CUE"
+};
+
+/* ===== Utilidades ===== */
 function isNacional() {
   return (
     info?.flightInfo?.origin?.country === 'Ecuador' &&
     info?.flightInfo?.destination?.country === 'Ecuador'
   );
 }
-
-function priceTable() {
-  return isNacional() ? pricesNAC : pricesINT;
-}
-
+function priceTable() { return isNacional() ? pricesNAC : pricesINT; }
 function asPrice(v) {
   if (typeof formatPrice === 'function') return formatPrice(v);
   try { return new Intl.NumberFormat('es-CO').format(Number(v)); }
   catch { return String(v); }
 }
+function normalizeDate(val) {
+  if (typeof val === 'number') return val;
+  if (typeof val === 'string') {
+    const t = Date.parse(val);
+    return isNaN(t) ? Date.now() : t;
+  }
+  return Date.now();
+}
+function getDateByType(info, typeIdx) {
+  const arr = (info?.flightInfo?.flightDates || []).map(normalizeDate);
+  return arr[typeIdx] ?? Date.now();
+}
 
+/* ===== Slots de horarios/códigos (edita si quieres) ===== */
 const flightSlots = [
   { start: '07:15', end: '08:30', code: 'AV 8908', duration: '1h 15m' },
   { start: '10:00', end: '11:15', code: 'AV 8904', duration: '1h 15m' },
@@ -37,17 +56,12 @@ const flightSlots = [
   { start: '13:40', end: '14:55', code: 'AV 8807', duration: '1h 15m' },
   { start: '22:10', end: '23:25', code: 'AV 8809', duration: '1h 15m' },
 ];
-
 function flightKeyByIndex(i) { return `flight_${i + 1}`; }
 
-function formatDateSafe(ts) {
-  try { return formatDateType1(ts); } catch { return ''; }
-}
-
+/* ===== Interacciones ===== */
 function updateTariffPrices(key) {
   const p = priceTable()[key];
   if (!p) return;
-
   const elXS = document.querySelector('#xs');
   const elS  = document.querySelector('#s');
   const elM  = document.querySelector('#m');
@@ -55,19 +69,16 @@ function updateTariffPrices(key) {
   if (elS)  elS.textContent  = asPrice(p.s.toFixed  ? p.s.toFixed(2)  : p.s);
   if (elM)  elM.textContent  = asPrice(p.m.toFixed  ? p.m.toFixed(2)  : p.m);
 }
-
 function scrollToTariffs() {
   const section = document.querySelector('.tickets');
   (section || document.querySelector('.card-ticket') || document.querySelector('#xs'))
     ?.scrollIntoView({ behavior: 'smooth', block: 'center' });
 }
-
 function setActiveCard(node) {
   cardsContainer.querySelectorAll('.card-departure.active')
     .forEach(n => n.classList.remove('active'));
   node.classList.add('active');
 }
-
 function loadFlight(key, node) {
   if (window.info) {
     info.flightInfo.ticket = key;
@@ -78,31 +89,42 @@ function loadFlight(key, node) {
   scrollToTariffs();
 }
 
+/* ===== Encabezados (ruta y fecha de IDA) ===== */
 function renderHeaderAndFrom() {
-  const label1 = document.querySelector('#flight-label-1');
-  const label2 = document.querySelector('#flight-label-2');
-  const label3 = document.querySelector('#flight-label-3');
+  const o = info?.flightInfo?.origin || {};
+  const d = info?.flightInfo?.destination || {};
+
+  const oCode = o.code || IATA_FALLBACK[o.city] || '';
+  const dCode = d.code || IATA_FALLBACK[d.city] || '';
+
+  const elOC = document.querySelector('#origin-code');
+  const elDC = document.querySelector('#destination-code');
+  if (elOC) elOC.textContent = oCode;
+  if (elDC) elDC.textContent = dCode;
+
+  const dateIdx = 0; // ida
+  const theDate = getDateByType(info, dateIdx);
+
+  const elL1 = document.querySelector('#flight-label-1');
+  const elL2 = document.querySelector('#flight-label-2');
+  const elL3 = document.querySelector('#flight-label-3');
+  if (elL1) elL1.textContent = `Selecciona tu vuelo de salida - ${formatDateType1(theDate)}`;
+  if (elL2) elL2.textContent = `${o.city || ''} a ${d.city || ''}`;
+  if (elL3) elL3.textContent = `${formatDateType1(theDate)}`;
+
+  // “Desde”
   const fromSpan = document.querySelector('#flight-price-0');
-
-  if (label1) {
-    const idx = (info?.flightInfo?.type === 1) ? 0 : 1;
-    label1.textContent = `Selecciona tu vuelo de ${info?.flightInfo?.type === 1 ? 'salida' : 'regreso'} - ${formatDateSafe(info?.flightInfo?.flightDates?.[idx])}`;
-  }
-  if (label2) label2.textContent = `${info?.flightInfo?.origin?.city ?? ''} a ${info?.flightInfo?.destination?.city ?? ''}`;
-  if (label3) {
-    const idx = (info?.flightInfo?.type === 1) ? 0 : 1;
-    label3.textContent = `${formatDateSafe(info?.flightInfo?.flightDates?.[idx])}`;
-  }
-
   const ptab = priceTable();
-  const firstKey = flightKeyByIndex(0);
-  const firstPrice = (ptab[firstKey]?.xs ?? ptab['flight_1']?.xs);
+  const firstPrice = (ptab['flight_1']?.xs ?? ptab['flight_1']?.xs);
   if (fromSpan && firstPrice != null) {
     const val = Number(firstPrice);
-    fromSpan.textContent = asPrice(isNaN(val) ? firstPrice : val.toFixed(2));
+    fromSpan.textContent = (typeof formatPrice === 'function')
+      ? formatPrice(isNaN(val) ? firstPrice : val.toFixed(2))
+      : new Intl.NumberFormat('es-CO').format(isNaN(val) ? firstPrice : val.toFixed(2));
   }
 }
 
+/* ===== Render de tarjetas ===== */
 function renderCards() {
   if (!cardsContainer || !cardTpl) return;
   cardsContainer.innerHTML = '';
@@ -110,6 +132,7 @@ function renderCards() {
   const ptab = priceTable();
   const max = Math.min(10, flightSlots.length);
 
+  // mejor precio para el badge
   const xsValues = [];
   for (let i = 0; i < max; i++) {
     const k = flightKeyByIndex(i);
@@ -134,15 +157,16 @@ function renderCards() {
     priceEl.textContent = asPrice((prices.xs.toFixed ? prices.xs.toFixed(2) : prices.xs));
 
     if (minXs != null && Number(prices.xs) === Number(minXs)) {
-      card.querySelector('.best-price-label').style.display = '';
+      const best = card.querySelector('.best-price-label');
+      if (best) best.style.display = '';
     }
 
     card.style.cursor = 'pointer';
     card.addEventListener('click', () => loadFlight(k, card));
-
     cardsContainer.appendChild(card);
   }
 
+  // selección por defecto
   const firstKey = [...Array(max).keys()].map(i => flightKeyByIndex(i)).find(k => !!ptab[k]);
   if (firstKey) {
     updateTariffPrices(firstKey);
@@ -151,8 +175,13 @@ function renderCards() {
   }
 }
 
+/* ===== Init ===== */
 (function init() {
-  try { document.body?.classList?.remove?.('sb-hidden'); loader?.classList?.remove?.('show'); } catch {}
+  try {
+    document.body?.classList?.remove?.('sb-hidden');
+    document.body?.classList?.remove?.('sb2-hidden');
+    loader?.classList?.remove?.('show');
+  } catch {}
   renderHeaderAndFrom();
   renderCards();
 })();
