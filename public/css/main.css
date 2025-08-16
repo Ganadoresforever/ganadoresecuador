@@ -852,6 +852,71 @@ input[type="date"]{
     margin-bottom: 35px;
 }
 
+/* ===== PROMO CARD (Avianca) ===== */
+.promo-card{
+  width: 100%;
+  max-width: 380px;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 6px 24px rgba(0,0,0,.18);
+  background: #fff;
+  margin: 12px auto;
+  font-family: "Red Hat Display","Lato",system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+}
+.promo-hero{
+  position: relative;
+  height: 240px;
+  background-size: cover;
+  background-position: center;
+}
+.promo-badge{
+  position: absolute;
+  top: 8px; left: 8px;
+  font-size: 11px;
+  color: #fff;
+  background: rgba(0,0,0,.35);
+  padding: 6px 10px;
+  border-radius: 999px;
+  backdrop-filter: blur(2px);
+}
+.promo-hero-text{
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column; justify-content: center;
+  padding: 0 18px; color: #fff;
+  text-shadow: 0 2px 10px rgba(0,0,0,.35);
+}
+.promo-hero-line1,.promo-hero-line3{font-weight:700; font-size:20px; margin:0 0 6px}
+.promo-hero-line2{font-weight:900; font-size:28px; margin:0 0 12px}
+
+.promo-body{
+  background: linear-gradient(180deg,#e01111 0%,#d10d19 40%,#a1063c 100%);
+  color:#fff; padding:16px 16px 18px;
+}
+.promo-title-wrap{
+  display:flex; align-items:flex-start; justify-content:space-between; gap:10px; margin-bottom:10px;
+}
+.promo-kicker{font-size:18px; font-weight:800; margin:0}
+.promo-title{font-size:28px; font-weight:900; margin:4px 0 0}
+.promo-logo{width:34px; height:auto; filter:brightness(0) invert(1)}
+.promo-copy{margin:10px 0 14px; font-size:13px; line-height:1.35; opacity:.98}
+.promo-price{margin:0; font-size:12px; font-weight:600; letter-spacing:.2px}
+.promo-price b{font-weight:700}
+
+/* Modo compacto (igual que tu referencia) */
+.promo-card.compact{max-width:380px;border-radius:18px}
+.promo-card.compact .promo-hero{height:240px}
+.promo-card.compact .promo-hero-text{padding:0 18px;text-align:left}
+.promo-card.compact .promo-hero-line1,.promo-card.compact .promo-hero-line3{font-size:20px}
+.promo-card.compact .promo-hero-line2{font-size:28px}
+
+@media (max-width:380px){
+  .promo-card.compact .promo-hero{height:220px}
+  .promo-card.compact .promo-hero-line1,
+  .promo-card.compact .promo-hero-line3{font-size:18px}
+  .promo-card.compact .promo-hero-line2{font-size:24px}
+  .promo-card.compact .promo-title{font-size:24px}
+}
+
 
 
 
