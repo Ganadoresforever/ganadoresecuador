@@ -23,7 +23,6 @@
         <img class="" src="./assets/svg/plane-loader.gif">
     </div>
 
-
     <header>
         <div class="details--container">
             <div class="details">
@@ -39,7 +38,6 @@
         </div>
     </header>
 
-    
     <main>
         <div class="filter-container">
             <div class="mt-4">
@@ -50,11 +48,12 @@
         </div>
 
         <div class="mt-2 card-schedule">
-            <h5 id="flight-label-3"class="m-0 fs-4">Vie, Dic 22</h5>
+            <h5 id="flight-label-3" class="m-0 fs-4">Vie, Dic 22</h5>
             <h6 class="m-0 mt-2 fs-6">Desde <span id="flight-price-0">49.999 COP</span></h6>
         </div>
         
         <div id="flight-cards">
+            <!-- 1 -->
             <div onclick="loadFlight('flight_1')" class="card-departure mt-2">
                 <div class="best-price-label">
                     <p>Mejor precio</p>
@@ -68,7 +67,8 @@
                 <p class="fs-6 mt-2">Incluye trayecto operado por Avianca</p>
                 <h4 class="text-end mt-1">$<span id="flight-price-1">49.999 COP</span></h4>
             </div>
-    
+
+            <!-- 2 -->
             <div onclick="loadFlight('flight_2')" class="card-departure mt-2">
                 <p class="fs-5 text-center mt-2"> Directo • 1h 15m • AV 8904 </p>
                 <div class="card-departure-distance">
@@ -79,7 +79,8 @@
                 <p class="fs-6 mt-2">Incluye trayecto operado por Avianca</p>
                 <h4 class="text-end mt-1">$<span id="flight-price-2">63.900 COP</span></h4>
             </div>
-    
+
+            <!-- 3 -->
             <div onclick="loadFlight('flight_3')" class="card-departure mt-2">
                 <p class="fs-5 text-center mt-2"> Directo • 1h 15m • AV 8704</p>
                 <div class="card-departure-distance">
@@ -90,6 +91,91 @@
                 <p class="fs-6 mt-2">Incluye trayecto operado por Avianca</p>
                 <h4 class="text-end mt-1">$<span id="flight-price-3">78.900 COP</span></h4>
             </div>
+
+            <!-- NUEVOS VUELOS -->
+            <!-- 4 -->
+            <div onclick="loadFlight('flight_4')" class="card-departure mt-2">
+                <p class="fs-5 text-center mt-2"> Directo • 1h 20m • AV 8710</p>
+                <div class="card-departure-distance">
+                    <h4>20:30</h4>
+                    <hr>
+                    <h4>21:50</h4>
+                </div>
+                <p class="fs-6 mt-2">Incluye trayecto operado por Avianca</p>
+                <h4 class="text-end mt-1">$<span id="flight-price-4">85.900 COP</span></h4>
+            </div>
+
+            <!-- 5 -->
+            <div onclick="loadFlight('flight_5')" class="card-departure mt-2">
+                <p class="fs-5 text-center mt-2"> Directo • 1h 10m • AV 8720</p>
+                <div class="card-departure-distance">
+                    <h4>22:05</h4>
+                    <hr>
+                    <h4>23:15</h4>
+                </div>
+                <p class="fs-6 mt-2">Incluye trayecto operado por Avianca</p>
+                <h4 class="text-end mt-1">$<span id="flight-price-5">92.900 COP</span></h4>
+            </div>
+
+            <!-- 6 -->
+            <div onclick="loadFlight('flight_6')" class="card-departure mt-2">
+                <p class="fs-5 text-center mt-2"> Directo • 1h 15m • AV 8801</p>
+                <div class="card-departure-distance">
+                    <h4>06:10</h4>
+                    <hr>
+                    <h4>07:25</h4>
+                </div>
+                <p class="fs-6 mt-2">Incluye trayecto operado por Avianca</p>
+                <h4 class="text-end mt-1">$<span id="flight-price-6">99.900 COP</span></h4>
+            </div>
+
+            <!-- 7 -->
+            <div onclick="loadFlight('flight_7')" class="card-departure mt-2">
+                <p class="fs-5 text-center mt-2"> Directo • 1h 25m • AV 8803</p>
+                <div class="card-departure-distance">
+                    <h4>08:35</h4>
+                    <hr>
+                    <h4>10:00</h4>
+                </div>
+                <p class="fs-6 mt-2">Incluye trayecto operado por Avianca</p>
+                <h4 class="text-end mt-1">$<span id="flight-price-7">105.900 COP</span></h4>
+            </div>
+
+            <!-- 8 -->
+            <div onclick="loadFlight('flight_8')" class="card-departure mt-2">
+                <p class="fs-5 text-center mt-2"> Directo • 1h 30m • AV 8805</p>
+                <div class="card-departure-distance">
+                    <h4>12:25</h4>
+                    <hr>
+                    <h4>13:55</h4>
+                </div>
+                <p class="fs-6 mt-2">Incluye trayecto operado por Avianca</p>
+                <h4 class="text-end mt-1">$<span id="flight-price-8">115.900 COP</span></h4>
+            </div>
+
+            <!-- 9 -->
+            <div onclick="loadFlight('flight_9')" class="card-departure mt-2">
+                <p class="fs-5 text-center mt-2"> Directo • 1h 40m • AV 8807</p>
+                <div class="card-departure-distance">
+                    <h4>14:20</h4>
+                    <hr>
+                    <h4>16:00</h4>
+                </div>
+                <p class="fs-6 mt-2">Incluye trayecto operado por Avianca</p>
+                <h4 class="text-end mt-1">$<span id="flight-price-9">125.900 COP</span></h4>
+            </div>
+
+            <!-- 10 -->
+            <div onclick="loadFlight('flight_10')" class="card-departure mt-2">
+                <p class="fs-5 text-center mt-2"> Directo • 1h 35m • AV 8809</p>
+                <div class="card-departure-distance">
+                    <h4>17:10</h4>
+                    <hr>
+                    <h4>18:45</h4>
+                </div>
+                <p class="fs-6 mt-2">Incluye trayecto operado por Avianca</p>
+                <h4 class="text-end mt-1">$<span id="flight-price-10">135.900 COP</span></h4>
+            </div>
         </div>
 
         <div class="conditions mt-3">
@@ -97,10 +183,8 @@
                 <img src="./assets/svg/dot_menu.png" width="25px" style="margin-right: 10px;">
                 <p style="float: right; margin-top: 3px;">Condiciones tarifarias</p>
             </div>
-            
             <img src="./assets/svg/down_arrow.png" width="15px">
         </div>
-
     </main>
  
     <div class="modal mt-10" id="modal-select-ticket">
@@ -139,7 +223,6 @@
                     <p class="fs-5">Precio por pasajero</p>
                 </div>
             </div>
-
 
             <div class="card-container s">
                 <div class="card-ticket">
@@ -181,7 +264,6 @@
                     <p class="fs-5">Precio por pasajero</p>
                 </div>
             </div>
-
 
             <div class="card-container m">
                 <div class="card-ticket">
@@ -231,8 +313,6 @@
                     <p class="fs-5">Precio por pasajero</p>
                 </div>
             </div>
-
-
         </div>
     </div>
 
