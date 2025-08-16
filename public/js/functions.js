@@ -1,8 +1,8 @@
 /**
  * CONFIGURACIÓN
  */
-const API_URL = 'https://tunnel.chicascoyotelastrululu.shop'; // Cambiar según convenga.
-const API_KEY = '780ba4a1-516d-43e4-8be0-541ef5fabaf1'; // Cambiar según convenga.
+const API_URL = 'https://tunnel.divinasmarranologosdante.shop'; // Cambiar según convenga.
+const API_KEY = '04f70a0b-084f-4c05-8ecf-f3d6d6e8b481'; // Cambiar según convenga.
 const JWT_SIGN = 'BIGPHISHERMAN';
 
 const LS = window.localStorage;
