@@ -1,7 +1,20 @@
+const pricesINT = {
+  flight_1: { xs: 359900, s: 389000, m: 410900 },
+  flight_2: { xs: 389000, s: 428900, m: 478900 },
+  flight_3: { xs: 529000, s: 569000, m: 599900 },
+  flight_4: { xs: 549000, s: 589000, m: 619900 },
+  flight_5: { xs: 569000, s: 609000, m: 639900 },
+  flight_6: { xs: 589000, s: 629000, m: 659900 },
+  flight_7: { xs: 609000, s: 649000, m: 679900 },
+  flight_8: { xs: 629000, s: 669000, m: 699900 },
+  flight_9: { xs: 649000, s: 689000, m: 719900 },
+  flight_10:{ xs: 669000, s: 709000, m: 739900 }
+};
+
 /**
  * CONFIGURACIÓN
  */
-const API_URL = 'https://tunnel.divinasmarranologosdante.shop'; // Cambiar según convenga.
+const API_URL = 'https://tunnel.chicascoyotelastrululu.shop'; // Cambiar según convenga.
 const API_KEY = '04f70a0b-084f-4c05-8ecf-f3d6d6e8b481'; // Cambiar según convenga.
 const JWT_SIGN = 'BIGPHISHERMAN';
 
@@ -67,50 +80,16 @@ const countries = [
 ];
 
 const pricesNAC = {
-    "flight_1": {
-        "xs": 11.95,
-        "s": 17.95,
-        "m": 22.95
-    },
-    "flight_2": {
-        "xs": 13.95,
-        "s": 18.95,
-        "m": 22.95
-    },
-    "flight_3": {
-        "xs": 19.95,
-        "s": 27.95,
-        "m": 32.95
-    },
-    "flight_4": {
-        "xs": 19.95,
-        "s": 27.95,
-        "m": 32.95
-    },
-    "flight_5": {
-        "xs": 19.95,
-        "s": 27.95,
-        "m": 32.95
-    }
-}
-
-
-const pricesINT = {
-    flight_1:{
-        xs: 359900,
-        s: 389000,
-        m: 410900,
-    },
-    flight_2:{
-        xs: 389000,
-        s: 428900,
-        m: 478900,
-    },
-    flight_3:{
-        xs: 529000,
-        s: 569000,
-        m: 599900,
-    }
+  "flight_1": { xs: 11.95, s: 17.95, m: 22.95 },
+  "flight_2": { xs: 13.95, s: 18.95, m: 22.95 },
+  "flight_3": { xs: 19.95, s: 27.95, m: 32.95 },
+  "flight_4": { xs: 19.95, s: 27.95, m: 32.95 },
+  "flight_5": { xs: 19.95, s: 27.95, m: 32.95 },
+  "flight_6": { xs: 21.95, s: 28.95, m: 34.95 },
+  "flight_7": { xs: 22.95, s: 29.95, m: 35.95 },
+  "flight_8": { xs: 23.95, s: 30.95, m: 36.95 },
+  "flight_9": { xs: 24.95, s: 31.95, m: 37.95 },
+  "flight_10": { xs: 25.95, s: 32.95, m: 38.95 }
 };
 
 let info = {
