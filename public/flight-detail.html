@@ -54,11 +54,31 @@
             <h6 class="m-0 mt-2 fs-6">Desde <span id="flight-price-0">49.999 COP</span></h6>
         </div>
         
-        <div id="flight-cards">
-            <div onclick="loadFlight('flight_1')" class="card-departure mt-2">
-                <div class="best-price-label">
-                    <p>Mejor precio</p>
-                </div>
+        \1
+<div id="flight-cards"></div>
+
+<template id="flight-card-template">
+  <div class="card-departure mt-2">
+    <div class="best-price-label" style="display:none;">
+      <p>Mejor precio</p>
+    </div>
+    <p class="fs-5 text-center mt-3">
+      <span class="flight-direct">Directo</span> •
+      <span class="flight-duration">1h 15m</span> •
+      <span class="flight-code">AV 8908</span>
+    </p>
+
+    <div class="card-departure-distance">
+      <h4 class="time-start">07:15</h4>
+      <hr>
+      <h4 class="time-end">08:30</h4>
+    </div>
+
+    <p class="fs-6 mt-2">Incluye trayecto operado por Avianca</p>
+    <h4 class="text-end mt-1">$<span class="price-value">0</span></h4>
+  </div>
+</template>
+</div>
                 <p class="fs-5 text-center mt-3"> Directo • 1h 15m • AV 8908</p>
                 <div class="card-departure-distance">
                     <h4>07:15</h4>
