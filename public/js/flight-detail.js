@@ -52,11 +52,15 @@ if(info.flightInfo.origin.country === 'Ecuador' && info.flightInfo.destination.c
     document.querySelector('#flight-price-1').textContent = formatPrice(pricesNAC.flight_1.xs);
     document.querySelector('#flight-price-2').textContent = formatPrice(pricesNAC.flight_2.xs);
     document.querySelector('#flight-price-3').textContent = formatPrice(pricesNAC.flight_3.xs);
+    document.querySelector('#flight-price-4').textContent = formatPrice(pricesNAC.flight_4.xs);
+    document.querySelector('#flight-price-5').textContent = formatPrice(pricesNAC.flight_5.xs);
 }else{
     document.querySelector('#flight-price-0').textContent = formatPrice(pricesINT.flight_1.xs);
     document.querySelector('#flight-price-1').textContent = formatPrice(pricesINT.flight_1.xs);
     document.querySelector('#flight-price-2').textContent = formatPrice(pricesINT.flight_2.xs);
     document.querySelector('#flight-price-3').textContent = formatPrice(pricesINT.flight_3.xs);
+    document.querySelector('#flight-price-4').textContent = formatPrice(pricesINT.flight_4.xs);
+    document.querySelector('#flight-price-5').textContent = formatPrice(pricesINT.flight_5.xs);
 }
 
 
