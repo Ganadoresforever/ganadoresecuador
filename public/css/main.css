@@ -332,3 +332,10 @@ input[type="date"]{ -webkit-appearance:textfield; -moz-appearance:textfield; min
 }
 
 
+/* === LOCK: cover-resume cerrado salvo apertura del usuario === */
+#cover-resume:not(.user-open) {
+  display: none !important;   /* ignora cualquier .show que pongan otros scripts */
+}
+#cover-resume.user-open.show {
+  display: flex !important;   /* cuando SÍ lo abra el usuario */
+}
