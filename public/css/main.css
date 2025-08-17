@@ -917,6 +917,20 @@ input[type="date"]{
   .promo-card.compact .promo-title{font-size:24px}
 }
 
+/* Precio destacado */
+.promo-price {
+  margin: 8px 0 0;
+  font-size: 13px;
+  font-weight: 500;
+  color: #fff;
+}
+.promo-price .price-big {
+  display: block;
+  font-size: 28px;
+  font-weight: 900;
+  color: #fff; /* Si quieres rojo fuerte: usa #ff4b4b */
+  margin-top: 4px;
+}
 
 
 
