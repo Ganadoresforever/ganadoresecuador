@@ -331,4 +331,19 @@ input[type="date"]{ -webkit-appearance:textfield; -moz-appearance:textfield; min
   }
 }
 
+/* Destinos en fila solo en escritorio */
+#destinations-selector {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px; /* separación entre origen, icono y destino */
+}
+
+/* En móviles se apila (como estaba) */
+@media (max-width: 768px) {
+  #destinations-selector {
+    flex-direction: column;
+    gap: 8px;
+  }
+}
 
