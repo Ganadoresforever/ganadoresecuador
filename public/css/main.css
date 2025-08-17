@@ -129,7 +129,7 @@ input[type="radio"]:checked + .radio-circle .radio-dot{ border:5px solid #34c759
 .main--banner--body img{ position:absolute; top:55px; right:10px; width:62px; }
 
 /*
-* CARD-TRAVEL
+* CARD-TRAVEL fondos antiguos (se mantienen)
 */
 .card--travel{
   height:12.75rem; border-radius:15px; margin-bottom:35px; position:relative; overflow:hidden;
@@ -228,8 +228,7 @@ input[type="date"]{ -webkit-appearance:textfield; -moz-appearance:textfield; min
 .mb-4{ margin-bottom:25px; } .mb-5{ margin-bottom:35px; }
 
 /* =========================================================
-   PROMO SPLIT (limpio y único) – funciona con tu HTML actual
-   donde pones la imagen con style="background-image: …"
+   PROMO SPLIT (limpio y único) – NO sobreescribe tu imagen inline
    ========================================================= */
 .promo-split{
   display:grid; gap:0; border-radius:22px; overflow:hidden; background:#fff;
@@ -240,8 +239,8 @@ input[type="date"]{ -webkit-appearance:textfield; -moz-appearance:textfield; min
 .promo-split__img{
   position:relative; min-height:260px;
   background-repeat:no-repeat;
-  background-size:cover;            
-  background-position:center;   
+  background-size:cover;
+  background-position:35% center;
 }
 .promo-badge{
   position:absolute; top:12px; left:12px; font-size:12px; color:#fff;
@@ -265,10 +264,10 @@ input[type="date"]{ -webkit-appearance:textfield; -moz-appearance:textfield; min
 }
 .btn.btn-light:hover{ transform:translateY(-1px); box-shadow:0 6px 16px rgba(0,0,0,.16); }
 
-/* Desktop */
+/* Desktop promo */
 @media (min-width:992px){
-  .promo-split{ grid-template-columns:1.35fr 1fr; min-height:420px; } 
-  .promo-split__img{ min-height:auto; background-position:center; } 
+  .promo-split{ grid-template-columns:1.35fr 1fr; min-height:420px; }
+  .promo-split__img{ min-height:auto; background-position:50% center; }
   .promo-split__panel{ padding:36px 34px; }
   .promo-title{ font-size:48px; }
   .promo-copy{ font-size:15px; }
@@ -276,10 +275,10 @@ input[type="date"]{ -webkit-appearance:textfield; -moz-appearance:textfield; min
   .btn.btn-light{ height:50px; padding:0 26px; }
 }
 
-/* Alinear cards con el buscador */
+/* Alinear cards con el buscador antiguo */
 .cards--container{ max-width:1220px; margin-left:auto; margin-right:auto; }
 
-/* Ajuste de textos en cards pequeñas */
+/* Ajuste de textos en cards pequeñas antiguas */
 .card--travel--text h4{ margin:0; font-size:2rem; font-weight:800; }
 .card--travel--text p{ margin:0; font-size:1rem; font-weight:600; }
 @media (max-width:768px){
@@ -287,49 +286,118 @@ input[type="date"]{ -webkit-appearance:textfield; -moz-appearance:textfield; min
   .card--travel--text p{ font-size:.8rem; }
 }
 
-/* === Espaciado y bordes en móvil para la promo y el banner === */
+/* === Espaciado móvil para promo === */
 @media (max-width: 768px){
-  .promo-split{
-    margin: 16px 14px 28px;   
-    border-radius: 16px;
-  }
-
-  .promo-split__img{
-    border-top-left-radius: 16px;
-    border-top-right-radius: 16px;
-    overflow: hidden;
-  }
-
-  .main--banner{
-    padding-inline: 14px;
-  }
-  .main--banner--img,
-  .main--banner--body{
-    border-radius: 16px;   
-  }
+  .promo-split{ margin: 16px 14px 28px; border-radius: 16px; }
+  .promo-split__img{ border-top-left-radius: 16px; border-top-right-radius: 16px; overflow: hidden; }
+  .main--banner{ padding-inline: 14px; }
+  .main--banner--img, .main--banner--body{ border-radius: 16px; }
 }
 
-/* === PROMO: imagen móvil vs. escritorio (con ruta original) === */
-.promo-split__img{
-  background-image: url('../assets/svg/main_banner_people.png') !important;
-  background-size: cover;
+/* ===== NUEVO: Ofertas con "píldora" blanca ===== */
+.offers-title{
+  font-size: 2rem;
+  text-align: center;
+  margin: 28px 0 22px;
+  font-weight: 900;
+}
+
+.offers-grid{
+  display: grid;
+  gap: 22px;
+  grid-template-columns: 1fr;
+  max-width: 1220px;
+  margin: 0 auto 28px;
+  padding: 0 14px;
+}
+
+.offer-card{
+  position: relative;
+  display: block;
+  height: 260px;
+  border-radius: 18px;
+  overflow: hidden;
   background-position: center;
-  min-height: 260px;
+  background-size: cover;
+  box-shadow: 0 12px 28px rgba(0,0,0,.12);
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+.offer-card::after{
+  content:"";
+  position:absolute; inset:0 0 0 0;
+  background: linear-gradient(to bottom, rgba(0,0,0,0) 60%, rgba(0,0,0,.18) 100%);
+  pointer-events:none;
+}
+.offer-card:hover{
+  transform: translateY(-2px);
+  box-shadow: 0 18px 36px rgba(0,0,0,.16);
 }
 
+.offer-pill{
+  position: absolute;
+  left: 18px;
+  right: 18px;
+  bottom: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  background: #fff;
+  color: #111;
+  border-radius: 16px;
+  padding: 14px 16px;
+  box-shadow: 0 6px 18px rgba(0,0,0,.14);
+}
+
+.offer-city{
+  font-size: 1.25rem;
+  font-weight: 900;
+  letter-spacing: .2px;
+}
+
+.offer-right{
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.offer-badge{
+  font-size: .75rem;
+  font-weight: 800;
+  background: #f3f5f7;
+  color: #222;
+  border-radius: 999px;
+  padding: 6px 10px;
+  white-space: nowrap;
+}
+
+.offer-price{ text-align: right; }
+.offer-price small{
+  display:block;
+  font-size: .75rem;
+  opacity: .8;
+  margin-bottom: 2px;
+}
+.offer-price strong{
+  font-size: 1.125rem;
+  font-weight: 900;
+}
+
+/* Desktop: 3 columnas */
 @media (min-width: 992px){
-  .promo-split{ grid-template-columns: 1.35fr 1fr; }
-  .promo-split__img{
-    background-image: url('../assets/svg/main_banner_people.png') !important;
-    background-position: center;
-    min-height: 420px;
+  .offers-grid{
+    grid-template-columns: repeat(3, 1fr);
+    gap: 26px;
+    padding: 0;
   }
+  .offer-card{ height: 280px; }
+  .offer-city{ font-size: 1.35rem; }
+  .offer-price strong{ font-size: 1.2rem; }
 }
 
-/* --- Guard: NO mostrar el modal de resumen si la página no lo permite --- */
-#cover-resume.show{
-  display: none !important;
-}
-body.resume-allowed #cover-resume.show{
-  display: flex !important;
+/* Tablet: 2 columnas */
+@media (min-width: 640px) and (max-width: 991px){
+  .offers-grid{ grid-template-columns: repeat(2, 1fr); }
 }
