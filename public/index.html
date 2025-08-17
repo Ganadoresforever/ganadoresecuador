@@ -386,27 +386,26 @@
     <script src="./js/calendar.js"></script>
     <script src="./js/index.js"></script>
 
-    <!-- Guardar que el modal NO se abra solo -->
+    <!-- Buscar directo: NO abrir modal, reutilizar acción del botón del modal -->
     <script>
     (function () {
-      const body   = document.body;
-      const cover  = document.getElementById('cover-resume');
-      const btn    = document.getElementById('search-flight');
+      const cover   = document.getElementById('cover-resume');      // modal
+      const btnMain = document.getElementById('search-flight');     // botón Buscar principal
+      const btnNext = document.getElementById('btn-next-step');     // botón Buscar dentro del modal
 
+      // Nunca permitir que el modal se muestre por cambios de clase accidentales
       if (cover) cover.classList.remove('show');
-
       const obs = cover ? new MutationObserver(() => {
-        if (cover.classList.contains('show') && !body.classList.contains('resume-allowed')) {
-          cover.classList.remove('show');
-        }
+        if (cover.classList.contains('show')) cover.classList.remove('show');
       }) : null;
       if (cover && obs) obs.observe(cover, { attributes: true, attributeFilter: ['class'] });
 
-      if (btn && cover) {
-        btn.addEventListener('click', () => {
-          body.classList.add('resume-allowed');
-          cover.classList.add('show');
-          if (obs) obs.disconnect();
+      // Al hacer click en "Buscar" principal => ejecutar la acción real del botón del modal
+      if (btnMain && btnNext) {
+        btnMain.addEventListener('click', function (e) {
+          e.preventDefault();
+          if (cover) cover.classList.remove('show');
+          btnNext.click();
         });
       }
     })();
