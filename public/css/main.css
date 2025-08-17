@@ -401,3 +401,75 @@ input[type="date"]{ -webkit-appearance:textfield; -moz-appearance:textfield; min
 @media (min-width: 640px) and (max-width: 991px){
   .offers-grid{ grid-template-columns: repeat(2, 1fr); }
 }
+
+/* ======= FOOTER NUEVO (desktop + móvil) ======= */
+.site-footer{ background:#111; color:#fff; }
+.site-footer a{ color:#fff; text-decoration:none; opacity:.95; }
+.site-footer a:hover{ opacity:1; text-decoration:underline; }
+
+.sf__inner{ max-width:1220px; margin:0 auto; padding:28px 14px 24px; }
+
+/* Fila superior: logo | newsletter | redes */
+.sf__top{
+  display:grid; gap:24px;
+  grid-template-columns:1fr;           /* móvil */
+  align-items:flex-start;
+}
+
+/* Marca */
+.sf__logo{ width:170px; }
+
+/* Newsletter */
+.sf__newsletter{ text-align:center; }
+.sf__title{ font-weight:800; font-size:20px; margin:0 0 6px; }
+.sf__subtitle{ margin:0 0 14px; opacity:.9; }
+
+.sf__form{
+  display:grid; gap:10px; grid-template-columns:1fr; /* móvil */
+  max-width:720px; margin:0 auto;
+}
+.sf__input{
+  width:100%; height:48px; border-radius:999px; border:0;
+  padding:0 18px 0 49px; background:#fff; color:#111;
+}
+.sf__btn{ height:48px; font-weight:800; border-radius:999px; }
+
+.sf__legal{ margin:8px 0 0; opacity:.8; font-size:12px; }
+.sf__link{ text-decoration:underline; }
+
+/* Redes */
+.sf__social{ text-align:center; }
+.sf__title--social{ margin-bottom:10px; }
+.sf__social-sprite{ display:inline-block; }
+
+/* Fila de columnas */
+.sf__cols{
+  margin-top:26px;
+  display:grid; gap:24px;
+  grid-template-columns:1fr;            /* móvil */
+}
+.sf__col-title{ margin:0 0 10px; font-size:18px; font-weight:800; }
+.sf__list{ list-style:none; padding:0; margin:0; display:grid; gap:8px; }
+.sf__list li a{ opacity:.9; }
+.sf__list li a:hover{ opacity:1; }
+
+/* Separador y bottom */
+.sf__hr{ border:0; border-top:1px solid rgba(255,255,255,.12); margin:22px 0; }
+.sf__bottom{
+  display:flex; justify-content:space-between; align-items:center;
+  color:#bbb; font-size:13px;
+}
+
+/* ===== Desktop ===== */
+@media (min-width: 992px){
+  .sf__top{
+    grid-template-columns: 220px 1fr 240px; /* logo | newsletter | redes */
+    align-items:center;
+  }
+  .sf__newsletter{ text-align:left; }
+  .sf__form{ grid-template-columns: 1fr 180px; } /* input | botón */
+  .sf__social{ text-align:right; }
+  .sf__cols{
+    grid-template-columns: repeat(4,1fr);
+  }
+}
