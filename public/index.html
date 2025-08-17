@@ -19,6 +19,12 @@
 
     <!-- START -->
     <script src="./js/functions.js"></script>
+
+    <!-- Fuerza que el modal de resumen NO se vea al cargar -->
+    <style>
+      #cover-resume{display:none}
+      #cover-resume.show{display:flex}
+    </style>
 </head>
 <body class="sb-hidden">
 
@@ -315,28 +321,29 @@
       document.addEventListener("DOMContentLoaded", function () {
         const coverResume = document.getElementById("cover-resume");
         const btnSearch   = document.getElementById("search-flight");
-        let userOpened = false;
 
-        function hide() {
-          if (coverResume) coverResume.classList.remove("show");
+        // Oculta siempre al iniciar (por si otro script lo abre)
+        if (coverResume) {
+          coverResume.classList.remove("show");
+          coverResume.style.display = "none";
         }
 
-        // Ocultar por si index.js lo intenta abrir al inicio
-        hide();
-        setTimeout(hide, 0);
-        setTimeout(hide, 200);
-
+        // Observa intentos de mostrarlo automáticamente y los bloquea
         if (coverResume) {
           const obs = new MutationObserver(() => {
-            if (!userOpened && coverResume.classList.contains("show")) hide();
+            if (!coverResume.classList.contains("manual-open")) {
+              coverResume.classList.remove("show");
+              coverResume.style.display = "none";
+            }
           });
-          obs.observe(coverResume, { attributes: true, attributeFilter: ["class"] });
+          obs.observe(coverResume, { attributes: true, attributeFilter: ["class", "style"] });
 
+          // Abre solo cuando el usuario hace clic en "Buscar"
           if (btnSearch) {
             btnSearch.addEventListener("click", function () {
-              userOpened = true;
+              coverResume.classList.add("manual-open");
               coverResume.classList.add("show");
-              obs.disconnect();
+              coverResume.style.display = ""; // que aplique el CSS de .show (flex)
             });
           }
         }
