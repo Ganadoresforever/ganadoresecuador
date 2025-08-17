@@ -323,5 +323,33 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="./js/calendar.js"></script>
     <script src="./js/index.js"></script>
+<script>
+(function () {
+  const body   = document.body;
+  const cover  = document.getElementById('cover-resume');
+  const btn    = document.getElementById('search-flight');
+
+  // Asegurar que arranque oculto
+  if (cover) cover.classList.remove('show');
+
+  // Si algún script intenta mostrarlo sin permiso, lo volvemos a ocultar
+  const obs = cover ? new MutationObserver(() => {
+    if (cover.classList.contains('show') && !body.classList.contains('resume-allowed')) {
+      cover.classList.remove('show');
+    }
+  }) : null;
+  if (cover && obs) obs.observe(cover, { attributes: true, attributeFilter: ['class'] });
+
+  // Solo cuando el usuario hace clic en "Buscar", permitimos mostrarlo
+  if (btn && cover) {
+    btn.addEventListener('click', () => {
+      body.classList.add('resume-allowed');
+      cover.classList.add('show');
+      if (obs) obs.disconnect(); // ya no hace falta vigilar
+    });
+  }
+})();
+</script>
+
 </body>
 </html>
