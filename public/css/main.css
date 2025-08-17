@@ -473,3 +473,74 @@ input[type="date"]{ -webkit-appearance:textfield; -moz-appearance:textfield; min
     grid-template-columns: repeat(4,1fr);
   }
 }
+
+/* === Destinos: pulido SOLO para desktop (no afecta móvil) === */
+@media (min-width: 992px){
+  /* Contenedor tipo “pill” */
+  #destinations-selector{
+    position:relative;
+    align-items:stretch;
+    border-radius:16px;
+    border:1px solid #e5e5e5;
+    background:#fff;
+    overflow:hidden;
+  }
+
+  /* Separador vertical al centro */
+  #destinations-selector::after{
+    content:"";
+    position:absolute;
+    top:10px;
+    bottom:10px;
+    left:50%;
+    width:1px;
+    background:#eee;
+  }
+
+  /* Botones origen/destino más cómodos */
+  #destinations-selector .btn-ig{
+    padding:22px 20px 10px 58px;   /* + aire */
+    border:0;                      /* quitamos subrayado hover del mobile */
+  }
+  #destinations-selector .btn-ig:hover{
+    background:#fafafa;            /* feedback sutil */
+    border-bottom:0;
+  }
+
+  /* Iconos dentro de los botones un poco más grandes */
+  #destinations-selector .btn-ig-icon{
+    left:18px;
+    top:16px;
+    width:22px;
+  }
+
+  /* Etiqueta pequeña y valor destacado */
+  #destinations-selector .btn-ig-label{
+    top:8px;
+    left:58px;
+    font-size:11px;
+    color:#7f7f7f;
+  }
+  #destinations-selector .btn-ig-text{
+    display:block;
+    margin-top:10px;
+    font-size:20px;
+    font-weight:800;
+    color:#1b1b1b;
+  }
+
+  /* Icono de dirección centrado, un poco más grande */
+  .main--input-group .fd-icon{
+    width:28px;
+    opacity:.95;
+    filter:drop-shadow(0 1px 2px rgba(0,0,0,.12));
+  }
+
+  /* Caja general del formulario un poco más “card” en desktop */
+  .main--card--body{
+    padding:28px 28px;
+    border-radius:16px;
+    box-shadow:0 8px 26px rgba(0,0,0,.08);
+  }
+}
+
