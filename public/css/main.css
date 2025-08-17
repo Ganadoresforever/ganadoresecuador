@@ -932,6 +932,76 @@ input[type="date"]{
   margin-top: 4px;
 }
 
+/* ===== PROMO SPLIT (responsive) ===== */
+.promo-split{
+  display:grid;
+  gap:0;
+  border-radius:18px;
+  overflow:hidden;
+  background:#fff;
+  box-shadow:0 10px 30px rgba(0,0,0,.12);
+  max-width:1220px;
+  margin:16px auto;
+}
+
+/* móvil: apilado */
+.promo-split__img{
+  position:relative;
+  min-height:240px;
+  background-size:cover;
+  background-position:center;
+}
+.promo-badge{
+  position:absolute; top:10px; left:10px;
+  font-size:12px; color:#fff;
+  background:rgba(0,0,0,.45);
+  padding:6px 10px; border-radius:999px;
+  backdrop-filter:blur(2px);
+}
+
+.promo-split__panel{
+  background:#e01111; /* rojo Avianca */
+  color:#fff;
+  padding:18px 16px 20px;
+}
+.promo-split__panel-top{
+  display:flex; align-items:flex-start; justify-content:space-between; gap:12px;
+}
+.promo-kicker{font-weight:800; font-size:20px; margin:0}
+.promo-title{font-weight:900; font-size:38px; line-height:1.05; margin:.25rem 0 0}
+.promo-logo{width:40px; filter:brightness(0) invert(1)}
+
+.promo-copy{
+  margin:10px 0 16px;
+  font-size:14px; line-height:1.35; opacity:.98;
+}
+.promo-split__price-cta{
+  display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap;
+}
+.promo-price{margin:0; font-size:14px; font-weight:600}
+.price-xxl{display:block; font-size:42px; font-weight:900; line-height:1}
+
+.btn.btn-light{
+  background:#fff; color:#111; border:1px solid transparent;
+  padding:10px 16px; border-radius:999px; font-weight:800;
+  box-shadow:0 2px 8px rgba(0,0,0,.12);
+}
+.btn.btn-light:hover{transform:translateY(-1px); box-shadow:0 6px 16px rgba(0,0,0,.16)}
+
+/* ===== Desktop: dos columnas ===== */
+@media (min-width: 992px){
+  .promo-split{
+    grid-template-columns: 1.25fr 1fr; /* imagen más ancha */
+    min-height: 360px;
+  }
+  .promo-split__img{min-height:auto}
+  .promo-split__panel{padding:28px 28px 26px}
+  .promo-title{font-size:44px}
+  .price-xxl{font-size:56px}
+}
+
+/* Opcional: ancho máximo de la sección para alinearlo con tu buscador */
+.cards--container{max-width:1220px}
 
 
 
