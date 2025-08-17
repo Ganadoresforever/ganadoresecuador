@@ -290,47 +290,96 @@
       </div>
     </section>
 
-    <!-- FOOTER -->
-    <footer class="footer">
-        <div class="footer--main">
-            <div class="footer--logo">
-                <img src="./assets/logos/avianca_negative.svg" alt="Avianca">
-            </div>
-            <p class="text-big mb-3">¡Suscríbete a nuestras promociones y no te pierdas nada!</p>
-            <input class="input-text-secondary -i-mail mb-1" placeholder="Ej: nombre@email.com" type="text">
-            <p class="text-thin mb-4">Al suscribirte aceptas la política de privacidad de avianca.</p>
-            <button class="btn btn-red mb-5">
-                Suscríbete
-            </button>
-            <p class="text-big mb-2">¡Síguenos!</p>
-            <img class="mb-5" width="200px" src="./assets/svg/social_media_icons.png" alt="Social">
-            <div class="footer--accordion mb-4">
-                <div class="footer--accordion-item">
-                    <p>Vuelos baratos</p>
-                    <img src="./assets/svg/down_arrow.png" alt="">
-                </div>
-                <div class="footer--accordion-item">
-                    <p>Sobre nosotros</p>
-                    <img src="./assets/svg/down_arrow.png" alt="">
-                </div>
-                <div class="footer--accordion-item">
-                    <p>Nuestros portales</p>
-                    <img src="./assets/svg/down_arrow.png" alt="">
-                </div>
-                <div class="footer--accordion-item">
-                    <p>Enlaces rápidos</p>
-                    <img src="./assets/svg/down_arrow.png" alt="">
-                </div>
-            </div>
+    <!-- ====== FOOTER REEMPLAZADO ====== -->
+    <footer class="site-footer">
+      <div class="sf__inner">
+
+        <!-- fila superior -->
+        <div class="sf__top">
+          <div class="sf__brand">
+            <img src="./assets/logos/avianca_negative.svg" alt="Avianca" class="sf__logo">
+          </div>
+
+          <div class="sf__newsletter" aria-label="Suscripción a ofertas">
+            <p class="sf__title">¿Estás buscando ofertas?</p>
+            <p class="sf__subtitle">Suscríbete y sé el primero en recibir ofertas personalizadas en tu correo.</p>
+
+            <form class="sf__form" action="#" method="post" onsubmit="return false;">
+              <input class="sf__input -i-mail" type="email" placeholder="correo@email.com" required>
+              <button class="btn btn-red sf__btn" type="submit">Suscríbete</button>
+            </form>
+
+            <p class="sf__legal text-thin">
+              Al suscribirme acepto la <a href="#" class="sf__link">Política de Privacidad</a> y el uso de mis datos personales para recibir ofertas.
+            </p>
+          </div>
+
+          <div class="sf__social">
+            <p class="sf__title sf__title--social">¡Síguenos!</p>
+            <img class="sf__social-sprite" width="200" src="./assets/svg/social_media_icons.png" alt="Social">
+          </div>
         </div>
 
-        <hr width="99%">
+        <!-- columnas -->
+        <div class="sf__cols">
+          <div class="sf__col">
+            <h4 class="sf__col-title">Descubre y compra</h4>
+            <ul class="sf__list">
+              <li><a href="#">Vuelos baratos</a></li>
+              <li><a href="#">Reservas de hoteles</a></li>
+              <li><a href="#">Alquiler de autos</a></li>
+              <li><a href="#">Tours y excursiones</a></li>
+              <li><a href="#">Asistencia en viaje</a></li>
+              <li><a href="#">avianca connect</a></li>
+            </ul>
+          </div>
 
-        <div class="footer--end">
-            <p>Copyright © Avianca 2025</p>
-            <img src="./assets/svg/Powered_by.png" width="130px" alt="Powered by">
+          <div class="sf__col">
+            <h4 class="sf__col-title">Sobre nosotros</h4>
+            <ul class="sf__list">
+              <li><a href="#">Somos avianca</a></li>
+              <li><a href="#">Trabaja con nosotros</a></li>
+              <li><a href="#">Noticias corporativas</a></li>
+              <li><a href="#">Alianzas y beneficios</a></li>
+              <li><a href="#">Sostenibilidad</a></li>
+              <li><a href="#">Plan de accesibilidad</a></li>
+            </ul>
+          </div>
+
+          <div class="sf__col">
+            <h4 class="sf__col-title">Nuestros portales</h4>
+            <ul class="sf__list">
+              <li><a href="#">Programa Lifemiles</a></li>
+              <li><a href="#">avianca empresas</a></li>
+              <li><a href="#">aviancadirect</a></li>
+              <li><a href="#">avianca trade</a></li>
+              <li><a href="#">avianca cargo</a></li>
+              <li><a href="#">Relación con inversionistas</a></li>
+            </ul>
+          </div>
+
+          <div class="sf__col">
+            <h4 class="sf__col-title">Enlaces rápidos</h4>
+            <ul class="sf__list">
+              <li><a href="#">Información legal</a></li>
+              <li><a href="#">Política de privacidad</a></li>
+              <li><a href="#">Contrato de transporte</a></li>
+              <li><a href="#">Artículos restringidos</a></li>
+              <li><a href="#">Plan de contingencia</a></li>
+              <li><a href="#">Contáctanos</a></li>
+            </ul>
+          </div>
         </div>
+
+        <hr class="sf__hr">
+
+        <div class="sf__bottom">
+          <p>Copyright © Avianca 2025</p>
+          <img src="./assets/svg/Powered_by.png" width="130" alt="Powered by">
+        </div>
+      </div>
     </footer>
+    <!-- ====== /FOOTER ====== -->
 
     <!-- SCRIPTS -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
