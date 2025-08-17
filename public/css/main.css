@@ -331,5 +331,12 @@ input[type="date"]{ -webkit-appearance:textfield; -moz-appearance:textfield; min
   }
 }
 
+/* --- Guard: NO mostrar el modal de resumen si la página no lo permite --- */
+#cover-resume.show{
+  display: none !important;
+}
+body.resume-allowed #cover-resume.show{
+  display: flex !important;
+}
 
 
