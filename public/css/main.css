@@ -331,11 +331,5 @@ input[type="date"]{ -webkit-appearance:textfield; -moz-appearance:textfield; min
   }
 }
 
-/* Evitar que se abra solo el modal de “Reserva tu vuelo” */
-#cover-resume:not(.user-open) {
-  display: none !important;
-}
-#cover-resume.user-open.show {
-  display: flex !important;
-}
+
 
