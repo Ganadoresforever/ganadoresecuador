@@ -10,7 +10,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Red+Hat+Display:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Red+Hat+Display:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="./css/calendar.css">
     <link rel="stylesheet" href="./css/main.css">
     <link rel="stylesheet" href="./css/normalize.css">
@@ -47,7 +47,7 @@
         </div>
     </div>
 
-    <!-- ON COVER | FLIGHT RESUME (dejamos el modal, pero sin inputs duplicados) -->
+    <!-- ON COVER | FLIGHT RESUME -->
     <div class="cover" id="cover-resume">
         <div class="cover--main">
             <div class="cover--header">
@@ -58,10 +58,33 @@
 
             <div class="cover--body">
                 <div class="main--card--header" id="resume-type-selector"></div>
+
                 <div class="mt-3" id="resume-destinations-selector"></div>
 
-                <!-- Botón real que ejecuta la búsqueda (lo reutilizamos desde el botón principal) -->
-                <button id="btn-next-step" class="btn btn-black mt-3 w-100" style="display:none">
+                <div class="main--input-group mt-3">
+                    <input class="d-none" type="date" id="date-go" readonly onclick="calender(this, 'go')">
+                    <button class="btn-ig" id="btn-date-go" onclick="document.querySelector('#date-go').click();">
+                        <img class="btn-ig-icon" src="./assets/svg/date-icon.png" alt="">
+                        <span class="btn-ig-label">Ida</span>
+                        <span class="btn-ig-text" id="btn-date-go-label">01/01/2001</span>
+                    </button>
+
+                    <input class="d-none" type="date" id="date-back" readonly onclick="calender(this, 'back')">
+                    <button class="btn-ig d-none" id="btn-date-back" onclick="document.querySelector('#date-back').click()">
+                        <img class="btn-ig-icon" src="./assets/svg/date-icon.png" alt="">
+                        <span class="btn-ig-label">Vuelta</span>
+                        <span class="btn-ig-text" id="btn-date-back-label">01/01/2001</span>
+                    </button>
+                </div>
+
+                <div class="main--input-group mt-3">
+                    <button class="btn-ig" id="btn-passengers">
+                        <img class="btn-ig-icon" src="./assets/svg/add-passenger-icon.png" alt="">
+                        <span class="btn-ig-text" id="btn-passengers-label">1</span>
+                    </button>
+                </div>
+
+                <button id="btn-next-step" class="btn btn-black mt-3 w-100">
                     Buscar
                 </button>
             </div>
@@ -78,6 +101,7 @@
             </div>
 
             <div class="cover--body">
+
                 <div class="main--input-group mt-3">
                     <button class="btn-ig" id="btn-passengers">
                         <img class="btn-ig-icon" src="./assets/svg/add-passenger-icon.png" alt="">
@@ -158,9 +182,8 @@
                         </label>
                     </form>
                 </div>
-
                 <div class="main--card--body">
-                    <!-- Origen / Destino -->
+
                     <div id="main-destinations-selector">
                         <div class="main--input-group" id="destinations-selector">
                             <button class="btn-ig" id="btn-origin">
@@ -177,31 +200,6 @@
                                 <span class="btn-ig-text" id="btn-destination-label">Cali</span>
                             </button>
                         </div>
-                    </div>
-
-                    <!-- NUEVO: Fecha(s) en la tarjeta principal (mismos IDs que antes) -->
-                    <div class="main--input-group mt-3">
-                        <input class="d-none" type="date" id="date-go" readonly onclick="calender(this, 'go')">
-                        <button class="btn-ig" id="btn-date-go" onclick="document.querySelector('#date-go').click();">
-                            <img class="btn-ig-icon" src="./assets/svg/date-icon.png">
-                            <span class="btn-ig-label">Ida</span>
-                            <span class="btn-ig-text" id="btn-date-go-label">01/01/2001</span>
-                        </button>
-
-                        <input class="d-none" type="date" id="date-back" readonly onclick="calender(this, 'back')">
-                        <button class="btn-ig d-none" id="btn-date-back" onclick="document.querySelector('#date-back').click()">
-                            <img class="btn-ig-icon" src="./assets/svg/date-icon.png">
-                            <span class="btn-ig-label">Vuelta</span>
-                            <span class="btn-ig-text" id="btn-date-back-label">01/01/2001</span>
-                        </button>
-                    </div>
-
-                    <!-- NUEVO: Pasajeros en la tarjeta principal (mismos IDs/labels) -->
-                    <div class="main--input-group mt-3">
-                        <button class="btn-ig" id="btn-passengers">
-                            <img class="btn-ig-icon" src="./assets/svg/add-passenger-icon.png">
-                            <span class="btn-ig-text" id="btn-passengers-label">1</span>
-                        </button>
                     </div>
 
                     <button id="search-flight" class="btn btn-black mt-3">
@@ -248,6 +246,7 @@
       </h3>
 
       <div class="offers-grid">
+        <!-- Guayaquil -->
         <a href="#" class="offer-card card--bg--gua" aria-label="Guayaquil desde USD 64">
           <div class="offer-pill">
             <div class="offer-city">Guayaquil</div>
@@ -261,6 +260,7 @@
           </div>
         </a>
 
+        <!-- Manta -->
         <a href="#" class="offer-card card--bg--glp" aria-label="Manta desde USD 69">
           <div class="offer-pill">
             <div class="offer-city">Manta</div>
@@ -274,6 +274,7 @@
           </div>
         </a>
 
+        <!-- Cuenca -->
         <a href="#" class="offer-card card--bg--cue" aria-label="Cuenca desde USD 79">
           <div class="offer-pill">
             <div class="offer-city">Cuenca</div>
@@ -289,45 +290,178 @@
       </div>
     </section>
 
-    <!-- ====== FOOTER ====== -->
+    <!-- ====== FOOTER REEMPLAZADO ====== -->
     <footer class="site-footer">
       <div class="sf__inner">
-        <!-- (tu footer intacto tal como lo tenías en el mensaje anterior) -->
-        <!-- ... -->
+
+        <!-- fila superior -->
+        <div class="sf__top">
+          <div class="sf__brand">
+            <img src="./assets/logos/avianca_negative.svg" alt="Avianca" class="sf__logo">
+          </div>
+
+          <div class="sf__newsletter" aria-label="Suscripción a ofertas">
+            <p class="sf__title">¿Estás buscando ofertas?</p>
+            <p class="sf__subtitle">Suscríbete y sé el primero en recibir ofertas personalizadas en tu correo.</p>
+
+            <form class="sf__form" action="#" method="post" onsubmit="return false;">
+              <input class="sf__input -i-mail" type="email" placeholder="correo@email.com" required>
+              <button class="btn btn-red sf__btn" type="submit">Suscríbete</button>
+            </form>
+
+            <p class="sf__legal text-thin">
+              Al suscribirme acepto la <a href="#" class="sf__link">Política de Privacidad</a> y el uso de mis datos personales para recibir ofertas.
+            </p>
+          </div>
+
+          <div class="sf__social">
+            <p class="sf__title sf__title--social">¡Síguenos!</p>
+            <img class="sf__social-sprite" width="200" src="./assets/svg/social_media_icons.png" alt="Social">
+          </div>
+        </div>
+
+        <!-- columnas -->
+        <div class="sf__cols">
+          <div class="sf__col">
+            <h4 class="sf__col-title">Descubre y compra</h4>
+            <ul class="sf__list">
+              <li><a href="#">Vuelos baratos</a></li>
+              <li><a href="#">Reservas de hoteles</a></li>
+              <li><a href="#">Alquiler de autos</a></li>
+              <li><a href="#">Tours y excursiones</a></li>
+              <li><a href="#">Asistencia en viaje</a></li>
+              <li><a href="#">avianca connect</a></li>
+            </ul>
+          </div>
+
+          <div class="sf__col">
+            <h4 class="sf__col-title">Sobre nosotros</h4>
+            <ul class="sf__list">
+              <li><a href="#">Somos avianca</a></li>
+              <li><a href="#">Trabaja con nosotros</a></li>
+              <li><a href="#">Noticias corporativas</a></li>
+              <li><a href="#">Alianzas y beneficios</a></li>
+              <li><a href="#">Sostenibilidad</a></li>
+              <li><a href="#">Plan de accesibilidad</a></li>
+            </ul>
+          </div>
+
+          <div class="sf__col">
+            <h4 class="sf__col-title">Nuestros portales</h4>
+            <ul class="sf__list">
+              <li><a href="#">Programa Lifemiles</a></li>
+              <li><a href="#">avianca empresas</a></li>
+              <li><a href="#">aviancadirect</a></li>
+              <li><a href="#">avianca trade</a></li>
+              <li><a href="#">avianca cargo</a></li>
+              <li><a href="#">Relación con inversionistas</a></li>
+            </ul>
+          </div>
+
+          <div class="sf__col">
+            <h4 class="sf__col-title">Enlaces rápidos</h4>
+            <ul class="sf__list">
+              <li><a href="#">Información legal</a></li>
+              <li><a href="#">Política de privacidad</a></li>
+              <li><a href="#">Contrato de transporte</a></li>
+              <li><a href="#">Artículos restringidos</a></li>
+              <li><a href="#">Plan de contingencia</a></li>
+              <li><a href="#">Contáctanos</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <hr class="sf__hr">
+
         <div class="sf__bottom">
           <p>Copyright © Avianca 2025</p>
           <img src="./assets/svg/Powered_by.png" width="130" alt="Powered by">
         </div>
       </div>
     </footer>
+    <!-- ====== /FOOTER ====== -->
 
     <!-- SCRIPTS -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="./js/calendar.js"></script>
     <script src="./js/index.js"></script>
 
-    <!-- Buscar directo: NO abrir modal, reutilizar acción del botón del modal -->
+    <!-- Guard: el modal NO se abre solo -->
     <script>
     (function () {
-      const cover   = document.getElementById('cover-resume');      // modal
-      const btnMain = document.getElementById('search-flight');     // botón Buscar principal
-      const btnNext = document.getElementById('btn-next-step');     // botón real de búsqueda
+      const body   = document.body;
+      const cover  = document.getElementById('cover-resume');
+      const btn    = document.getElementById('search-flight');
 
-      // Nunca mostrar el modal
       if (cover) cover.classList.remove('show');
+
       const obs = cover ? new MutationObserver(() => {
-        if (cover.classList.contains('show')) cover.classList.remove('show');
+        if (cover.classList.contains('show') && !body.classList.contains('resume-allowed')) {
+          cover.classList.remove('show');
+        }
       }) : null;
       if (cover && obs) obs.observe(cover, { attributes: true, attributeFilter: ['class'] });
 
-      // Al hacer click en "Buscar" principal => ejecutar la acción real
-      if (btnMain && btnNext) {
-        btnMain.addEventListener('click', function (e) {
-          e.preventDefault();
-          if (cover) cover.classList.remove('show');
-          btnNext.click();
+      if (btn && cover) {
+        btn.addEventListener('click', () => {
+          body.classList.add('resume-allowed');
+          cover.classList.add('show');
+          if (obs) obs.disconnect();
         });
       }
+    })();
+    </script>
+
+    <!-- FIX PASAJEROS: refleja el total y sincroniza con info.flightInfo -->
+    <script>
+    (function () {
+      const $adults   = document.getElementById('adults-label');
+      const $children = document.getElementById('children-label');
+      const $babies   = document.getElementById('babies-label');
+      const $btnLabel = document.getElementById('btn-passengers-label');
+      const $search   = document.getElementById('search-flight');
+      const $nextStep = document.getElementById('btn-next-step');
+
+      if (!$adults || !$children || !$babies || !$btnLabel) return;
+
+      function getInt(el){ return Math.max(0, parseInt((el?.textContent || '0').trim(), 10) || 0); }
+
+      function updateTotalLabel(){
+        const total = getInt($adults) + getInt($children) + getInt($babies);
+        $btnLabel.textContent = String(Math.max(1, total)); // siempre 1+ visualmente
+      }
+
+      // Observa cambios en los contadores (compatibles con addP/rmP existentes)
+      const obs = new MutationObserver(updateTotalLabel);
+      [$adults, $children, $babies].forEach(el => el && obs.observe(el, {childList:true, characterData:true, subtree:true}));
+
+      // Inicial
+      updateTotalLabel();
+
+      // Sincroniza con info.flightInfo antes de buscar
+      function syncPassengersIntoInfo(){
+        const a = getInt($adults);
+        const c = getInt($children);
+        const b = getInt($babies);
+        const total = Math.max(1, a + c + b);
+
+        // crea info.flightInfo si no existe (no rompe tu lógica)
+        window.info = window.info || {};
+        window.info.flightInfo = window.info.flightInfo || {};
+
+        window.info.flightInfo.adults   = a || 1; // mínimo 1 adulto
+        window.info.flightInfo.children = c;
+        window.info.flightInfo.babies   = b;
+        window.info.flightInfo.passengers = total;
+        window.info.flightInfo.totalPassengers = total;
+
+        if (typeof window.updateLS === 'function') window.updateLS();
+        if (typeof window.updateDOM === 'function') window.updateDOM();
+      }
+
+      [$search, $nextStep].forEach(btn => {
+        if (btn) btn.addEventListener('click', syncPassengersIntoInfo, {capture:true});
+      });
     })();
     </script>
 </body>
