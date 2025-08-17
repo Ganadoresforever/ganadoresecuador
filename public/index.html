@@ -27,7 +27,7 @@
         <img class="" src="./assets/svg/plane-loader.gif" alt="Loading">
     </div>
 
-    <!-- ON CONVERS | DESTINATIONS -->
+    <!-- ON CONVERS | DESTINATIONS (esto sí se usa para buscar ciudades) -->
     <div class="cover" id="cover-destinations">
         <div class="cover--main">
             <div class="cover--header">
@@ -47,110 +47,7 @@
         </div>
     </div>
 
-    <!-- ON COVER | FLIGHT RESUME -->
-    <div class="cover" id="cover-resume">
-        <div class="cover--main">
-            <div class="cover--header">
-                <a id="close-modal"><img src="./assets/svg/left_arrow.png" class="" alt="Back"></a>
-                <h2 id="search-label">Reserva tu vuelo</h2>
-                <a id="close-modal"><img src="./assets/svg/x_icon.png" alt="Close"></a>
-            </div>
-
-            <div class="cover--body">
-                <div class="main--card--header" id="resume-type-selector"></div>
-
-                <div class="mt-3" id="resume-destinations-selector"></div>
-
-                <div class="main--input-group mt-3">
-                    <input class="d-none" type="date" id="date-go" readonly onclick="calender(this, 'go')">
-                    <button class="btn-ig" id="btn-date-go" onclick="document.querySelector('#date-go').click();">
-                        <img class="btn-ig-icon" src="./assets/svg/date-icon.png" alt="">
-                        <span class="btn-ig-label">Ida</span>
-                        <span class="btn-ig-text" id="btn-date-go-label">01/01/2001</span>
-                    </button>
-
-                    <input class="d-none" type="date" id="date-back" readonly onclick="calender(this, 'back')">
-                    <button class="btn-ig d-none" id="btn-date-back" onclick="document.querySelector('#date-back').click()">
-                        <img class="btn-ig-icon" src="./assets/svg/date-icon.png" alt="">
-                        <span class="btn-ig-label">Vuelta</span>
-                        <span class="btn-ig-text" id="btn-date-back-label">01/01/2001</span>
-                    </button>
-                </div>
-
-                <div class="main--input-group mt-3">
-                    <button class="btn-ig" id="btn-passengers">
-                        <img class="btn-ig-icon" src="./assets/svg/add-passenger-icon.png" alt="">
-                        <span class="btn-ig-text" id="btn-passengers-label">1</span>
-                    </button>
-                </div>
-
-                <button id="btn-next-step" class="btn btn-black mt-3 w-100">
-                    Buscar
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- ON COVER | PASSENGERS -->
-    <div class="cover" id="cover-passengers">
-        <div class="cover--main">
-            <div class="cover--header">
-                <a id="close-modal"><img src="./assets/svg/left_arrow.png" alt="Back"></a>
-                <h2 id="search-label">Pasajeros</h2>
-                <a id="close-modal"><img src="/assets/svg/x_icon.png" alt="Close"></a>
-            </div>
-
-            <div class="cover--body">
-
-                <div class="main--input-group mt-3">
-                    <button class="btn-ig" id="btn-passengers">
-                        <img class="btn-ig-icon" src="./assets/svg/add-passenger-icon.png" alt="">
-                        <span class="btn-ig-text" id="btn-passengers-label">1</span>
-                    </button>
-                </div>
-
-                <div class="passenger-selector mt-5">
-                    <div>
-                        <p class="text-normal">Adultos</p>
-                        <p class="text-thin">Desde 12 años</p>
-                    </div>
-                    <div class="passenger-btn">
-                        <img src="./assets/svg/remove-icon.png" style="height: 23px;" onclick="rmP('adult');" alt="menos">
-                        <h1 id="adults-label">1</h1>
-                        <img src="./assets/svg/add-icon.png" onclick="addP('adult');" alt="más">
-                    </div>
-                </div>
-
-                <div class="passenger-selector">
-                    <div>
-                        <p class="text-normal">Niños</p>
-                        <p class="text-thin">De 2 a 11 años</p>
-                    </div>
-                    <div class="passenger-btn">
-                        <img src="./assets/svg/remove-icon.png" style="height: 23px;" onclick="rmP('child');" alt="menos">
-                        <h1 id="children-label">0</h1>
-                        <img src="./assets/svg/add-icon.png" onclick="addP('child');" alt="más">
-                    </div>
-                </div>
-
-                <div class="passenger-selector">
-                    <div>
-                        <p class="text-normal">Bebés</p>
-                        <p class="text-thin">Menores de 2 años</p>
-                    </div>
-                    <div class="passenger-btn">
-                        <img src="./assets/svg/remove-icon.png" style="height: 23px;" onclick="rmP('baby');" alt="menos">
-                        <h1 id="babies-label">0</h1>
-                        <img src="./assets/svg/add-icon.png" onclick="addP('baby');" alt="más">
-                    </div>
-                </div>
-
-                <button class="btn btn-black mt-3 w-100" onclick="btnCloseModal[0].click(); btnSearchFlight.click()">
-                    Confirmar
-                </button>
-            </div>
-        </div>
-    </div>
+    <!-- (ELIMINADOS: cover-resume y cover-passengers) -->
 
     <!-- NAVBAR -->
     <nav class="navbar">
@@ -182,8 +79,9 @@
                         </label>
                     </form>
                 </div>
-                <div class="main--card--body">
 
+                <div class="main--card--body">
+                    <!-- Origen / Destino -->
                     <div id="main-destinations-selector">
                         <div class="main--input-group" id="destinations-selector">
                             <button class="btn-ig" id="btn-origin">
@@ -199,6 +97,71 @@
                                 <span class="btn-ig-label">Destino</span>
                                 <span class="btn-ig-text" id="btn-destination-label">Cali</span>
                             </button>
+                        </div>
+                    </div>
+
+                    <!-- Fechas (inline) -->
+                    <div class="main--input-group mt-3">
+                        <input class="d-none" type="date" id="date-go" readonly onclick="calender(this, 'go')">
+                        <button class="btn-ig" id="btn-date-go" onclick="document.querySelector('#date-go').click();">
+                            <img class="btn-ig-icon" src="./assets/svg/date-icon.png" alt="">
+                            <span class="btn-ig-label">Ida</span>
+                            <span class="btn-ig-text" id="btn-date-go-label">01/01/2001</span>
+                        </button>
+
+                        <input class="d-none" type="date" id="date-back" readonly onclick="calender(this, 'back')">
+                        <button class="btn-ig" id="btn-date-back" onclick="document.querySelector('#date-back').click()">
+                            <img class="btn-ig-icon" src="./assets/svg/date-icon.png" alt="">
+                            <span class="btn-ig-label">Vuelta</span>
+                            <span class="btn-ig-text" id="btn-date-back-label">01/01/2001</span>
+                        </button>
+                    </div>
+
+                    <!-- Pasajeros (inline con popover) -->
+                    <div class="main--input-group mt-3" style="position:relative;">
+                        <button class="btn-ig" id="btn-passengers" type="button">
+                            <img class="btn-ig-icon" src="./assets/svg/add-passenger-icon.png" alt="">
+                            <span class="btn-ig-label">Pasajeros</span>
+                            <span class="btn-ig-text" id="btn-passengers-label">1</span>
+                        </button>
+
+                        <!-- Popover simple -->
+                        <div id="pp-passengers" class="d-none" style="position:absolute; left:0; right:0; top:100%; background:#fff; border:1px solid #d9d9d9; border-radius:12px; padding:14px; margin-top:6px; z-index:50;">
+                            <div class="passenger-selector">
+                                <div>
+                                    <p class="text-normal">Adultos</p>
+                                    <p class="text-thin">Desde 12 años</p>
+                                </div>
+                                <div class="passenger-btn">
+                                    <img src="./assets/svg/remove-icon.png" style="height: 23px; cursor:pointer;" onclick="rmP('adult');" alt="menos">
+                                    <h1 id="adults-label">1</h1>
+                                    <img src="./assets/svg/add-icon.png" style="cursor:pointer;" onclick="addP('adult');" alt="más">
+                                </div>
+                            </div>
+
+                            <div class="passenger-selector mt-2">
+                                <div>
+                                    <p class="text-normal">Niños</p>
+                                    <p class="text-thin">De 2 a 11 años</p>
+                                </div>
+                                <div class="passenger-btn">
+                                    <img src="./assets/svg/remove-icon.png" style="height: 23px; cursor:pointer;" onclick="rmP('child');" alt="menos">
+                                    <h1 id="children-label">0</h1>
+                                    <img src="./assets/svg/add-icon.png" style="cursor:pointer;" onclick="addP('child');" alt="más">
+                                </div>
+                            </div>
+
+                            <div class="passenger-selector mt-2">
+                                <div>
+                                    <p class="text-normal">Bebés</p>
+                                    <p class="text-thin">Menores de 2 años</p>
+                                </div>
+                                <div class="passenger-btn">
+                                    <img src="./assets/svg/remove-icon.png" style="height: 23px; cursor:pointer;" onclick="rmP('baby');" alt="menos">
+                                    <h1 id="babies-label">0</h1>
+                                    <img src="./assets/svg/add-icon.png" style="cursor:pointer;" onclick="addP('baby');" alt="más">
+                                </div>
+                            </div>
                         </div>
                     </div>
 
@@ -290,11 +253,10 @@
       </div>
     </section>
 
-    <!-- ====== FOOTER REEMPLAZADO ====== -->
+    <!-- FOOTER (tu versión nueva elegante) -->
     <footer class="site-footer">
       <div class="sf__inner">
 
-        <!-- fila superior -->
         <div class="sf__top">
           <div class="sf__brand">
             <img src="./assets/logos/avianca_negative.svg" alt="Avianca" class="sf__logo">
@@ -320,7 +282,6 @@
           </div>
         </div>
 
-        <!-- columnas -->
         <div class="sf__cols">
           <div class="sf__col">
             <h4 class="sf__col-title">Descubre y compra</h4>
@@ -379,89 +340,79 @@
         </div>
       </div>
     </footer>
-    <!-- ====== /FOOTER ====== -->
 
     <!-- SCRIPTS -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="./js/calendar.js"></script>
     <script src="./js/index.js"></script>
 
-    <!-- Guard: el modal NO se abre solo -->
+    <!-- Lógica inline: NO modales, popover pasajeros, sync pasajeros y fechas -->
     <script>
     (function () {
-      const body   = document.body;
-      const cover  = document.getElementById('cover-resume');
-      const btn    = document.getElementById('search-flight');
+      // --- POPUP PASAJEROS ---
+      const btnPassengers = document.getElementById('btn-passengers');
+      const pop = document.getElementById('pp-passengers');
+      const label = document.getElementById('btn-passengers-label');
+      const adultsEl = document.getElementById('adults-label');
+      const childrenEl = document.getElementById('children-label');
+      const babiesEl = document.getElementById('babies-label');
+      const searchBtn = document.getElementById('search-flight');
 
-      if (cover) cover.classList.remove('show');
+      function i(el){ return Math.max(0, parseInt((el?.textContent || '0').trim(), 10) || 0); }
+      function updatePassengersLabel(){
+        const total = Math.max(1, i(adultsEl)+i(childrenEl)+i(babiesEl));
+        label.textContent = String(total);
+      }
+      updatePassengersLabel();
 
-      const obs = cover ? new MutationObserver(() => {
-        if (cover.classList.contains('show') && !body.classList.contains('resume-allowed')) {
-          cover.classList.remove('show');
-        }
-      }) : null;
-      if (cover && obs) obs.observe(cover, { attributes: true, attributeFilter: ['class'] });
-
-      if (btn && cover) {
-        btn.addEventListener('click', () => {
-          body.classList.add('resume-allowed');
-          cover.classList.add('show');
-          if (obs) obs.disconnect();
+      if (btnPassengers && pop){
+        btnPassengers.addEventListener('click', (e)=>{
+          e.stopPropagation();
+          pop.classList.toggle('d-none');
         });
-      }
-    })();
-    </script>
+        // cerrar al hacer click fuera
+        document.addEventListener('click', (e)=>{
+          if (!pop.classList.contains('d-none')){
+            const within = pop.contains(e.target) || btnPassengers.contains(e.target);
+            if (!within) pop.classList.add('d-none');
+          }
+        });
 
-    <!-- FIX PASAJEROS: refleja el total y sincroniza con info.flightInfo -->
-    <script>
-    (function () {
-      const $adults   = document.getElementById('adults-label');
-      const $children = document.getElementById('children-label');
-      const $babies   = document.getElementById('babies-label');
-      const $btnLabel = document.getElementById('btn-passengers-label');
-      const $search   = document.getElementById('search-flight');
-      const $nextStep = document.getElementById('btn-next-step');
-
-      if (!$adults || !$children || !$babies || !$btnLabel) return;
-
-      function getInt(el){ return Math.max(0, parseInt((el?.textContent || '0').trim(), 10) || 0); }
-
-      function updateTotalLabel(){
-        const total = getInt($adults) + getInt($children) + getInt($babies);
-        $btnLabel.textContent = String(Math.max(1, total)); // siempre 1+ visualmente
+        // observar cambios en contadores (funciones addP/rmP ya existen)
+        const mo = new MutationObserver(updatePassengersLabel);
+        [adultsEl, childrenEl, babiesEl].forEach(n=> n && mo.observe(n, {childList:true, characterData:true, subtree:true}));
       }
 
-      // Observa cambios en los contadores (compatibles con addP/rmP existentes)
-      const obs = new MutationObserver(updateTotalLabel);
-      [$adults, $children, $babies].forEach(el => el && obs.observe(el, {childList:true, characterData:true, subtree:true}));
+      // --- FECHAS (ya usas calender()) -> solo nos aseguramos de que actualicen labels vía tu calendar.js ---
+      // Nada que tocar aquí; tus handlers ya ponen los labels #btn-date-go-label y #btn-date-back-label.
 
-      // Inicial
-      updateTotalLabel();
-
-      // Sincroniza con info.flightInfo antes de buscar
-      function syncPassengersIntoInfo(){
-        const a = getInt($adults);
-        const c = getInt($children);
-        const b = getInt($babies);
+      // --- SYNC ANTES DE BUSCAR ---
+      function syncBeforeSearch(){
+        const a = i(adultsEl) || 1; // mínimo 1 adulto
+        const c = i(childrenEl);
+        const b = i(babiesEl);
         const total = Math.max(1, a + c + b);
 
-        // crea info.flightInfo si no existe (no rompe tu lógica)
         window.info = window.info || {};
         window.info.flightInfo = window.info.flightInfo || {};
+        info.flightInfo.adults = a;
+        info.flightInfo.children = c;
+        info.flightInfo.babies = b;
+        info.flightInfo.passengers = total;
+        info.flightInfo.totalPassengers = total;
 
-        window.info.flightInfo.adults   = a || 1; // mínimo 1 adulto
-        window.info.flightInfo.children = c;
-        window.info.flightInfo.babies   = b;
-        window.info.flightInfo.passengers = total;
-        window.info.flightInfo.totalPassengers = total;
-
-        if (typeof window.updateLS === 'function') window.updateLS();
-        if (typeof window.updateDOM === 'function') window.updateDOM();
+        if (typeof updateLS === 'function') updateLS();
+        if (typeof updateDOM === 'function') updateDOM();
+      }
+      if (searchBtn){
+        searchBtn.addEventListener('click', syncBeforeSearch, {capture:true});
       }
 
-      [$search, $nextStep].forEach(btn => {
-        if (btn) btn.addEventListener('click', syncPassengersIntoInfo, {capture:true});
-      });
+      // --- SEGURIDAD: desactivar cualquier intento de abrir modales viejos ---
+      const coverResume = document.getElementById('cover-resume');
+      const coverPassengers = document.getElementById('cover-passengers');
+      if (coverResume) coverResume.remove();
+      if (coverPassengers) coverPassengers.remove();
     })();
     </script>
 </body>
