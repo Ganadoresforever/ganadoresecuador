@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Avianca - Find cheap tickets and flights</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="shortcut icon" href="./assets/favicon.svg" t  ype="image/x-icon">
+    <link rel="shortcut icon" href="./assets/favicon.svg" type="image/x-icon">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -24,27 +24,25 @@
 
     <!-- ON LOADER -->
     <div class="loader show">
-        <img class="" src="./assets/svg/plane-loader.gif">
+        <img class="" src="./assets/svg/plane-loader.gif" alt="Loading">
     </div>
 
     <!-- ON CONVERS | DESTINATIONS -->
     <div class="cover" id="cover-destinations">
         <div class="cover--main">
             <div class="cover--header">
-                <a id="close-modal"><img src="./assets/svg/left_arrow.png" class=""></a>
+                <a id="close-modal"><img src="./assets/svg/left_arrow.png" class="" alt="Back"></a>
                 <h2 id="search-label">Origen</h2>
-                <a id="close-modal"><img src="./assets/svg/x_icon.png"></a>
+                <a id="close-modal"><img src="./assets/svg/x_icon.png" alt="Close"></a>
             </div>
 
             <div class="cover--body">
                 <div class="search--input--container">
                     <input type="text" class="search--input">
-                    <img class="search--input--icon" src="./assets/svg/takeoff_icon.png">
+                    <img class="search--input--icon" src="./assets/svg/takeoff_icon.png" alt="">
                     <span id="search-input-label" class="search--input--label">Origen</span>
                 </div>
-                <div id="destinations">
-
-                </div>
+                <div id="destinations"></div>
             </div>
         </div>
     </div>
@@ -53,40 +51,35 @@
     <div class="cover" id="cover-resume">
         <div class="cover--main">
             <div class="cover--header">
-                <a id="close-modal"><img src="./assets/svg/left_arrow.png" class=""></a>
+                <a id="close-modal"><img src="./assets/svg/left_arrow.png" class="" alt="Back"></a>
                 <h2 id="search-label">Reserva tu vuelo</h2>
-                <a id="close-modal"><img src="./assets/svg/x_icon.png"></a>
+                <a id="close-modal"><img src="./assets/svg/x_icon.png" alt="Close"></a>
             </div>
 
             <div class="cover--body">
-                <div class="main--card--header" id="resume-type-selector">
-                    
-                </div>
+                <div class="main--card--header" id="resume-type-selector"></div>
 
-                <div class="mt-3" id="resume-destinations-selector">
-
-                </div>
+                <div class="mt-3" id="resume-destinations-selector"></div>
 
                 <div class="main--input-group mt-3">
                     <input class="d-none" type="date" id="date-go" readonly onclick="calender(this, 'go')">
                     <button class="btn-ig" id="btn-date-go" onclick="document.querySelector('#date-go').click();">
-                        <img class="btn-ig-icon" src="./assets/svg/date-icon.png">
+                        <img class="btn-ig-icon" src="./assets/svg/date-icon.png" alt="">
                         <span class="btn-ig-label">Ida</span>
                         <span class="btn-ig-text" id="btn-date-go-label">01/01/2001</span>
                     </button>
-                    
-                    
+
                     <input class="d-none" type="date" id="date-back" readonly onclick="calender(this, 'back')">
                     <button class="btn-ig d-none" id="btn-date-back" onclick="document.querySelector('#date-back').click()">
-                        <img class="btn-ig-icon" src="./assets/svg/date-icon.png">
+                        <img class="btn-ig-icon" src="./assets/svg/date-icon.png" alt="">
                         <span class="btn-ig-label">Vuelta</span>
                         <span class="btn-ig-text" id="btn-date-back-label">01/01/2001</span>
                     </button>
                 </div>
-                
+
                 <div class="main--input-group mt-3">
                     <button class="btn-ig" id="btn-passengers">
-                        <img class="btn-ig-icon" src="./assets/svg/add-passenger-icon.png">
+                        <img class="btn-ig-icon" src="./assets/svg/add-passenger-icon.png" alt="">
                         <span class="btn-ig-text" id="btn-passengers-label">1</span>
                     </button>
                 </div>
@@ -99,19 +92,19 @@
     </div>
 
     <!-- ON COVER | PASSENGERS -->
-    <div class="cover " id="cover-passengers">
+    <div class="cover" id="cover-passengers">
         <div class="cover--main">
             <div class="cover--header">
-                <a id="close-modal"><img src="./assets/svg/left_arrow.png"></a>
+                <a id="close-modal"><img src="./assets/svg/left_arrow.png" alt="Back"></a>
                 <h2 id="search-label">Pasajeros</h2>
-                <a id="close-modal"> <img src="/assets/svg/x_icon.png"></a>
+                <a id="close-modal"><img src="/assets/svg/x_icon.png" alt="Close"></a>
             </div>
 
             <div class="cover--body">
 
                 <div class="main--input-group mt-3">
                     <button class="btn-ig" id="btn-passengers">
-                        <img class="btn-ig-icon" src="./assets/svg/add-passenger-icon.png">
+                        <img class="btn-ig-icon" src="./assets/svg/add-passenger-icon.png" alt="">
                         <span class="btn-ig-text" id="btn-passengers-label">1</span>
                     </button>
                 </div>
@@ -122,9 +115,9 @@
                         <p class="text-thin">Desde 12 años</p>
                     </div>
                     <div class="passenger-btn">
-                        <img src="./assets/svg/remove-icon.png" style="height: 23px;" onclick="rmP('adult');">
+                        <img src="./assets/svg/remove-icon.png" style="height: 23px;" onclick="rmP('adult');" alt="menos">
                         <h1 id="adults-label">1</h1>
-                        <img src="./assets/svg/add-icon.png" onclick="addP('adult');">
+                        <img src="./assets/svg/add-icon.png" onclick="addP('adult');" alt="más">
                     </div>
                 </div>
 
@@ -134,9 +127,9 @@
                         <p class="text-thin">De 2 a 11 años</p>
                     </div>
                     <div class="passenger-btn">
-                        <img src="./assets/svg/remove-icon.png" style="height: 23px;" onclick="rmP('child');">
+                        <img src="./assets/svg/remove-icon.png" style="height: 23px;" onclick="rmP('child');" alt="menos">
                         <h1 id="children-label">0</h1>
-                        <img src="./assets/svg/add-icon.png" onclick="addP('child');">
+                        <img src="./assets/svg/add-icon.png" onclick="addP('child');" alt="más">
                     </div>
                 </div>
 
@@ -146,9 +139,9 @@
                         <p class="text-thin">Menores de 2 años</p>
                     </div>
                     <div class="passenger-btn">
-                        <img src="./assets/svg/remove-icon.png" style="height: 23px;" onclick="rmP('baby');">
+                        <img src="./assets/svg/remove-icon.png" style="height: 23px;" onclick="rmP('baby');" alt="menos">
                         <h1 id="babies-label">0</h1>
-                        <img src="./assets/svg/add-icon.png" onclick="addP('baby');">
+                        <img src="./assets/svg/add-icon.png" onclick="addP('baby');" alt="más">
                     </div>
                 </div>
 
@@ -163,7 +156,7 @@
     <nav class="navbar">
         <img class="navbar-hmenu" src="./assets/svg/hamburger_menu.png" alt="menu_h">
         <div class="navbar--logo">
-            <img src="./assets/logos/avianca_full.svg" alt="menu_h">
+            <img src="./assets/logos/avianca_full.svg" alt="logo">
         </div>
     </nav>
 
@@ -189,20 +182,20 @@
                         </label>
                     </form>
                 </div>
-                <div class="main--card--body" >
+                <div class="main--card--body">
 
                     <div id="main-destinations-selector">
                         <div class="main--input-group" id="destinations-selector">
                             <button class="btn-ig" id="btn-origin">
-                                <img class="btn-ig-icon" src="./assets/svg/takeoff_icon.png">
+                                <img class="btn-ig-icon" src="./assets/svg/takeoff_icon.png" alt="">
                                 <span class="btn-ig-label">Origen</span>
                                 <span class="btn-ig-text" id="btn-origin-label">Bogotá</span>
                             </button>
-    
-                            <img class="fd-icon" src="./assets/svg/flight-direction-icon.png">
-    
+
+                            <img class="fd-icon" src="./assets/svg/flight-direction-icon.png" alt="↔">
+
                             <button class="btn-ig" id="btn-destination">
-                                <img class="btn-ig-icon" src="./assets/svg/landing_icon.png">
+                                <img class="btn-ig-icon" src="./assets/svg/landing_icon.png" alt="">
                                 <span class="btn-ig-label">Destino</span>
                                 <span class="btn-ig-text" id="btn-destination-label">Cali</span>
                             </button>
@@ -215,10 +208,8 @@
                 </div>
             </div>
         </div>
-        
 
-
-            <!-- PROMO SPLIT (nuevo, reemplaza al promo-card anterior) -->
+        <!-- PROMO SPLIT -->
         <div class="promo-split">
           <div class="promo-split__img" style="background-image:url('./assets/svg/main_banner_people.png')">
             <span class="promo-badge">Lm+&nbsp;&nbsp;Acumula millas</span>
@@ -243,14 +234,10 @@
             </div>
           </div>
         </div>
+    </section>
 
-
-
-
-    
     <section class="cards--container">
-        <h3>Vuelos baratos desde <a class="link-blue" _blank href="https://avianca.com/es">quito <img width="15px" src="./assets/svg/down_blue_arrow.png"></a></h3>
-
+        <h3>Vuelos baratos desde <a class="link-blue" target="_blank" href="https://avianca.com/es">quito <img width="15px" src="./assets/svg/down_blue_arrow.png" alt=""></a></h3>
 
         <!-- tus cards de destinos siguen igual -->
         <div class="card--travel card--bg--gua">
@@ -274,14 +261,13 @@
                 <h4>US $ 69</h4>
             </div>
         </div>
-
     </section>
 
     <!-- FOOTER -->
     <footer class="footer">
         <div class="footer--main">
             <div class="footer--logo">
-                <img src="./assets/logos/avianca_negative.svg">
+                <img src="./assets/logos/avianca_negative.svg" alt="Avianca">
             </div>
             <p class="text-big mb-3">¡Suscríbete a nuestras promociones y no te pierdas nada!</p>
             <input class="input-text-secondary -i-mail mb-1" placeholder="Ej: nombre@email.com" type="text">
@@ -290,23 +276,23 @@
                 Suscríbete
             </button>
             <p class="text-big mb-2">¡Síguenos!</p>
-            <img class="mb-5" width="200px" src="./assets/svg/social_media_icons.png">
+            <img class="mb-5" width="200px" src="./assets/svg/social_media_icons.png" alt="Social">
             <div class="footer--accordion mb-4">
                 <div class="footer--accordion-item">
                     <p>Vuelos baratos</p>
-                    <img src="./assets/svg/down_arrow.png">
+                    <img src="./assets/svg/down_arrow.png" alt="">
                 </div>
                 <div class="footer--accordion-item">
                     <p>Sobre nosotros</p>
-                    <img src="./assets/svg/down_arrow.png">
+                    <img src="./assets/svg/down_arrow.png" alt="">
                 </div>
                 <div class="footer--accordion-item">
                     <p>Nuestros portales</p>
-                    <img src="./assets/svg/down_arrow.png">
+                    <img src="./assets/svg/down_arrow.png" alt="">
                 </div>
                 <div class="footer--accordion-item">
                     <p>Enlaces rápidos</p>
-                    <img src="./assets/svg/down_arrow.png">
+                    <img src="./assets/svg/down_arrow.png" alt="">
                 </div>
             </div>
         </div>
@@ -315,40 +301,46 @@
 
         <div class="footer--end">
             <p>Copyright © Avianca 2025</p>
-            <img src="./assets/svg/Powered_by.png" width="130px">
+            <img src="./assets/svg/Powered_by.png" width="130px" alt="Powered by">
         </div>
     </footer>
 
-    <!-- SCRIPTS -->
+    <!-- SCRIPTS (únicos) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="./js/calendar.js"></script>
     <script src="./js/index.js"></script>
 
-    <!-- SCRIPTS -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <script src="./js/calendar.js"></script>
-    <script src="./js/index.js"></script>
-
-    <!-- FIX AUTO OPEN MODAL -->
+    <!-- FIX: impedir que el modal se abra solo al cargar -->
     <script>
       document.addEventListener("DOMContentLoaded", function () {
-        // Asegura que el modal de resumen NO aparezca al inicio
-        const coverResume = document.querySelector("#cover-resume");
-        if (coverResume) {
-          coverResume.classList.remove("show");
+        const coverResume = document.getElementById("cover-resume");
+        const btnSearch   = document.getElementById("search-flight");
+        let userOpened = false;
+
+        function hide() {
+          if (coverResume) coverResume.classList.remove("show");
         }
 
-        // Solo abrir modal cuando hagan clic en "Buscar"
-        const btnSearch = document.querySelector("#search-flight");
-        if (btnSearch) {
-          btnSearch.addEventListener("click", function () {
-            coverResume.classList.add("show");
+        // Ocultar por si index.js lo intenta abrir al inicio
+        hide();
+        setTimeout(hide, 0);
+        setTimeout(hide, 200);
+
+        if (coverResume) {
+          const obs = new MutationObserver(() => {
+            if (!userOpened && coverResume.classList.contains("show")) hide();
           });
+          obs.observe(coverResume, { attributes: true, attributeFilter: ["class"] });
+
+          if (btnSearch) {
+            btnSearch.addEventListener("click", function () {
+              userOpened = true;
+              coverResume.classList.add("show");
+              obs.disconnect();
+            });
+          }
         }
       });
     </script>
-</body>
-</html>
-
 </body>
 </html>
