@@ -286,3 +286,29 @@ input[type="date"]{ -webkit-appearance:textfield; -moz-appearance:textfield; min
   .card--travel--text h4{ font-size:1.25rem; }
   .card--travel--text p{ font-size:.8rem; }
 }
+
+/* === Espaciado y bordes en móvil para la promo y el banner === */
+@media (max-width: 768px){
+  /* Tarjeta promo (que no toque los bordes) */
+  .promo-split{
+    margin: 16px 14px 28px;   /* ← aire a los lados como el diseño viejo */
+    border-radius: 16px;
+  }
+
+  /* Asegura esquinas redondeadas arriba si la imagen está primero */
+  .promo-split__img{
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
+    overflow: hidden;
+  }
+
+  /* Banner antiguo: mantiene el mismo padding lateral */
+  .main--banner{
+    padding-inline: 14px;
+  }
+  .main--banner--img,
+  .main--banner--body{
+    border-radius: 16px;   /* redondeo uniforme en móvil */
+  }
+}
+
