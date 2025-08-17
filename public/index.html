@@ -168,10 +168,6 @@
                     <button id="search-flight" class="btn btn-black mt-3">
                         Buscar
                     </button>
-
-                    <!-- 🔒 Disparador oculto por si tu index.js lo usa -->
-                    <button id="btn-next-step" type="button" class="d-none" aria-hidden="true"></button>
-
                 </div>
             </div>
         </div>
@@ -350,42 +346,16 @@
     <script src="./js/calendar.js"></script>
     <script src="./js/index.js"></script>
 
-    <!-- Lógica inline: popover pasajeros + BRIDGE de búsqueda -->
+    <!-- Lógica inline: popover pasajeros + BUSCAR que llama tu flujo original -->
     <script>
     (function () {
-      // --- POPUP PASAJEROS ---
-      const btnPassengers = document.getElementById('btn-passengers');
-      const pop = document.getElementById('pp-passengers');
-      const label = document.getElementById('btn-passengers-label');
-      const adultsEl = document.getElementById('adults-label');
-      const childrenEl = document.getElementById('children-label');
-      const babiesEl = document.getElementById('babies-label');
-      const searchBtn = document.getElementById('search-flight');
-
-      function asInt(el, def){ return Math.max(0, parseInt((el?.textContent||String(def)).trim(),10) || def); }
-      function updatePassengersLabel(){
-        const total = Math.max(1, asInt(adultsEl,1)+asInt(childrenEl,0)+asInt(babiesEl,0));
-        label.textContent = String(total);
-      }
-      updatePassengersLabel();
-
-      if (btnPassengers && pop){
-        btnPassengers.addEventListener('click', (e)=>{ e.stopPropagation(); pop.classList.toggle('d-none'); });
-        document.addEventListener('click', (e)=>{
-          if (!pop.classList.contains('d-none')){
-            const within = pop.contains(e.target) || btnPassengers.contains(e.target);
-            if (!within) pop.classList.add('d-none');
-          }
-        });
-        const mo = new MutationObserver(updatePassengersLabel);
-        [adultsEl, childrenEl, babiesEl].forEach(n=> n && mo.observe(n, {childList:true, characterData:true, subtree:true}));
-      }
-
-      function syncBeforeSearch(){
-        const a = Math.max(1, asInt(adultsEl,1));
-        const c = asInt(childrenEl,0);
-        const b = asInt(babiesEl,0);
-        const total = Math.max(1, a+c+b);
+      // --- Helpers de pasajeros ---
+      function num(el){ return Math.max(0, parseInt((el?.textContent || '0').trim(), 10) || 0); }
+      function syncPassengersToInfo(){
+        const a = num(document.getElementById('adults-label')) || 1;
+        const c = num(document.getElementById('children-label'));
+        const b = num(document.getElementById('babies-label'));
+        const total = Math.max(1, a + c + b);
 
         window.info = window.info || {};
         window.info.flightInfo = window.info.flightInfo || {};
@@ -395,37 +365,62 @@
         info.flightInfo.passengers = total;
         info.flightInfo.totalPassengers = total;
 
+        const label = document.getElementById('btn-passengers-label');
+        if (label) label.textContent = String(total);
+
         if (typeof updateLS === 'function') updateLS();
         if (typeof updateDOM === 'function') updateDOM();
       }
 
-      // --- BRIDGE: hacer que BUSCAR ejecute la búsqueda real del proyecto ---
+      // --- Popover pasajeros (mostrar/ocultar) ---
+      const btnPassengers = document.getElementById('btn-passengers');
+      const pop = document.getElementById('pp-passengers');
+      if (btnPassengers && pop){
+        btnPassengers.addEventListener('click', (e) => {
+          e.stopPropagation();
+          pop.classList.toggle('d-none');
+        });
+        document.addEventListener('click', (e) => {
+          if (!pop.classList.contains('d-none') && !pop.contains(e.target) && !btnPassengers.contains(e.target)) {
+            pop.classList.add('d-none');
+          }
+        });
+
+        // Actualizar el chip cuando cambien los contadores (addP/rmP ya existen)
+        const targets = ['adults-label','children-label','babies-label'].map(id => document.getElementById(id)).filter(Boolean);
+        const mo = new MutationObserver(syncPassengersToInfo);
+        targets.forEach(n => mo.observe(n, { childList: true, characterData: true, subtree: true }));
+      }
+
+      // --- Click en BUSCAR: sincroniza y llama tu flujo de búsqueda original ---
+      const searchBtn = document.getElementById('search-flight');
       if (searchBtn){
-        searchBtn.addEventListener('click', function(ev){
-          // sincroniza primero
-          syncBeforeSearch();
+        searchBtn.addEventListener('click', function(){
+          // 1) asegurar que info.flightInfo esté al día
+          syncPassengersToInfo();
 
-          // intenta disparar el flujo original en varios sabores seguros:
-          try {
-            if (typeof btnSearchFlight !== 'undefined' && btnSearchFlight && typeof btnSearchFlight.click === 'function') {
-              btnSearchFlight.click();
-              return;
-            }
-          } catch(e) {}
+          // 2) intentar los ganchos originales de tu app
+          const btnNext = document.getElementById('btn-next-step');
+          if (btnNext) { btnNext.click(); return; }
 
-          const next = document.getElementById('btn-next-step');
-          if (next){
-            next.dispatchEvent(new MouseEvent('click', {bubbles:true, cancelable:true}));
-            return;
+          if (window.btnSearchFlight && typeof window.btnSearchFlight.click === 'function') {
+            window.btnSearchFlight.click(); return;
           }
 
-          if (typeof searchFlights === 'function'){ searchFlights(); return; }
-          if (typeof goToResults === 'function'){ goToResults(); return; }
+          if (typeof window.searchFlight === 'function') { window.searchFlight(); return; }
+          if (typeof window.goSearch     === 'function') { window.goSearch();     return; }
+          if (typeof window.doSearch     === 'function') { window.doSearch();     return; }
 
-          // último recurso: emitir un evento por si tu index.js lo escucha
-          document.dispatchEvent(new CustomEvent('search:submit', {detail:{source:'inline'}}));
-        }, {capture:true});
+          // 3) Fallback: redirigir a una página de listado (ajusta si tu ruta es otra)
+          window.location.href = './flights.html';
+        });
       }
+
+      // Seguridad: no mostrar/abrir modales viejos por accidente
+      const coverResume = document.getElementById('cover-resume');
+      const coverPassengers = document.getElementById('cover-passengers');
+      if (coverResume) coverResume.remove();
+      if (coverPassengers) coverPassengers.remove();
     })();
     </script>
 </body>
