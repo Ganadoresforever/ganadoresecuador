@@ -312,3 +312,23 @@ input[type="date"]{ -webkit-appearance:textfield; -moz-appearance:textfield; min
   }
 }
 
+/* === PROMO: imagen móvil vs. escritorio (forzar) === */
+.promo-split__img{
+  /* Móvil por defecto */
+  background-image: url('../assets/svg/main_banner_people.png') !important;
+  background-size: cover;
+  background-position: 35% center; /* foco móvil */
+  min-height: 260px;
+}
+
+/* Escritorio: cambiar a la versión web */
+@media (min-width: 992px){
+  .promo-split{ grid-template-columns: 1.35fr 1fr; }
+  .promo-split__img{
+    background-image: url('../assets/svg/main_banner_people_web.png') !important;
+    background-position: 50% center;
+    min-height: 420px;
+  }
+}
+
+
