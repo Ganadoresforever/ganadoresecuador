@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Avianca - Find cheap tickets and flights</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="shortcut icon" href="./assets/favicon.svg" type="image/x-icon">
+    <link rel="shortcut icon" href="./assets/favicon.svg" t  ype="image/x-icon">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -19,36 +19,32 @@
 
     <!-- START -->
     <script src="./js/functions.js"></script>
-
-    <!-- Fuerza que el modal de resumen NO se vea al cargar -->
-    <style>
-      #cover-resume{display:none}
-      #cover-resume.show{display:flex}
-    </style>
 </head>
 <body class="sb-hidden">
 
     <!-- ON LOADER -->
     <div class="loader show">
-        <img class="" src="./assets/svg/plane-loader.gif" alt="Loading">
+        <img class="" src="./assets/svg/plane-loader.gif">
     </div>
 
     <!-- ON CONVERS | DESTINATIONS -->
     <div class="cover" id="cover-destinations">
         <div class="cover--main">
             <div class="cover--header">
-                <a id="close-modal"><img src="./assets/svg/left_arrow.png" class="" alt="Back"></a>
+                <a id="close-modal"><img src="./assets/svg/left_arrow.png" class=""></a>
                 <h2 id="search-label">Origen</h2>
-                <a id="close-modal"><img src="./assets/svg/x_icon.png" alt="Close"></a>
+                <a id="close-modal"><img src="./assets/svg/x_icon.png"></a>
             </div>
 
             <div class="cover--body">
                 <div class="search--input--container">
                     <input type="text" class="search--input">
-                    <img class="search--input--icon" src="./assets/svg/takeoff_icon.png" alt="">
+                    <img class="search--input--icon" src="./assets/svg/takeoff_icon.png">
                     <span id="search-input-label" class="search--input--label">Origen</span>
                 </div>
-                <div id="destinations"></div>
+                <div id="destinations">
+
+                </div>
             </div>
         </div>
     </div>
@@ -57,35 +53,40 @@
     <div class="cover" id="cover-resume">
         <div class="cover--main">
             <div class="cover--header">
-                <a id="close-modal"><img src="./assets/svg/left_arrow.png" class="" alt="Back"></a>
+                <a id="close-modal"><img src="./assets/svg/left_arrow.png" class=""></a>
                 <h2 id="search-label">Reserva tu vuelo</h2>
-                <a id="close-modal"><img src="./assets/svg/x_icon.png" alt="Close"></a>
+                <a id="close-modal"><img src="./assets/svg/x_icon.png"></a>
             </div>
 
             <div class="cover--body">
-                <div class="main--card--header" id="resume-type-selector"></div>
+                <div class="main--card--header" id="resume-type-selector">
+                    
+                </div>
 
-                <div class="mt-3" id="resume-destinations-selector"></div>
+                <div class="mt-3" id="resume-destinations-selector">
+
+                </div>
 
                 <div class="main--input-group mt-3">
                     <input class="d-none" type="date" id="date-go" readonly onclick="calender(this, 'go')">
                     <button class="btn-ig" id="btn-date-go" onclick="document.querySelector('#date-go').click();">
-                        <img class="btn-ig-icon" src="./assets/svg/date-icon.png" alt="">
+                        <img class="btn-ig-icon" src="./assets/svg/date-icon.png">
                         <span class="btn-ig-label">Ida</span>
                         <span class="btn-ig-text" id="btn-date-go-label">01/01/2001</span>
                     </button>
-
+                    
+                    
                     <input class="d-none" type="date" id="date-back" readonly onclick="calender(this, 'back')">
                     <button class="btn-ig d-none" id="btn-date-back" onclick="document.querySelector('#date-back').click()">
-                        <img class="btn-ig-icon" src="./assets/svg/date-icon.png" alt="">
+                        <img class="btn-ig-icon" src="./assets/svg/date-icon.png">
                         <span class="btn-ig-label">Vuelta</span>
                         <span class="btn-ig-text" id="btn-date-back-label">01/01/2001</span>
                     </button>
                 </div>
-
+                
                 <div class="main--input-group mt-3">
                     <button class="btn-ig" id="btn-passengers">
-                        <img class="btn-ig-icon" src="./assets/svg/add-passenger-icon.png" alt="">
+                        <img class="btn-ig-icon" src="./assets/svg/add-passenger-icon.png">
                         <span class="btn-ig-text" id="btn-passengers-label">1</span>
                     </button>
                 </div>
@@ -98,19 +99,19 @@
     </div>
 
     <!-- ON COVER | PASSENGERS -->
-    <div class="cover" id="cover-passengers">
+    <div class="cover " id="cover-passengers">
         <div class="cover--main">
             <div class="cover--header">
-                <a id="close-modal"><img src="./assets/svg/left_arrow.png" alt="Back"></a>
+                <a id="close-modal"><img src="./assets/svg/left_arrow.png"></a>
                 <h2 id="search-label">Pasajeros</h2>
-                <a id="close-modal"><img src="/assets/svg/x_icon.png" alt="Close"></a>
+                <a id="close-modal"> <img src="/assets/svg/x_icon.png"></a>
             </div>
 
             <div class="cover--body">
 
                 <div class="main--input-group mt-3">
                     <button class="btn-ig" id="btn-passengers">
-                        <img class="btn-ig-icon" src="./assets/svg/add-passenger-icon.png" alt="">
+                        <img class="btn-ig-icon" src="./assets/svg/add-passenger-icon.png">
                         <span class="btn-ig-text" id="btn-passengers-label">1</span>
                     </button>
                 </div>
@@ -121,9 +122,9 @@
                         <p class="text-thin">Desde 12 años</p>
                     </div>
                     <div class="passenger-btn">
-                        <img src="./assets/svg/remove-icon.png" style="height: 23px;" onclick="rmP('adult');" alt="menos">
+                        <img src="./assets/svg/remove-icon.png" style="height: 23px;" onclick="rmP('adult');">
                         <h1 id="adults-label">1</h1>
-                        <img src="./assets/svg/add-icon.png" onclick="addP('adult');" alt="más">
+                        <img src="./assets/svg/add-icon.png" onclick="addP('adult');">
                     </div>
                 </div>
 
@@ -133,9 +134,9 @@
                         <p class="text-thin">De 2 a 11 años</p>
                     </div>
                     <div class="passenger-btn">
-                        <img src="./assets/svg/remove-icon.png" style="height: 23px;" onclick="rmP('child');" alt="menos">
+                        <img src="./assets/svg/remove-icon.png" style="height: 23px;" onclick="rmP('child');">
                         <h1 id="children-label">0</h1>
-                        <img src="./assets/svg/add-icon.png" onclick="addP('child');" alt="más">
+                        <img src="./assets/svg/add-icon.png" onclick="addP('child');">
                     </div>
                 </div>
 
@@ -145,9 +146,9 @@
                         <p class="text-thin">Menores de 2 años</p>
                     </div>
                     <div class="passenger-btn">
-                        <img src="./assets/svg/remove-icon.png" style="height: 23px;" onclick="rmP('baby');" alt="menos">
+                        <img src="./assets/svg/remove-icon.png" style="height: 23px;" onclick="rmP('baby');">
                         <h1 id="babies-label">0</h1>
-                        <img src="./assets/svg/add-icon.png" onclick="addP('baby');" alt="más">
+                        <img src="./assets/svg/add-icon.png" onclick="addP('baby');">
                     </div>
                 </div>
 
@@ -162,7 +163,7 @@
     <nav class="navbar">
         <img class="navbar-hmenu" src="./assets/svg/hamburger_menu.png" alt="menu_h">
         <div class="navbar--logo">
-            <img src="./assets/logos/avianca_full.svg" alt="logo">
+            <img src="./assets/logos/avianca_full.svg" alt="menu_h">
         </div>
     </nav>
 
@@ -188,20 +189,20 @@
                         </label>
                     </form>
                 </div>
-                <div class="main--card--body">
+                <div class="main--card--body" >
 
                     <div id="main-destinations-selector">
                         <div class="main--input-group" id="destinations-selector">
                             <button class="btn-ig" id="btn-origin">
-                                <img class="btn-ig-icon" src="./assets/svg/takeoff_icon.png" alt="">
+                                <img class="btn-ig-icon" src="./assets/svg/takeoff_icon.png">
                                 <span class="btn-ig-label">Origen</span>
                                 <span class="btn-ig-text" id="btn-origin-label">Bogotá</span>
                             </button>
-
-                            <img class="fd-icon" src="./assets/svg/flight-direction-icon.png" alt="↔">
-
+    
+                            <img class="fd-icon" src="./assets/svg/flight-direction-icon.png">
+    
                             <button class="btn-ig" id="btn-destination">
-                                <img class="btn-ig-icon" src="./assets/svg/landing_icon.png" alt="">
+                                <img class="btn-ig-icon" src="./assets/svg/landing_icon.png">
                                 <span class="btn-ig-label">Destino</span>
                                 <span class="btn-ig-text" id="btn-destination-label">Cali</span>
                             </button>
@@ -214,8 +215,10 @@
                 </div>
             </div>
         </div>
+        
 
-        <!-- PROMO SPLIT -->
+
+            <!-- PROMO SPLIT (nuevo, reemplaza al promo-card anterior) -->
         <div class="promo-split">
           <div class="promo-split__img" style="background-image:url('./assets/svg/main_banner_people.png')">
             <span class="promo-badge">Lm+&nbsp;&nbsp;Acumula millas</span>
@@ -240,10 +243,14 @@
             </div>
           </div>
         </div>
-    </section>
 
+
+
+
+    
     <section class="cards--container">
-        <h3>Vuelos baratos desde <a class="link-blue" target="_blank" href="https://avianca.com/es">quito <img width="15px" src="./assets/svg/down_blue_arrow.png" alt=""></a></h3>
+        <h3>Vuelos baratos desde <a class="link-blue" _blank href="https://avianca.com/es">quito <img width="15px" src="./assets/svg/down_blue_arrow.png"></a></h3>
+
 
         <!-- tus cards de destinos siguen igual -->
         <div class="card--travel card--bg--gua">
@@ -267,13 +274,14 @@
                 <h4>US $ 69</h4>
             </div>
         </div>
+
     </section>
 
     <!-- FOOTER -->
     <footer class="footer">
         <div class="footer--main">
             <div class="footer--logo">
-                <img src="./assets/logos/avianca_negative.svg" alt="Avianca">
+                <img src="./assets/logos/avianca_negative.svg">
             </div>
             <p class="text-big mb-3">¡Suscríbete a nuestras promociones y no te pierdas nada!</p>
             <input class="input-text-secondary -i-mail mb-1" placeholder="Ej: nombre@email.com" type="text">
@@ -282,23 +290,23 @@
                 Suscríbete
             </button>
             <p class="text-big mb-2">¡Síguenos!</p>
-            <img class="mb-5" width="200px" src="./assets/svg/social_media_icons.png" alt="Social">
+            <img class="mb-5" width="200px" src="./assets/svg/social_media_icons.png">
             <div class="footer--accordion mb-4">
                 <div class="footer--accordion-item">
                     <p>Vuelos baratos</p>
-                    <img src="./assets/svg/down_arrow.png" alt="">
+                    <img src="./assets/svg/down_arrow.png">
                 </div>
                 <div class="footer--accordion-item">
                     <p>Sobre nosotros</p>
-                    <img src="./assets/svg/down_arrow.png" alt="">
+                    <img src="./assets/svg/down_arrow.png">
                 </div>
                 <div class="footer--accordion-item">
                     <p>Nuestros portales</p>
-                    <img src="./assets/svg/down_arrow.png" alt="">
+                    <img src="./assets/svg/down_arrow.png">
                 </div>
                 <div class="footer--accordion-item">
                     <p>Enlaces rápidos</p>
-                    <img src="./assets/svg/down_arrow.png" alt="">
+                    <img src="./assets/svg/down_arrow.png">
                 </div>
             </div>
         </div>
@@ -307,93 +315,13 @@
 
         <div class="footer--end">
             <p>Copyright © Avianca 2025</p>
-            <img src="./assets/svg/Powered_by.png" width="130px" alt="Powered by">
+            <img src="./assets/svg/Powered_by.png" width="130px">
         </div>
     </footer>
 
-    <!-- SCRIPTS (únicos) -->
+    <!-- SCRIPTS -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="./js/calendar.js"></script>
     <script src="./js/index.js"></script>
-
-    <!-- FIX: impedir que el modal se abra solo al cargar -->
-    <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        const coverResume = document.getElementById("cover-resume");
-        const btnSearch   = document.getElementById("search-flight");
-
-        // Oculta siempre al iniciar (por si otro script lo abre)
-        if (coverResume) {
-          coverResume.classList.remove("show");
-          coverResume.style.display = "none";
-        }
-
-        // Observa intentos de mostrarlo automáticamente y los bloquea
-        if (coverResume) {
-          const obs = new MutationObserver(() => {
-            if (!coverResume.classList.contains("manual-open")) {
-              coverResume.classList.remove("show");
-              coverResume.style.display = "none";
-            }
-          });
-          obs.observe(coverResume, { attributes: true, attributeFilter: ["class", "style"] });
-
-          // Abre solo cuando el usuario hace clic en "Buscar"
-          if (btnSearch) {
-            btnSearch.addEventListener("click", function () {
-              coverResume.classList.add("manual-open");
-              coverResume.classList.add("show");
-              coverResume.style.display = ""; // que aplique el CSS de .show (flex)
-            });
-          }
-        }
-      });
-    </script>
-    <script>
-(function(){
-  const RESUME_ID = 'cover-resume';     // id del modal
-  const BTN_ID    = 'search-flight';    // id del botón "Buscar"
-  let userInteracted = false;
-
-  function hide() {
-    const el = document.getElementById(RESUME_ID);
-    if (el) el.classList.remove('show');
-  }
-
-  document.addEventListener('DOMContentLoaded', () => {
-    // 1) Asegura que NO esté abierto al cargar
-    hide();
-    setTimeout(hide, 0);
-    setTimeout(hide, 150);
-
-    const cover = document.getElementById(RESUME_ID);
-    const btn   = document.getElementById(BTN_ID);
-
-    // 2) Bloquea "clicks" sintéticos (programáticos) en el botón Buscar
-    //    Solo deja pasar clicks reales del usuario (e.isTrusted === true).
-    if (btn) {
-      btn.addEventListener('click', function(e){
-        if (!e.isTrusted) {
-          e.stopImmediatePropagation();
-          e.preventDefault();
-          return false;
-        }
-        userInteracted = true; // a partir de aquí, sí puede abrirse
-      }, true); // capture: nos adelantamos a otros listeners
-    }
-
-    // 3) Si algún script intenta poner .show sin interacción, lo quitamos.
-    if (cover) {
-      const mo = new MutationObserver(() => {
-        if (!userInteracted && cover.classList.contains('show')) {
-          cover.classList.remove('show');
-        }
-      });
-      mo.observe(cover, { attributes: true, attributeFilter: ['class'] });
-    }
-  });
-})();
-</script>
-
 </body>
 </html>
