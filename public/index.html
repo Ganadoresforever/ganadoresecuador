@@ -10,7 +10,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Red+Hat+Display:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Red+Hat+Display:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="./css/calendar.css">
     <link rel="stylesheet" href="./css/main.css">
     <link rel="stylesheet" href="./css/normalize.css">
@@ -328,60 +328,6 @@
           btnNext.click();
         });
       }
-    })();
-    </script>
-
-    <!-- PASAJEROS: abrir modal, actualizar total y sincronizar con info.flightInfo -->
-    <script>
-    (function () {
-      const btnPassengers   = document.getElementById('btn-passengers');
-      const coverPassengers = document.getElementById('cover-passengers');
-
-      const adultsEl   = document.getElementById('adults-label');
-      const childrenEl = document.getElementById('children-label');
-      const babiesEl   = document.getElementById('babies-label');
-
-      const totalLabel = document.getElementById('btn-passengers-label');
-
-      function toInt(el){
-        return Math.max(0, parseInt((el?.textContent || '0').trim(), 10) || 0);
-      }
-
-      function refreshTotalAndSync(){
-        const a = Math.max(1, toInt(adultsEl)); // mínimo 1 adulto
-        const c = toInt(childrenEl);
-        const b = toInt(babiesEl);
-        const total = Math.max(1, a + c + b);
-
-        if (totalLabel) totalLabel.textContent = String(total);
-
-        window.info = window.info || {};
-        info.flightInfo = info.flightInfo || {};
-        info.flightInfo.adults = a;
-        info.flightInfo.children = c;
-        info.flightInfo.babies = b;
-        info.flightInfo.passengers = total;
-        info.flightInfo.totalPassengers = total;
-
-        if (typeof updateLS === 'function')  try { updateLS(); } catch(e){}
-        if (typeof updateDOM === 'function') try { updateDOM(); } catch(e){}
-      }
-
-      // Inicializa el total al cargar
-      refreshTotalAndSync();
-
-      // Abrir el modal de pasajeros
-      if (btnPassengers && coverPassengers){
-        btnPassengers.addEventListener('click', function(){
-          coverPassengers.classList.add('show');
-        });
-      }
-
-      // Observar cambios de contadores producidos por addP/rmP
-      const mo = new MutationObserver(refreshTotalAndSync);
-      [adultsEl, childrenEl, babiesEl].forEach(el => {
-        if (el) mo.observe(el, { childList:true, characterData:true, subtree:true });
-      });
     })();
     </script>
 </body>
