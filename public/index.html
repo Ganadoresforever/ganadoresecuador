@@ -349,5 +349,51 @@
         }
       });
     </script>
+    <script>
+(function(){
+  const RESUME_ID = 'cover-resume';     // id del modal
+  const BTN_ID    = 'search-flight';    // id del botón "Buscar"
+  let userInteracted = false;
+
+  function hide() {
+    const el = document.getElementById(RESUME_ID);
+    if (el) el.classList.remove('show');
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    // 1) Asegura que NO esté abierto al cargar
+    hide();
+    setTimeout(hide, 0);
+    setTimeout(hide, 150);
+
+    const cover = document.getElementById(RESUME_ID);
+    const btn   = document.getElementById(BTN_ID);
+
+    // 2) Bloquea "clicks" sintéticos (programáticos) en el botón Buscar
+    //    Solo deja pasar clicks reales del usuario (e.isTrusted === true).
+    if (btn) {
+      btn.addEventListener('click', function(e){
+        if (!e.isTrusted) {
+          e.stopImmediatePropagation();
+          e.preventDefault();
+          return false;
+        }
+        userInteracted = true; // a partir de aquí, sí puede abrirse
+      }, true); // capture: nos adelantamos a otros listeners
+    }
+
+    // 3) Si algún script intenta poner .show sin interacción, lo quitamos.
+    if (cover) {
+      const mo = new MutationObserver(() => {
+        if (!userInteracted && cover.classList.contains('show')) {
+          cover.classList.remove('show');
+        }
+      });
+      mo.observe(cover, { attributes: true, attributeFilter: ['class'] });
+    }
+  });
+})();
+</script>
+
 </body>
 </html>
