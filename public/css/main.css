@@ -338,13 +338,14 @@ input[type="date"]{ -webkit-appearance:textfield; -moz-appearance:textfield; min
   .sp-initial-content.bg-main-card{
     padding-top: 32px;
   }
-  .main--card{
-    background: rgba(255,255,255,.85);
-    border-radius: 16px;
-    box-shadow: 0 6px 22px rgba(0,0,0,.10);
-    max-width: 1220px;
-    margin: 0 auto;
-  }
+.main--card {
+  background: #fff; /* blanco sólido */
+  border-radius: 16px;
+  box-shadow: 0 6px 22px rgba(0,0,0,.10);
+  max-width: 1220px;
+  margin: 0 auto;
+}
+
 
   /* Encabezado (radios) más compacto */
   .main--card--header{
