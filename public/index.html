@@ -346,15 +346,51 @@
     <script src="./js/calendar.js"></script>
     <script src="./js/index.js"></script>
 
-    <!-- Lógica inline: popover pasajeros + BUSCAR que llama tu flujo original -->
+    <!-- Lógica inline: NO modales, popover pasajeros, sync pasajeros y fechas -->
     <script>
     (function () {
-      // --- Helpers de pasajeros ---
-      function num(el){ return Math.max(0, parseInt((el?.textContent || '0').trim(), 10) || 0); }
-      function syncPassengersToInfo(){
-        const a = num(document.getElementById('adults-label')) || 1;
-        const c = num(document.getElementById('children-label'));
-        const b = num(document.getElementById('babies-label'));
+      // --- POPUP PASAJEROS ---
+      const btnPassengers = document.getElementById('btn-passengers');
+      const pop = document.getElementById('pp-passengers');
+      const label = document.getElementById('btn-passengers-label');
+      const adultsEl = document.getElementById('adults-label');
+      const childrenEl = document.getElementById('children-label');
+      const babiesEl = document.getElementById('babies-label');
+      const searchBtn = document.getElementById('search-flight');
+
+      function i(el){ return Math.max(0, parseInt((el?.textContent || '0').trim(), 10) || 0); }
+      function updatePassengersLabel(){
+        const total = Math.max(1, i(adultsEl)+i(childrenEl)+i(babiesEl));
+        label.textContent = String(total);
+      }
+      updatePassengersLabel();
+
+      if (btnPassengers && pop){
+        btnPassengers.addEventListener('click', (e)=>{
+          e.stopPropagation();
+          pop.classList.toggle('d-none');
+        });
+        // cerrar al hacer click fuera
+        document.addEventListener('click', (e)=>{
+          if (!pop.classList.contains('d-none')){
+            const within = pop.contains(e.target) || btnPassengers.contains(e.target);
+            if (!within) pop.classList.add('d-none');
+          }
+        });
+
+        // observar cambios en contadores (funciones addP/rmP ya existen)
+        const mo = new MutationObserver(updatePassengersLabel);
+        [adultsEl, childrenEl, babiesEl].forEach(n=> n && mo.observe(n, {childList:true, characterData:true, subtree:true}));
+      }
+
+      // --- FECHAS (ya usas calender()) -> solo nos aseguramos de que actualicen labels vía tu calendar.js ---
+      // Nada que tocar aquí; tus handlers ya ponen los labels #btn-date-go-label y #btn-date-back-label.
+
+      // --- SYNC ANTES DE BUSCAR ---
+      function syncBeforeSearch(){
+        const a = i(adultsEl) || 1; // mínimo 1 adulto
+        const c = i(childrenEl);
+        const b = i(babiesEl);
         const total = Math.max(1, a + c + b);
 
         window.info = window.info || {};
@@ -365,58 +401,14 @@
         info.flightInfo.passengers = total;
         info.flightInfo.totalPassengers = total;
 
-        const label = document.getElementById('btn-passengers-label');
-        if (label) label.textContent = String(total);
-
         if (typeof updateLS === 'function') updateLS();
         if (typeof updateDOM === 'function') updateDOM();
       }
-
-      // --- Popover pasajeros (mostrar/ocultar) ---
-      const btnPassengers = document.getElementById('btn-passengers');
-      const pop = document.getElementById('pp-passengers');
-      if (btnPassengers && pop){
-        btnPassengers.addEventListener('click', (e) => {
-          e.stopPropagation();
-          pop.classList.toggle('d-none');
-        });
-        document.addEventListener('click', (e) => {
-          if (!pop.classList.contains('d-none') && !pop.contains(e.target) && !btnPassengers.contains(e.target)) {
-            pop.classList.add('d-none');
-          }
-        });
-
-        // Actualizar el chip cuando cambien los contadores (addP/rmP ya existen)
-        const targets = ['adults-label','children-label','babies-label'].map(id => document.getElementById(id)).filter(Boolean);
-        const mo = new MutationObserver(syncPassengersToInfo);
-        targets.forEach(n => mo.observe(n, { childList: true, characterData: true, subtree: true }));
-      }
-
-      // --- Click en BUSCAR: sincroniza y llama tu flujo de búsqueda original ---
-      const searchBtn = document.getElementById('search-flight');
       if (searchBtn){
-        searchBtn.addEventListener('click', function(){
-          // 1) asegurar que info.flightInfo esté al día
-          syncPassengersToInfo();
-
-          // 2) intentar los ganchos originales de tu app
-          const btnNext = document.getElementById('btn-next-step');
-          if (btnNext) { btnNext.click(); return; }
-
-          if (window.btnSearchFlight && typeof window.btnSearchFlight.click === 'function') {
-            window.btnSearchFlight.click(); return;
-          }
-
-          if (typeof window.searchFlight === 'function') { window.searchFlight(); return; }
-          if (typeof window.goSearch     === 'function') { window.goSearch();     return; }
-          if (typeof window.doSearch     === 'function') { window.doSearch();     return; }
-
-          // 3) Fallback: redirigir a una página de listado (ajusta si tu ruta es otra)
-          window.location.href = './flights.html';
-        });
+        searchBtn.addEventListener('click', syncBeforeSearch, {capture:true});
       }
 
-      // Seguridad: no mostrar/abrir modales viejos por accidente
+      // --- SEGURIDAD: desactivar cualquier intento de abrir modales viejos ---
       const coverResume = document.getElementById('cover-resume');
       const coverPassengers = document.getElementById('cover-passengers');
       if (coverResume) coverResume.remove();
