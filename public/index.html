@@ -323,5 +323,32 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="./js/calendar.js"></script>
     <script src="./js/index.js"></script>
+
+    <!-- SCRIPTS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="./js/calendar.js"></script>
+    <script src="./js/index.js"></script>
+
+    <!-- FIX AUTO OPEN MODAL -->
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // Asegura que el modal de resumen NO aparezca al inicio
+        const coverResume = document.querySelector("#cover-resume");
+        if (coverResume) {
+          coverResume.classList.remove("show");
+        }
+
+        // Solo abrir modal cuando hagan clic en "Buscar"
+        const btnSearch = document.querySelector("#search-flight");
+        if (btnSearch) {
+          btnSearch.addEventListener("click", function () {
+            coverResume.classList.add("show");
+          });
+        }
+      });
+    </script>
+</body>
+</html>
+
 </body>
 </html>
