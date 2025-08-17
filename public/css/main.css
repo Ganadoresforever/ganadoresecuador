@@ -21,6 +21,7 @@
 
 
 
+
 /*
 * SPECIAL SECTIONS
 */
@@ -28,6 +29,8 @@
     padding-top: 25px;
     padding-inline: 14px;
 }
+
+
 
 
 
@@ -852,107 +855,29 @@ input[type="date"]{
     margin-bottom: 35px;
 }
 
-/* ===== PROMO CARD (Avianca) ===== */
-.promo-card{
-  width: 100%;
-  max-width: 380px;
-  border-radius: 18px;
-  overflow: hidden;
-  box-shadow: 0 6px 24px rgba(0,0,0,.18);
-  background: #fff;
-  margin: 12px auto;
-  font-family: "Red Hat Display","Lato",system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
-}
-.promo-hero{
-  position: relative;
-  height: 240px;
-  background-size: cover;
-  background-position: center;
-}
-.promo-badge{
-  position: absolute;
-  top: 8px; left: 8px;
-  font-size: 11px;
-  color: #fff;
-  background: rgba(0,0,0,.35);
-  padding: 6px 10px;
-  border-radius: 999px;
-  backdrop-filter: blur(2px);
-}
-.promo-hero-text{
-  position: absolute; inset: 0;
-  display: flex; flex-direction: column; justify-content: center;
-  padding: 0 18px; color: #fff;
-  text-shadow: 0 2px 10px rgba(0,0,0,.35);
-}
-.promo-hero-line1,.promo-hero-line3{font-weight:700; font-size:20px; margin:0 0 6px}
-.promo-hero-line2{font-weight:900; font-size:28px; margin:0 0 12px}
+/* ======= A PARTIR DE AQUÍ VIENEN LOS ESTILOS NUEVOS QUE AÑADÍ ======= */
 
-.promo-body{
-  background: linear-gradient(180deg,#e01111 0%,#d10d19 40%,#a1063c 100%);
-  color:#fff; padding:16px 16px 18px;
-}
-.promo-title-wrap{
-  display:flex; align-items:flex-start; justify-content:space-between; gap:10px; margin-bottom:10px;
-}
-.promo-kicker{font-size:18px; font-weight:800; margin:0}
-.promo-title{font-size:28px; font-weight:900; margin:4px 0 0}
-.promo-logo{width:34px; height:auto; filter:brightness(0) invert(1)}
-.promo-copy{margin:10px 0 14px; font-size:13px; line-height:1.35; opacity:.98}
-.promo-price{margin:0; font-size:12px; font-weight:600; letter-spacing:.2px}
-.promo-price b{font-weight:700}
-
-/* Modo compacto (igual que tu referencia) */
-.promo-card.compact{max-width:380px;border-radius:18px}
-.promo-card.compact .promo-hero{height:240px}
-.promo-card.compact .promo-hero-text{padding:0 18px;text-align:left}
-.promo-card.compact .promo-hero-line1,.promo-card.compact .promo-hero-line3{font-size:20px}
-.promo-card.compact .promo-hero-line2{font-size:28px}
-
-@media (max-width:380px){
-  .promo-card.compact .promo-hero{height:220px}
-  .promo-card.compact .promo-hero-line1,
-  .promo-card.compact .promo-hero-line3{font-size:18px}
-  .promo-card.compact .promo-hero-line2{font-size:24px}
-  .promo-card.compact .promo-title{font-size:24px}
-}
-
-/* Precio destacado */
-.promo-price {
-  margin: 8px 0 0;
-  font-size: 13px;
-  font-weight: 500;
-  color: #fff;
-}
-.promo-price .price-big {
-  display: block;
-  font-size: 28px;
-  font-weight: 900;
-  color: #fff; /* Si quieres rojo fuerte: usa #ff4b4b */
-  margin-top: 4px;
-}
-
-/* ===== PROMO SPLIT (responsive) ===== */
+/* ===== PROMO SPLIT (responsive) — ajuste fino para que quede como tu referencia ===== */
 .promo-split{
   display:grid;
   gap:0;
-  border-radius:18px;
+  border-radius:22px;
   overflow:hidden;
   background:#fff;
-  box-shadow:0 10px 30px rgba(0,0,0,.12);
+  box-shadow:0 14px 40px rgba(0,0,0,.14);
   max-width:1220px;
-  margin:16px auto;
+  margin:18px auto 28px;
 }
 
 /* móvil: apilado */
 .promo-split__img{
   position:relative;
-  min-height:240px;
+  min-height:260px;
   background-size:cover;
   background-position:center;
 }
 .promo-badge{
-  position:absolute; top:10px; left:10px;
+  position:absolute; top:12px; left:12px;
   font-size:12px; color:#fff;
   background:rgba(0,0,0,.45);
   padding:6px 10px; border-radius:999px;
@@ -960,48 +885,61 @@ input[type="date"]{
 }
 
 .promo-split__panel{
-  background:#e01111; /* rojo Avianca */
+  background:#e01111;
   color:#fff;
-  padding:18px 16px 20px;
+  padding:22px 18px 22px;
 }
 .promo-split__panel-top{
   display:flex; align-items:flex-start; justify-content:space-between; gap:12px;
 }
 .promo-kicker{font-weight:800; font-size:20px; margin:0}
-.promo-title{font-weight:900; font-size:38px; line-height:1.05; margin:.25rem 0 0}
+.promo-title{font-weight:900; font-size:36px; line-height:1.05; margin:.25rem 0 0}
 .promo-logo{width:40px; filter:brightness(0) invert(1)}
 
 .promo-copy{
-  margin:10px 0 16px;
+  margin:12px 0 18px;
   font-size:14px; line-height:1.35; opacity:.98;
 }
+
 .promo-split__price-cta{
-  display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap;
+  display:flex; align-items:center; justify-content:space-between;
+  gap:16px; flex-wrap:wrap;
 }
 .promo-price{margin:0; font-size:14px; font-weight:600}
-.price-xxl{display:block; font-size:42px; font-weight:900; line-height:1}
+.price-xxl{display:block; font-size:44px; font-weight:900; line-height:1}
 
 .btn.btn-light{
   background:#fff; color:#111; border:1px solid transparent;
-  padding:10px 16px; border-radius:999px; font-weight:800;
+  height:46px; padding:0 22px; border-radius:999px;
+  font-weight:800;
   box-shadow:0 2px 8px rgba(0,0,0,.12);
+  transition:transform .12s ease, box-shadow .12s ease;
+  white-space:nowrap;
 }
 .btn.btn-light:hover{transform:translateY(-1px); box-shadow:0 6px 16px rgba(0,0,0,.16)}
 
-/* ===== Desktop: dos columnas ===== */
+/* ===== Desktop: dos columnas iguales y más grandes ===== */
 @media (min-width: 992px){
   .promo-split{
-    grid-template-columns: 1.25fr 1fr; /* imagen más ancha */
-    min-height: 360px;
+    grid-template-columns: 1fr 1fr;
+    min-height: 380px;
   }
   .promo-split__img{min-height:auto}
-  .promo-split__panel{padding:28px 28px 26px}
-  .promo-title{font-size:44px}
-  .price-xxl{font-size:56px}
+  .promo-split__panel{padding:32px 32px 28px}
+  .promo-title{font-size:48px}
+  .promo-copy{font-size:15px}
+  .price-xxl{font-size:72px}
+  .btn.btn-light{height:50px; padding:0 26px}
 }
 
-/* Opcional: ancho máximo de la sección para alinearlo con tu buscador */
-.cards--container{max-width:1220px}
+/* Alinear sección de tarjetas/promos con el buscador superior */
+.cards--container{max-width:1220px; margin-left:auto; margin-right:auto}
 
+/* ===== Ajuste de texto dentro de las tarjetas pequeñas ===== */
+.card--travel--text h4 { margin:0; font-size:2rem; font-weight:800; }
+.card--travel--text p  { margin:0; font-size:1rem; font-weight:600; }
 
-
+@media (max-width: 768px){
+  .card--travel--text h4 { font-size:1.25rem; }
+  .card--travel--text p  { font-size:.8rem; }
+}
