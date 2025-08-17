@@ -571,3 +571,75 @@ input[type="date"]{ -webkit-appearance:textfield; -moz-appearance:textfield; min
     object-position: 50% center;      /* centra el foco en escritorio */
   }
 }
+
+/* === HOTFIX PROMO LAYOUT (pegar al final de main.css) === */
+.promo-split{
+  display: grid !important;
+  grid-template-columns: 1fr;
+  border-radius: 22px;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 14px 40px rgba(0,0,0,.14);
+  max-width: 1220px;
+  margin: 18px auto 28px;
+}
+
+.promo-split__img{
+  position: relative;
+  min-height: 260px;            /* alto base en móvil */
+  background: #000;
+}
+
+.promo-split__img img{
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;            /* sin bordes negros */
+  object-position: 50% center;  /* centra el foco (ajústalo si quieres) */
+}
+
+.promo-badge{
+  position: absolute;
+  top: 12px; left: 12px;
+  font-size: 12px; color: #fff;
+  background: rgba(0,0,0,.45);
+  padding: 6px 10px; border-radius: 999px;
+  backdrop-filter: blur(2px);
+}
+
+.promo-split__panel{
+  background: #e01111;
+  color: #fff;
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.promo-split__panel-top{
+  display: flex; align-items: flex-start; justify-content: space-between; gap: 12px;
+}
+
+.promo-kicker{font-weight: 800; font-size: 20px; margin: 0}
+.promo-title{font-weight: 900; font-size: 36px; line-height: 1.05; margin: .25rem 0 0}
+.promo-logo{width: 40px; filter: brightness(0) invert(1)}
+.promo-copy{margin: 12px 0 18px; font-size: 14px; line-height: 1.35; opacity: .98}
+.promo-split__price-cta{display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap}
+.promo-price{margin: 0; font-size: 14px; font-weight: 600}
+.price-xxl{display: block; font-size: 44px; font-weight: 900; line-height: 1}
+.btn.btn-light{background: #fff; color: #111; border: 1px solid transparent; height: 46px; padding: 0 22px; border-radius: 999px; font-weight: 800; box-shadow: 0 2px 8px rgba(0,0,0,.12)}
+.btn.btn-light:hover{transform: translateY(-1px); box-shadow: 0 6px 16px rgba(0,0,0,.16)}
+
+/* Desktop: 2 columnas (imagen + panel) */
+@media (min-width: 992px){
+  .promo-split{
+    grid-template-columns: 1.35fr 1fr !important; /* imagen un poco más ancha */
+    min-height: 420px;
+  }
+  .promo-split__img{min-height: auto;}
+  .promo-split__img img{height: 100%;}
+  .promo-title{font-size: 48px}
+  .price-xxl{font-size: 72px}
+  .btn.btn-light{height: 50px; padding: 0 26px}
+}
+
