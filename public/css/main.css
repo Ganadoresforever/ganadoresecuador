@@ -331,4 +331,95 @@ input[type="date"]{ -webkit-appearance:textfield; -moz-appearance:textfield; min
   }
 }
 
+/* ===== Desktop layout para la barra de búsqueda (sin cambiar HTML) ===== */
+@media (min-width: 992px){
+
+  /* Contenedor principal tipo “pill” centrado */
+  .sp-initial-content.bg-main-card{
+    padding-top: 32px;
+  }
+  .main--card{
+    background: rgba(255,255,255,.85);
+    border-radius: 16px;
+    box-shadow: 0 6px 22px rgba(0,0,0,.10);
+    max-width: 1220px;
+    margin: 0 auto;
+  }
+
+  /* Encabezado (radios) más compacto */
+  .main--card--header{
+    justify-content: flex-start;
+    padding: 8px 12px 0;
+  }
+  .main--card--header form{
+    box-shadow: none;
+    border-radius: 999px;
+    padding: 8px 14px;
+    gap: 12px;
+    background: #fff;
+  }
+
+  /* Cuerpo en una sola línea: campos a la izquierda, botón a la derecha */
+  .main--card--body{
+    flex-direction: row;
+    align-items: stretch;
+    gap: 12px;
+    padding: 12px;
+  }
+
+  /* Grupo Origen ⇄ Destino en formato “pastilla” */
+  #main-destinations-selector{
+    flex: 1 1 auto;
+  }
+  .main--input-group{
+    border: 1px solid #e6e6e6;
+    border-radius: 999px;
+    background: #fff;
+    overflow: hidden;
+    height: 56px;
+    align-items: stretch;
+  }
+
+  /* Botones internos (Origen/Destino) más limpios */
+  .btn-ig{
+    padding: 14px 16px 6px 48px; /* deja sitio al icono y la mini-etiqueta */
+    border-bottom: 0 !important; /* quita el subrayado al hover */
+  }
+  .btn-ig:hover{
+    background: #f7f7f7;
+  }
+  .btn-ig-icon{ top: 18px; left: 18px; }
+  .btn-ig-label{
+    top: 6px;
+    left: 48px;
+    font-size: 10px;
+    color: #8a8a8a;
+  }
+  .btn-ig-text{
+    font-weight: 800;
+  }
+
+  /* Icono de cambio de dirección centrado entre los dos campos */
+  .main--input-group .fd-icon{
+    position: static;
+    width: 26px;
+    height: 26px;
+    margin: auto 8px;
+    opacity: .7;
+  }
+
+  /* Botón Buscar a la derecha como “pill” */
+  #search-flight{
+    margin: 0;
+    height: 56px;
+    min-width: 160px;
+    padding: 0 28px;
+    border-radius: 999px;
+  }
+  .btn.btn-black{
+    padding-block: 0; /* ya fijamos la altura arriba */
+    font-size: 1.05rem;
+  }
+}
+
 
