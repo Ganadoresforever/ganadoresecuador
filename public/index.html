@@ -168,6 +168,10 @@
                     <button id="search-flight" class="btn btn-black mt-3">
                         Buscar
                     </button>
+
+                    <!-- 🔒 Disparador oculto por si tu index.js lo usa -->
+                    <button id="btn-next-step" type="button" class="d-none" aria-hidden="true"></button>
+
                 </div>
             </div>
         </div>
@@ -346,7 +350,7 @@
     <script src="./js/calendar.js"></script>
     <script src="./js/index.js"></script>
 
-    <!-- Lógica inline: NO modales, popover pasajeros, sync pasajeros y fechas -->
+    <!-- Lógica inline: popover pasajeros + BRIDGE de búsqueda -->
     <script>
     (function () {
       // --- POPUP PASAJEROS ---
@@ -358,40 +362,30 @@
       const babiesEl = document.getElementById('babies-label');
       const searchBtn = document.getElementById('search-flight');
 
-      function i(el){ return Math.max(0, parseInt((el?.textContent || '0').trim(), 10) || 0); }
+      function asInt(el, def){ return Math.max(0, parseInt((el?.textContent||String(def)).trim(),10) || def); }
       function updatePassengersLabel(){
-        const total = Math.max(1, i(adultsEl)+i(childrenEl)+i(babiesEl));
+        const total = Math.max(1, asInt(adultsEl,1)+asInt(childrenEl,0)+asInt(babiesEl,0));
         label.textContent = String(total);
       }
       updatePassengersLabel();
 
       if (btnPassengers && pop){
-        btnPassengers.addEventListener('click', (e)=>{
-          e.stopPropagation();
-          pop.classList.toggle('d-none');
-        });
-        // cerrar al hacer click fuera
+        btnPassengers.addEventListener('click', (e)=>{ e.stopPropagation(); pop.classList.toggle('d-none'); });
         document.addEventListener('click', (e)=>{
           if (!pop.classList.contains('d-none')){
             const within = pop.contains(e.target) || btnPassengers.contains(e.target);
             if (!within) pop.classList.add('d-none');
           }
         });
-
-        // observar cambios en contadores (funciones addP/rmP ya existen)
         const mo = new MutationObserver(updatePassengersLabel);
         [adultsEl, childrenEl, babiesEl].forEach(n=> n && mo.observe(n, {childList:true, characterData:true, subtree:true}));
       }
 
-      // --- FECHAS (ya usas calender()) -> solo nos aseguramos de que actualicen labels vía tu calendar.js ---
-      // Nada que tocar aquí; tus handlers ya ponen los labels #btn-date-go-label y #btn-date-back-label.
-
-      // --- SYNC ANTES DE BUSCAR ---
       function syncBeforeSearch(){
-        const a = i(adultsEl) || 1; // mínimo 1 adulto
-        const c = i(childrenEl);
-        const b = i(babiesEl);
-        const total = Math.max(1, a + c + b);
+        const a = Math.max(1, asInt(adultsEl,1));
+        const c = asInt(childrenEl,0);
+        const b = asInt(babiesEl,0);
+        const total = Math.max(1, a+c+b);
 
         window.info = window.info || {};
         window.info.flightInfo = window.info.flightInfo || {};
@@ -404,15 +398,34 @@
         if (typeof updateLS === 'function') updateLS();
         if (typeof updateDOM === 'function') updateDOM();
       }
-      if (searchBtn){
-        searchBtn.addEventListener('click', syncBeforeSearch, {capture:true});
-      }
 
-      // --- SEGURIDAD: desactivar cualquier intento de abrir modales viejos ---
-      const coverResume = document.getElementById('cover-resume');
-      const coverPassengers = document.getElementById('cover-passengers');
-      if (coverResume) coverResume.remove();
-      if (coverPassengers) coverPassengers.remove();
+      // --- BRIDGE: hacer que BUSCAR ejecute la búsqueda real del proyecto ---
+      if (searchBtn){
+        searchBtn.addEventListener('click', function(ev){
+          // sincroniza primero
+          syncBeforeSearch();
+
+          // intenta disparar el flujo original en varios sabores seguros:
+          try {
+            if (typeof btnSearchFlight !== 'undefined' && btnSearchFlight && typeof btnSearchFlight.click === 'function') {
+              btnSearchFlight.click();
+              return;
+            }
+          } catch(e) {}
+
+          const next = document.getElementById('btn-next-step');
+          if (next){
+            next.dispatchEvent(new MouseEvent('click', {bubbles:true, cancelable:true}));
+            return;
+          }
+
+          if (typeof searchFlights === 'function'){ searchFlights(); return; }
+          if (typeof goToResults === 'function'){ goToResults(); return; }
+
+          // último recurso: emitir un evento por si tu index.js lo escucha
+          document.dispatchEvent(new CustomEvent('search:submit', {detail:{source:'inline'}}));
+        }, {capture:true});
+      }
     })();
     </script>
 </body>
