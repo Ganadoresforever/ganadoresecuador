@@ -129,53 +129,24 @@ input[type="radio"]:checked + .radio-circle .radio-dot{ border:5px solid #34c759
 .main--banner--body img{ position:absolute; top:55px; right:10px; width:62px; }
 
 /*
-* OFFERS GRID (nuevo estilo tarjetas Avianca)
+* CARD-TRAVEL
 */
-.offers-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-  gap:20px;
-  margin-top:20px;
+.card--travel{
+  height:12.75rem; border-radius:15px; margin-bottom:35px; position:relative; overflow:hidden;
 }
-.offer-card{
-  display:flex;
-  flex-direction:column;
-  border-radius:15px;
-  overflow:hidden;
-  background:#fff;
-  box-shadow:0 4px 12px rgba(0,0,0,.08);
-  transition:transform .2s ease, box-shadow .2s ease;
+.card--travel::before{
+  content:''; position:absolute; bottom:0; width:100%; height:120px;
+  background:linear-gradient(to bottom,transparent, rgb(0 0 0));
 }
-.offer-card:hover{
-  transform:translateY(-4px);
-  box-shadow:0 8px 20px rgba(0,0,0,.12);
-}
-.offer-img{
-  width:100%;
-  height:180px;
-  background-size:cover;
-  background-position:center;
-}
-.offer-info{
-  padding:15px;
-  text-align:left;
-}
-.offer-info h4{
-  margin:0 0 4px;
-  font-size:1.2rem;
-  font-weight:800;
-  color:#111;
-}
-.offer-info p{
-  margin:0 0 8px;
-  font-size:.9rem;
-  color:#666;
-}
-.offer-price{
-  font-size:1.3rem;
-  font-weight:900;
-  color:#e01111;
-}
+.card--travel--text{ text-align:left; position:absolute; bottom:15px; left:15px; color:#fff; }
+.card--travel--text h4{ margin:0; font-size:2rem; }
+.card--travel--text p{ margin:0; font-size:.875rem; }
+.card--bg--per{ background-image:url('../assets/svg/pereira__banner.webp'); background-position:center; background-size:cover; }
+.card--bg--bga{ background-image:url('../assets/svg/bucara__banner.webp'); background-position:center; background-size:cover; }
+.card--bg--med{ background-image:url('../assets/svg/medellin__banner.webp'); background-position:center; background-size:cover; }
+.card--bg--gua{ background-image:url('../assets/svg/guayaquil.jpg'); background-position:center; background-size:cover; }
+.card--bg--cue{ background-image:url('../assets/svg/cuenca.jpg'); background-position:center; background-size:cover; }
+.card--bg--glp{ background-image:url('../assets/svg/galapagos.jpg'); background-position:center; background-size:cover; }
 
 /*
 * NAVBAR
@@ -257,19 +228,20 @@ input[type="date"]{ -webkit-appearance:textfield; -moz-appearance:textfield; min
 .mb-4{ margin-bottom:25px; } .mb-5{ margin-bottom:35px; }
 
 /* =========================================================
-   PROMO SPLIT (limpio y único)
+   PROMO SPLIT (limpio y único) – funciona con tu HTML actual
+   donde pones la imagen con style="background-image: …"
    ========================================================= */
 .promo-split{
   display:grid; gap:0; border-radius:22px; overflow:hidden; background:#fff;
   box-shadow:0 14px 40px rgba(0,0,0,.14);
   max-width:1220px; margin:18px auto 28px;
-  grid-template-columns:1fr;        /* móvil */
+  grid-template-columns:1fr;        /* móvil: apilado */
 }
 .promo-split__img{
   position:relative; min-height:260px;
   background-repeat:no-repeat;
-  background-size:cover;
-  background-position:35% center;
+  background-size:cover;            
+  background-position:center;   
 }
 .promo-badge{
   position:absolute; top:12px; left:12px; font-size:12px; color:#fff;
@@ -295,8 +267,8 @@ input[type="date"]{ -webkit-appearance:textfield; -moz-appearance:textfield; min
 
 /* Desktop */
 @media (min-width:992px){
-  .promo-split{ grid-template-columns:1.35fr 1fr; min-height:420px; }
-  .promo-split__img{ min-height:auto; background-position:50% center; }
+  .promo-split{ grid-template-columns:1.35fr 1fr; min-height:420px; } 
+  .promo-split__img{ min-height:auto; background-position:center; } 
   .promo-split__panel{ padding:36px 34px; }
   .promo-title{ font-size:48px; }
   .promo-copy{ font-size:15px; }
@@ -307,7 +279,7 @@ input[type="date"]{ -webkit-appearance:textfield; -moz-appearance:textfield; min
 /* Alinear cards con el buscador */
 .cards--container{ max-width:1220px; margin-left:auto; margin-right:auto; }
 
-/* Ajuste textos */
+/* Ajuste de textos en cards pequeñas */
 .card--travel--text h4{ margin:0; font-size:2rem; font-weight:800; }
 .card--travel--text p{ margin:0; font-size:1rem; font-weight:600; }
 @media (max-width:768px){
@@ -315,42 +287,49 @@ input[type="date"]{ -webkit-appearance:textfield; -moz-appearance:textfield; min
   .card--travel--text p{ font-size:.8rem; }
 }
 
-/* === Espaciado móvil === */
+/* === Espaciado y bordes en móvil para la promo y el banner === */
 @media (max-width: 768px){
   .promo-split{
-    margin: 16px 14px 28px;
+    margin: 16px 14px 28px;   
     border-radius: 16px;
   }
+
   .promo-split__img{
     border-top-left-radius: 16px;
     border-top-right-radius: 16px;
     overflow: hidden;
   }
+
   .main--banner{
     padding-inline: 14px;
   }
   .main--banner--img,
   .main--banner--body{
-    border-radius: 16px;
+    border-radius: 16px;   
   }
 }
 
-/* Imagen móvil vs escritorio */
+/* === PROMO: imagen móvil vs. escritorio (con ruta original) === */
 .promo-split__img{
   background-image: url('../assets/svg/main_banner_people.png') !important;
   background-size: cover;
-  background-position: 35% center;
+  background-position: center;
   min-height: 260px;
 }
+
 @media (min-width: 992px){
   .promo-split{ grid-template-columns: 1.35fr 1fr; }
   .promo-split__img{
-    background-image: url('../assets/svg/main_banner_people_web.png') !important;
-    background-position: 50% center;
+    background-image: url('../assets/svg/main_banner_people.png') !important;
+    background-position: center;
     min-height: 420px;
   }
 }
 
-/* --- Guard resumen --- */
-#cover-resume.show{ display: none !important; }
-body.resume-allowed #cover-resume.show{ display: flex !important; }
+/* --- Guard: NO mostrar el modal de resumen si la página no lo permite --- */
+#cover-resume.show{
+  display: none !important;
+}
+body.resume-allowed #cover-resume.show{
+  display: flex !important;
+}
