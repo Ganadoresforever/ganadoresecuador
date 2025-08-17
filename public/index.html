@@ -1,125 +1,124 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Tiquetes Baratos</title>
-  <link rel="stylesheet" href="css/style.css"/>
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
   <!-- NAVBAR -->
   <nav class="navbar">
     <div class="navbar-hmenu">
-      <img src="assets/svg/i-menu.svg" alt="menu"/>
+      <img src="assets/svg/hamburger.svg" alt="menu">
     </div>
     <div class="navbar--logo">
-      <img src="assets/svg/logo.svg" alt="Logo"/>
+      <img src="assets/svg/logo.svg" alt="Logo">
     </div>
   </nav>
 
-  <!-- CARD PRINCIPAL (Buscador de vuelos) -->
-  <section class="sp-initial-content bg-main-card">
-    <div class="main--card">
-      <div class="main--card--header">
-        <form>
-          <label>
-            <input type="radio" name="trip" checked />
-            Ida y vuelta
-          </label>
-          <label>
-            <input type="radio" name="trip" />
-            Solo ida
-          </label>
-        </form>
-      </div>
-      <div class="main--card--body">
-        <div class="main--input-group">
-          <img class="btn-ig-icon" src="assets/svg/i-flight-takeoff.svg" alt="origen"/>
-          <label class="btn-ig-label">Origen</label>
-          <button type="button" class="btn-ig"><span class="btn-ig-text">Bogotá</span></button>
+  <!-- CONTENIDO PRINCIPAL -->
+  <main class="main">
+
+    <!-- CARD PRINCIPAL (buscador) -->
+    <section class="sp-initial-content bg-main-card">
+      <div class="main--card">
+        <div class="main--card--header">
+          <form>
+            <label>
+              <input type="radio" name="trip" checked> Ida y vuelta
+            </label>
+            <label>
+              <input type="radio" name="trip"> Solo ida
+            </label>
+          </form>
         </div>
-
-        <div class="main--input-group mt-2">
-          <img class="btn-ig-icon" src="assets/svg/i-flight-land.svg" alt="destino"/>
-          <label class="btn-ig-label">Destino</label>
-          <button type="button" class="btn-ig"><span class="btn-ig-text">Medellín</span></button>
+        <div class="main--card--body">
+          <div class="main--input-group">
+            <img src="assets/svg/i-plane.svg" alt="origen" class="btn-ig-icon">
+            <label class="btn-ig-label">Origen</label>
+            <button class="btn-ig"><span class="btn-ig-text">Bogotá</span></button>
+          </div>
+          <div class="main--input-group mt-2">
+            <img src="assets/svg/i-plane.svg" alt="destino" class="btn-ig-icon">
+            <label class="btn-ig-label">Destino</label>
+            <button class="btn-ig"><span class="btn-ig-text">Medellín</span></button>
+          </div>
+          <div class="main--input-group mt-2">
+            <img src="assets/svg/i-calendar.svg" alt="fecha" class="btn-ig-icon">
+            <label class="btn-ig-label">Fecha</label>
+            <input type="date" class="btn-ig">
+          </div>
+          <div class="main--input-group mt-2">
+            <img src="assets/svg/i-user.svg" alt="pasajeros" class="btn-ig-icon">
+            <label class="btn-ig-label">Pasajeros</label>
+            <button id="btn-passengers" class="btn-ig"><span class="btn-ig-text">1 Adulto</span></button>
+          </div>
+          <div class="mt-3">
+            <button class="btn btn-red w-100">Buscar</button>
+          </div>
         </div>
+      </div>
+    </section>
 
-        <div class="main--input-group mt-2">
-          <img class="btn-ig-icon" src="assets/svg/i-calendar.svg" alt="fecha"/>
-          <label class="btn-ig-label">Fecha</label>
-          <input type="date" class="btn-ig"/>
+    <!-- PROMO SPLIT -->
+    <section class="promo-split">
+      <div class="promo-split__img" style="background-image:url('assets/svg/main_banner_people.png');">
+        <span class="promo-badge">Oferta</span>
+      </div>
+      <div class="promo-split__panel">
+        <div class="promo-split__panel-top">
+          <div>
+            <p class="promo-kicker">Vuelos Baratos</p>
+            <h2 class="promo-title">Aprovecha tus vacaciones</h2>
+          </div>
+          <img src="assets/svg/logo.svg" class="promo-logo" alt="logo">
         </div>
-
-        <div class="main--input-group mt-2">
-          <img class="btn-ig-icon" src="assets/svg/i-passenger.svg" alt="pasajeros"/>
-          <label class="btn-ig-label">Pasajeros</label>
-          <button type="button" class="btn-ig"><span class="btn-ig-text">1 adulto</span></button>
+        <p class="promo-copy">Encuentra tiquetes a precios increíbles con las mejores aerolíneas.</p>
+        <div class="promo-split__price-cta">
+          <p class="promo-price">Desde <span class="price-xxl">$199.000</span></p>
+          <a href="#" class="btn btn-light">Reservar ahora</a>
         </div>
-
-        <button type="submit" class="btn btn-red mt-3">Buscar vuelos</button>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- PROMO SPLIT -->
-  <section class="promo-split">
-    <div class="promo-split__img">
-      <div class="promo-badge">Oferta</div>
-    </div>
-    <div class="promo-split__panel">
-      <div class="promo-split__panel-top">
-        <div>
-          <p class="promo-kicker">Vuelo directo</p>
-          <h2 class="promo-title">Bogotá - Medellín</h2>
+    <!-- CARDS DE DESTINOS -->
+    <section class="cards--container">
+      <h3>Destinos Populares</h3>
+      <div class="card--travel card--bg--med">
+        <div class="card--travel--text">
+          <h4>Medellín</h4>
+          <p>La ciudad de la eterna primavera</p>
         </div>
-        <img src="assets/svg/logo_avianca.svg" alt="Avianca" class="promo-logo"/>
       </div>
-      <p class="promo-copy">Aprovecha esta promoción exclusiva y viaja ahora con la mejor tarifa.</p>
-      <div class="promo-split__price-cta">
-        <p class="promo-price">Desde <span class="price-xxl">$120.000</span> COP</p>
-        <button class="btn btn-light">Ver oferta</button>
+      <div class="card--travel card--bg--gua">
+        <div class="card--travel--text">
+          <h4>Guayaquil</h4>
+          <p>Puerto principal de Ecuador</p>
+        </div>
       </div>
-    </div>
-  </section>
+      <div class="card--travel card--bg--glp">
+        <div class="card--travel--text">
+          <h4>Galápagos</h4>
+          <p>Un paraíso natural único</p>
+        </div>
+      </div>
+    </section>
 
-  <!-- DESTINOS -->
-  <section class="cards--container">
-    <h3>Destinos populares</h3>
-    <div class="card--travel card--bg--med">
-      <div class="card--travel--text">
-        <h4>Medellín</h4>
-        <p>Desde $120.000</p>
-      </div>
-    </div>
-
-    <div class="card--travel card--bg--bga">
-      <div class="card--travel--text">
-        <h4>Bucaramanga</h4>
-        <p>Desde $150.000</p>
-      </div>
-    </div>
-
-    <div class="card--travel card--bg--per">
-      <div class="card--travel--text">
-        <h4>Pereira</h4>
-        <p>Desde $180.000</p>
-      </div>
-    </div>
-  </section>
+  </main>
 
   <!-- FOOTER -->
   <footer class="footer">
     <div class="footer--main">
       <div class="footer--logo">
-        <img src="assets/svg/logo_white.svg" alt="Logo"/>
+        <img src="assets/svg/logo-white.svg" alt="logo">
       </div>
       <div class="footer--accordion-item">
-        <span>Sobre nosotros</span><img src="assets/svg/i-arrow-down.svg" alt="flecha"/>
+        <span>Sobre nosotros</span><img src="assets/svg/arrow-down.svg" alt="">
       </div>
       <div class="footer--accordion-item">
-        <span>Política de privacidad</span><img src="assets/svg/i-arrow-down.svg" alt="flecha"/>
+        <span>Ayuda</span><img src="assets/svg/arrow-down.svg" alt="">
       </div>
     </div>
     <div class="footer--end">
