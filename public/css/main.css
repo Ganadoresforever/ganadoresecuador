@@ -188,7 +188,7 @@ input[type="radio"]:checked + .radio-circle .radio-dot{ border:5px solid #34c759
 .btn-red:hover{ border-color:#D90000; background-color:#D90000; }
 
 /*
-* FOOTER
+* FOOTER (antiguo)
 */
 .footer{ display:flex; flex-direction:column; justify-content:center; background-color:#1b1b1b; color:white; }
 .footer--main{ display:flex; flex-direction:column; justify-content:center; padding-inline:.875rem; padding-top:2rem; line-height:1.5; }
@@ -228,13 +228,13 @@ input[type="date"]{ -webkit-appearance:textfield; -moz-appearance:textfield; min
 .mb-4{ margin-bottom:25px; } .mb-5{ margin-bottom:35px; }
 
 /* =========================================================
-   PROMO SPLIT (limpio y único) – NO sobreescribe tu imagen inline
+   PROMO SPLIT
    ========================================================= */
 .promo-split{
   display:grid; gap:0; border-radius:22px; overflow:hidden; background:#fff;
   box-shadow:0 14px 40px rgba(0,0,0,.14);
   max-width:1220px; margin:18px auto 28px;
-  grid-template-columns:1fr;        /* móvil: apilado */
+  grid-template-columns:1fr;
 }
 .promo-split__img{
   position:relative; min-height:260px;
@@ -474,227 +474,33 @@ input[type="date"]{ -webkit-appearance:textfield; -moz-appearance:textfield; min
   }
 }
 
-/* =========================
-   DESKTOP SEARCH – acabado
-   ========================= */
+/* =========================================================
+   DESKTOP SEARCH – versión final única (no toca móvil)
+   ========================================================= */
 @media (min-width: 1024px){
 
-  /* ancho y respiración de la tarjeta */
+  :root{
+    --search-max-w: 1240px;  /* ancho total del buscador */
+    --search-h: 56px;        /* altura de inputs/botón */
+    --search-gap: 14px;      /* separación entre columnas */
+    --pill-radius: 12px;     /* borde redondeado */
+    --pill-border: 1px solid #e7e7e7;
+    --pill-pad-x: 14px;
+  }
+
+  /* Tarjeta contenedora */
   .sp-initial-content .main--card{
-    max-width: 1240px;
+    max-width: var(--search-max-w);
     margin: 0 auto;
     box-shadow: 0 10px 28px rgba(0,0,0,.06);
     border-radius: 18px;
   }
 
-  /* cuerpo del buscador en una sola fila */
-  .main--card--body{
-    display: grid;
-    grid-template-columns: minmax(560px, 2.2fr) 1fr 1fr .9fr auto; /* OD | Ida | Vuelta | Pax | Buscar */
-    gap: 16px;
-    align-items: center;
-    padding: 18px 20px 22px;
-  }
-
-  /* todos los “inputs” con misma altura */
-  .main--card--body .btn-ig,
-  .main--card--body #search-flight{
-    height: 56px;
-    border-radius: 12px;
-    width: 100%;
-  }
-
-  /* -----------------------
-     ORIGEN / DESTINO block
-     ----------------------- */
-  #main-destinations-selector{
-    grid-column: 1;
-    display: grid;
-    grid-template-columns: 1fr 44px 1fr; /* Origen | ↔ | Destino */
-    gap: 12px;
-
-    background: #fff;
-    border: 1px solid #eaeaea;
-    border-radius: 12px;
-    padding: 6px 10px;
-  }
-  #main-destinations-selector .btn-ig{
-    height: 44px;                 /* un pelín más bajo dentro del contenedor */
-    border: 0;
-    background: transparent;
-  }
-  #main-destinations-selector .fd-icon{
-    align-self: center;
-    justify-self: center;
-    width: 26px; height: 26px;
-    opacity: .85;
-  }
-
-  /* --------------
-     FECHAS block
-     -------------- */
-  .main--card--body > .main--input-group:nth-of-type(1){
-    grid-column: 2 / span 2;              /* ocupa columnas 2 y 3 */
-    display: grid;
-    grid-template-columns: 1fr 1fr;        /* Ida | Vuelta */
-    gap: 16px;
-  }
-  #btn-date-back.d-none{ display: none !important; } /* respeta “solo ida” */
-
-  /* aspecto de los botones tipo input */
-  .main--card--body .btn-ig{
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    border: 1px solid #eaeaea;
-    background: #fff;
-    justify-content: space-between;
-    padding: 0 14px;
-  }
-  .main--card--body .btn-ig .btn-ig-icon{
-    width: 18px; height: 18px; flex: 0 0 auto; opacity: .9;
-    margin-right: 6px;
-  }
-  .main--card--body .btn-ig .btn-ig-label{
-    font-size: 12px; font-weight: 600; opacity: .75; margin-right: 6px;
-  }
-  .main--card--body .btn-ig .btn-ig-text{
-    font-weight: 700; font-size: 14px;
-    margin-left: auto;
-  }
-
-  /* --------------
-     PASAJEROS
-     -------------- */
-  .main--card--body > .main--input-group:nth-of-type(2){
-    grid-column: 4;
-  }
-
-  /* --------------
-     BOTÓN BUSCAR
-     -------------- */
-  #search-flight{
-    grid-column: 5;
-    min-width: 160px;
-    height: 56px !important;
-    align-self: stretch;
-    white-space: nowrap;
-    border-radius: 14px;
-    box-shadow: 0 6px 14px rgba(0,0,0,.08);
-  }
-
-  /* detalles finos */
-  .bg-main-card{ padding-top: 8px; }
-}
-
-/* ================================
-   PARCHE DESKTOP – BUSCADOR LIMPIO
-   (pegar al FINAL del main.css)
-   ================================ */
-@media (min-width: 1024px){
-
-  /* Cuerpo del buscador en una fila */
-  .sp-initial-content .main--card{
-    max-width: 1240px;
-    margin: 0 auto;
-    box-shadow: 0 10px 28px rgba(0,0,0,.06);
-    border-radius: 18px;
-  }
-  .main--card--body{
-    display: grid;
-    grid-template-columns: minmax(560px, 2.2fr) 1fr 1fr .9fr auto; /* OD | Ida | Vuelta | Pax | Buscar */
-    gap: 16px;
-    align-items: center;
-    padding: 18px 20px 22px;
-  }
-
-  /* ORIGEN/DESTINO contenedor (con flecha al centro) */
-  #main-destinations-selector{
-    grid-column: 1;
-    display: grid;
-    grid-template-columns: 1fr 44px 1fr;
-    gap: 12px;
-    background:#fff;
-    border:1px solid #eaeaea;
-    border-radius:12px;
-    padding:6px 10px;
-  }
-  #main-destinations-selector .fd-icon{
-    align-self:center; justify-self:center;
-    width:26px; height:26px; opacity:.85;
-  }
-
-  /* === RESET de los “inputs” tipo botón dentro del buscador
-     (en mobile usan posiciones absolutas; aquí los volvemos flex) */
-  .main--card--body .btn-ig{
-    display:flex; align-items:center; gap:10px;
-    height:56px; width:100%;
-    border:1px solid #eaeaea; border-radius:12px;
-    background:#fff; padding:0 14px;
-    /* quita el subrayado verde antiguo */
-    border-bottom:0 !important;
-  }
-  .main--card--body .btn-ig:hover{ border-color:#e3e3e3; }
-
-  /* icono/label dejan de ser absolute */
-  .main--card--body .btn-ig .btn-ig-icon{
-    position:static !important; top:auto; left:auto;
-    width:18px; height:18px; opacity:.9; flex:0 0 auto; margin-right:6px;
-  }
-  .main--card--body .btn-ig .btn-ig-label{
-    position:static !important; top:auto; left:auto;
-    font-size:12px; font-weight:600; opacity:.75; margin-right:6px;
-  }
-  .main--card--body .btn-ig .btn-ig-text{
-    font-weight:700; font-size:14px; margin-left:auto;
-  }
-
-  /* Botones internos de OD más bajitos (para que el contenedor no crezca) */
-  #main-destinations-selector .btn-ig{
-    height:44px; border:0; padding:0 10px;
-  }
-
-  /* Fechas juntas (Ida | Vuelta) en dos columnas */
-  .main--card--body > .main--input-group:nth-of-type(1){
-    grid-column: 2 / span 2;
-    display:grid; grid-template-columns:1fr 1fr; gap:16px;
-    border:0;         /* quita el borde del wrapper original */
-  }
-  #btn-date-back.d-none{ display:none !important; }
-
-  /* Pasajeros */
-  .main--card--body > .main--input-group:nth-of-type(2){
-    grid-column: 4;
-    border:0;
-  }
-
-  /* Botón Buscar a la derecha, alto parejo */
-  #search-flight{
-    grid-column: 5; min-width: 160px;
-    height:56px !important; align-self:stretch;
-    white-space:nowrap; border-radius:14px;
-    box-shadow:0 6px 14px rgba(0,0,0,.08);
-  }
-
-  /* Un pelín menos de padding arriba del fondo */
-  .bg-main-card{ padding-top:8px; }
-}
-/* ===== DESKTOP SEARCH – alineado como el diseño de referencia ===== */
-@media (min-width: 1024px){
-
-  /* Tarjeta y respiración */
-  .sp-initial-content .main--card{
-    max-width: 1240px;
-    margin: 0 auto;
-    box-shadow: 0 10px 28px rgba(0,0,0,.06);
-    border-radius: 18px;
-  }
-
-  /* Cuerpo en una fila: OD | Ida | Vuelta | Pax | Buscar */
+  /* Fila: Origen/Destino | Ida | Vuelta | Pax | Buscar */
   .main--card--body{
     display: grid !important;
     grid-template-columns: minmax(520px, 2fr) 1fr 1fr .9fr auto;
-    gap: 14px;
+    gap: var(--search-gap);
     align-items: center;
     padding: 16px 18px 20px;
   }
@@ -706,10 +512,10 @@ input[type="date"]{ -webkit-appearance:textfield; -moz-appearance:textfield; min
     grid-template-columns: 1fr 36px 1fr;  /* Origen | ↔ | Destino */
     gap: 10px;
     align-items: center;
-    height: 56px;
+    height: var(--search-h);
     background: #fff;
-    border: 1px solid #e7e7e7;
-    border-radius: 12px;
+    border: var(--pill-border);
+    border-radius: var(--pill-radius);
     padding: 6px 8px;
   }
   #main-destinations-selector .fd-icon{
@@ -719,59 +525,54 @@ input[type="date"]{ -webkit-appearance:textfield; -moz-appearance:textfield; min
     opacity: .8;
   }
   #main-destinations-selector .btn-ig{
-    height: 44px;
+    height: calc(var(--search-h) - 12px); /* ~44px */
     border: 0;
     background: transparent;
     padding: 0 10px 0 38px;
   }
   #main-destinations-selector .btn-ig-icon{
-    top: 50%; left: 12px; transform: translateY(-50%);
-    width: 18px;
+    position: absolute; left: 12px; top: 50%; transform: translateY(-50%);
+    width: 18px; height: 18px; opacity: .9;
   }
   #main-destinations-selector .btn-ig-label{
     position: static;
-    font-size: 11px;
-    color: #8a8a8a;
-    margin-right: 8px;
+    font-size: 11px; color: #8a8a8a; margin-right: 8px; font-weight: 600;
   }
   #main-destinations-selector .btn-ig-text{
-    font-size: 14px;
-    font-weight: 800;
+    font-size: 14px; font-weight: 800;
   }
 
-  /* ---------- Apariencia homogénea para todos los “inputs” ---------- */
+  /* ---------- Apariencia homogénea para TODOS los “inputs” ---------- */
   .main--card--body .btn-ig{
     display: flex;
     align-items: center;
     gap: 10px;
-    height: 56px;
+    height: var(--search-h);
     background: #fff;
-    border: 1px solid #e7e7e7 !important;
-    border-radius: 12px;
-    padding: 0 14px;
+    border: var(--pill-border) !important;
+    border-radius: var(--pill-radius);
+    padding: 0 var(--pill-pad-x);
+    border-bottom: 0 !important; /* quita subrayado verde móvil */
   }
   .main--card--body .btn-ig .btn-ig-icon{
     position: static;
-    width: 18px; height: 18px; opacity: .9;
-    margin-right: 4px;
+    width: 18px; height: 18px; opacity: .9; margin-right: 4px;
   }
   .main--card--body .btn-ig .btn-ig-label{
     position: static;
     font-size: 12px; font-weight: 600; color: #777;
   }
   .main--card--body .btn-ig .btn-ig-text{
-    margin-left: auto;
-    font-weight: 800; font-size: 14px;
+    margin-left: auto; font-weight: 800; font-size: 14px;
   }
 
   /* ---------- Fechas (col 2 y 3) ---------- */
-  /* Tu bloque de fechas ya es el primer .main--input-group que sigue a OD */
   .main--card--body > .main--input-group:nth-of-type(1){
     grid-column: 2 / span 2;
     display: grid;
     grid-template-columns: 1fr 1fr;   /* Ida | Vuelta */
-    gap: 14px;
-    border: 0;  /* ocultar el borde del contenedor */
+    gap: var(--search-gap);
+    border: 0;                        /* oculta borde wrapper original */
   }
   /* Respetar “solo ida” */
   #btn-date-back.d-none{ display: none !important; }
@@ -779,21 +580,21 @@ input[type="date"]{ -webkit-appearance:textfield; -moz-appearance:textfield; min
   /* ---------- Pasajeros (col 4) ---------- */
   .main--card--body > .main--input-group:nth-of-type(2){
     grid-column: 4;
-    border: 0;  /* sin borde extra del contenedor */
+    border: 0;
   }
-  #btn-passengers{ padding: 0 14px 0 44px !important; }
+  #btn-passengers{ padding: 0 var(--pill-pad-x) 0 44px !important; }
   #btn-passengers .btn-ig-icon{ position: absolute; left: 14px; }
 
   /* ---------- Botón Buscar (col 5) ---------- */
   #search-flight{
     grid-column: 5;
     min-width: 160px;
-    height: 56px !important;
-    border-radius: 12px;
+    height: var(--search-h) !important;
+    border-radius: var(--pill-radius);
     white-space: nowrap;
     box-shadow: 0 6px 14px rgba(0,0,0,.08);
   }
 
-  /* Fino ajuste del header azul para que “respire” */
+  /* Respira un poquito el header azul */
   .bg-main-card{ padding-top: 8px; }
 }
