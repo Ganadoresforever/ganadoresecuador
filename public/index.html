@@ -10,7 +10,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Red+Hat+Display:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Red+Hat+Display:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="./css/calendar.css">
     <link rel="stylesheet" href="./css/main.css">
     <link rel="stylesheet" href="./css/normalize.css">
@@ -52,6 +52,10 @@
         border-radius:16px;
         padding:16px 18px 20px !important;
       }
+
+      /* 🔥 SOLO ESTO AÑADIDO para que “Buscar” quede en la misma línea */
+      .main--card--body > .main--input-group.mt-3{ margin-top:0 !important; }
+      #search-flight.mt-3{ margin-top:0 !important; }
 
       /* Apariencia homogénea para todos los “inputs” tipo botón */
       .main--card--body .btn-ig{
@@ -102,7 +106,7 @@
       }
 
       /* ---- Columna 2: Fechas (Ida | Vuelta) juntas ---- */
-      .main--card--body > .main--input-group:nth-of-type(1)){
+      .main--card--body > .main--input-group:nth-of-type(1){
         grid-column:2;
         display:grid; grid-template-columns:1fr 1fr; gap:14px;
         border:0 !important;     /* oculta borde del wrapper original */
@@ -131,15 +135,6 @@
       .btn.btn-black{
         height:56px; padding:0 26px; border:none; border-radius:12px;
       }
-
-      /* --- Hotfix: mantener FONDO AZUL del header --- */
-      .bg-main-card{
-        background-image:url("./assets/svg/header_bg_blue.png") !important;
-        background-size:cover !important;
-        background-position:center !important;
-        background-repeat:no-repeat !important;
-      }
-      .sp-initial-content{ background:transparent !important; }
 
       /* Un poco menos de aire en el header azul */
       .bg-main-card{ padding-top:8px !important; }
