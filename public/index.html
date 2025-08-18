@@ -10,7 +10,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Red+Hat+Display:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Red+Hat+Display:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="./css/calendar.css">
     <link rel="stylesheet" href="./css/main.css">
     <link rel="stylesheet" href="./css/normalize.css">
@@ -27,14 +27,14 @@
     <style id="desktop-search-patch">
     @media (min-width:1024px){
 
-      /* Radios “Ida y vuelta / Solo ida” a la izquierda */
+      /* Radios a la izquierda */
       .main--card--header{
         justify-content:flex-start !important;
         padding:8px 20px 0 !important;
       }
       .main--card--header form{ margin:0 !important; }
 
-      /* Tarjeta contenedora (ancho, sombras) */
+      /* Tarjeta contenedora */
       .sp-initial-content .main--card{
         max-width:1240px;
         margin:0 auto;
@@ -42,10 +42,10 @@
         box-shadow:0 10px 28px rgba(0,0,0,.06);
       }
 
-      /* Fila única:  Origen/Destino | (Ida,Vuelta) | Pasajeros | Buscar */
+      /* ====== FILA: OD | Ida | Vuelta | Pax | Buscar ====== */
       .main--card--body{
         display:grid !important;
-        grid-template-columns: minmax(520px,2fr) 1.2fr .9fr auto;
+        grid-template-columns:minmax(520px,2fr) 1fr 1fr .9fr auto;
         gap:14px;
         align-items:center;
         background:#fff;
@@ -53,11 +53,11 @@
         padding:16px 18px 20px !important;
       }
 
-      /* 🔥 SOLO ESTO AÑADIDO para que “Buscar” quede en la misma línea */
+      /* Quitar márgenes verticales heredados que desalineaban */
       .main--card--body > .main--input-group.mt-3{ margin-top:0 !important; }
       #search-flight.mt-3{ margin-top:0 !important; }
 
-      /* Apariencia homogénea para todos los “inputs” tipo botón */
+      /* Apariencia homogénea de las “píldoras” */
       .main--card--body .btn-ig{
         display:flex; align-items:center; gap:10px;
         height:56px; width:100%;
@@ -65,7 +65,7 @@
         border:1px solid #e7e7e7 !important;
         border-radius:12px;
         padding:0 14px;
-        border-bottom:0 !important; /* anula la línea verde del modo móvil */
+        border-bottom:0 !important;
       }
       .main--card--body .btn-ig .btn-ig-icon{
         position:static !important; width:18px; height:18px; opacity:.9;
@@ -77,7 +77,7 @@
         margin-left:auto; font-weight:800; font-size:14px;
       }
 
-      /* ---- Columna 1: Origen/Destino en una sola “píldora” ---- */
+      /* ---- Col 1: Origen/Destino en una sola “píldora” ---- */
       #main-destinations-selector{ grid-column:1; }
       #main-destinations-selector .main--input-group{
         display:grid;
@@ -105,33 +105,32 @@
         font-size:14px; font-weight:800;
       }
 
-      /* ---- Columna 2: Fechas (Ida | Vuelta) juntas ---- */
+      /* ---- Col 2 y 3: Fechas (Ida | Vuelta) juntas dentro ---- */
       .main--card--body > .main--input-group:nth-of-type(1){
         grid-column:2;
         display:grid; grid-template-columns:1fr 1fr; gap:14px;
-        border:0 !important;     /* oculta borde del wrapper original */
+        border:0 !important;
       }
-      /* Respetar “Solo ida” cuando tu JS oculta la vuelta */
+      /* Respetar “Solo ida” */
       #btn-date-back.d-none{ display:none !important; }
 
-      /* ---- Columna 3: Pasajeros ---- */
+      /* ---- Col 4: Pasajeros ---- */
       .main--card--body > .main--input-group:nth-of-type(2){
         grid-column:3; border:0 !important;
       }
       #btn-passengers{ padding:0 14px 0 44px !important; }
       #btn-passengers .btn-ig-icon{ position:absolute; left:14px; }
 
-      /* ---- Columna 4: Botón Buscar (derecha, mismo alto) ---- */
+      /* ---- Col 5: Botón Buscar (misma fila, derecha) ---- */
       #search-flight{
-        grid-column:4;
+        grid-column:5;
         min-width:170px;
         height:56px !important;
         border-radius:12px !important;
         white-space:nowrap;
         box-shadow:0 6px 14px rgba(0,0,0,.08);
-        justify-self:end; /* pega a la derecha */
+        justify-self:end;
       }
-      /* estética del botón negro */
       .btn.btn-black{
         height:56px; padding:0 26px; border:none; border-radius:12px;
       }
@@ -550,30 +549,20 @@
       if (searchBtn){
         searchBtn.addEventListener('click', function(e){
           e.preventDefault();
-          // cerrar popover si está abierto
           if (pop && !pop.classList.contains('d-none')) pop.classList.add('d-none');
 
           syncBeforeSearch();
 
-          // intentar usar el flujo original
-          if (btnNext) {
-            btnNext.click();         // dispara la búsqueda que espera index.js
-            return;
-          }
+          if (btnNext) { btnNext.click(); return; }
 
-          // fallback: si existe una referencia global a "btnSearchFlight" o función de búsqueda
           try{
             if (window.btnSearchFlight && typeof window.btnSearchFlight.click === 'function'){
-              window.btnSearchFlight.click();
-              return;
+              window.btnSearchFlight.click(); return;
             }
             if (typeof window.launchSearch === 'function'){
-              window.launchSearch();
-              return;
+              window.launchSearch(); return;
             }
           }catch(_){}
-
-          // último recurso: no hacer nada (evitamos romper)
         });
       }
     })();
