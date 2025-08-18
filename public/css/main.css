@@ -802,3 +802,111 @@ input[type="date"]{ -webkit-appearance:textfield; -moz-appearance:textfield; min
   /* Un poquito menos de aire arriba del header azul */
   .bg-main-card{ padding-top: 8px !important; }
 }
+
+/* ===== PARCHE FINAL – Desktop (min-width:1024px) ===== */
+@media (min-width:1024px){
+
+  /* 1) Asegura los radios a la izquierda */
+  .main--card--header{
+    justify-content:flex-start !important;
+    padding:8px 20px 0 !important;
+  }
+
+  /* 2) 5 columnas: OD | Ida | Vuelta | Pax | Buscar */
+  .main--card--body{
+    display:grid !important;
+    grid-template-columns:minmax(520px,2fr) 1fr 1fr .9fr auto;
+    gap:14px;
+    align-items:center;
+    padding:16px 18px 20px !important;
+    background:#fff;
+    border-radius:16px;
+  }
+
+  /* 3) Elimina BORDES del WRAPPER genérico (causaban las líneas) */
+  .main--card--body .main--input-group{
+    border:0 !important;
+    background:transparent !important;
+  }
+
+  /* 4) Origen–↔–Destino como UNA píldora limpia */
+  #main-destinations-selector{
+    grid-column:1;
+    display:grid;
+    grid-template-columns:1fr 36px 1fr; /* Origen | ↔ | Destino */
+    gap:10px;
+    align-items:center;
+    height:56px;
+    background:#fff;
+    border:1px solid #e7e7e7;
+    border-radius:12px;
+    padding:6px 8px;
+  }
+  /* si dentro tienes un .main--input-group, quítale todo para evitar doble marco */
+  #main-destinations-selector .main--input-group{
+    border:0 !important;
+    background:transparent !important;
+    padding:0 !important;
+    box-shadow:none !important;
+  }
+  #main-destinations-selector .fd-icon{
+    width:22px; height:22px; opacity:.8;
+    margin:0; position:static !important;
+  }
+  #main-destinations-selector .btn-ig{
+    height:44px; border:0; background:transparent;
+    padding:0 10px 0 38px;
+  }
+  #main-destinations-selector .btn-ig-icon{
+    position:absolute; left:12px; top:50%; transform:translateY(-50%);
+    width:18px; height:18px; opacity:.9;
+  }
+  #main-destinations-selector .btn-ig-label{
+    position:static; font-size:11px; color:#8a8a8a; margin-right:8px; font-weight:600;
+  }
+  #main-destinations-selector .btn-ig-text{
+    font-size:14px; font-weight:800;
+  }
+
+  /* 5) Apariencia uniforme para TODOS los “inputs” tipo botón */
+  .main--card--body .btn-ig{
+    display:flex; align-items:center; gap:10px;
+    height:56px; width:100%;
+    border:1px solid #e7e7e7 !important; border-radius:12px;
+    background:#fff; padding:0 14px;
+    border-bottom:0 !important; /* mata el subrayado verde del modo móvil */
+  }
+  .main--card--body .btn-ig .btn-ig-icon{ position:static !important; width:18px; height:18px; opacity:.9; }
+  .main--card--body .btn-ig .btn-ig-label{ position:static !important; font-size:12px; font-weight:600; color:#777; }
+  .main--card--body .btn-ig .btn-ig-text{ margin-left:auto; font-weight:800; font-size:14px; }
+
+  /* 6) Fechas – dos columnas dentro de su hueco (sin bordes extra) */
+  .main--card--body > .main--input-group:nth-of-type(1){
+    grid-column:2 / span 2;
+    display:grid; grid-template-columns:1fr 1fr; gap:14px;
+    border:0 !important;
+  }
+  #btn-date-back.d-none{ display:none !important; } /* respeta “Solo ida” */
+
+  /* 7) Pasajeros – sin borde wrapper */
+  .main--card--body > .main--input-group:nth-of-type(2){
+    grid-column:4; border:0 !important;
+  }
+  #btn-passengers{ padding:0 14px 0 44px !important; }
+  #btn-passengers .btn-ig-icon{ position:absolute; left:14px; }
+
+  /* 8) Botón Buscar – derecha, alto parejo */
+  #search-flight{
+    grid-column:5;
+    min-width:170px;
+    height:56px !important;
+    border-radius:12px !important;
+    white-space:nowrap;
+    box-shadow:0 6px 14px rgba(0,0,0,.08);
+    justify-self:end;                   /* empuja a la derecha */
+  }
+  .btn.btn-black{ height:56px; padding:0 26px; border:none; border-radius:12px; }
+
+  /* 9) Un poco menos de aire en el header azul */
+  .bg-main-card{ padding-top:8px !important; }
+}
