@@ -529,11 +529,29 @@
 .av-terms .av-table td{border-bottom:1px solid var(--av-border);padding:10px 8px;text-align:left}
 .av-terms .av-table th{color:#6b7280;font-weight:800}
 
-/* Footer NO fijo en páginas de vuelos */
-.av-main ~ .footer-fixed {
+/* ===== Footer NO fijo solo en páginas de vuelos (sin tocar HTML) ===== */
+.modal + .footer-fixed,
+#modal-select-ticket + .footer-fixed{
   position: static !important;
+  bottom: auto !important;
+  left: auto !important;
+  right: auto !important;
+  width: auto !important;
+  z-index: auto !important;
+
   background: transparent;
   border: 0;
   box-shadow: none;
+
   margin-top: 24px;
+  padding: 12px 0;
+  text-align: center;
+  color: #6b7280; /* gris suave del texto */
+}
+
+@media (max-width: 640px){
+  .modal + .footer-fixed,
+  #modal-select-ticket + .footer-fixed{
+    padding-bottom: 16px;
+  }
 }
