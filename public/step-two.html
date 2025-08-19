@@ -3,202 +3,178 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Avianca - Booking</title>
+  <title>Avianca - Paso 2</title>
 
-  <!-- Fuentes (opcional) -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@400;600;700;800;900&family=Lato:wght@400;700&display=swap" rel="stylesheet" />
+  <!-- Tus estilos principales -->
+  <link rel="stylesheet" href="./css/normalize.css">
+  <link rel="stylesheet" href="./css/main.css">
+  <link rel="stylesheet" href="./css/flight.css">
+  <link rel="stylesheet" href="./css/flights-ui.css">
 
-  <!-- Tus estilos existentes -->
-  <link rel="stylesheet" href="./css/normalize.css" />
-  <link rel="stylesheet" href="./css/flight.css" />
-  <link rel="stylesheet" href="./css/main.css" />
-  <link rel="stylesheet" href="./css/flights-ui.css" />
-
-  <!-- Parche VISUAL embebido (no cambia lógica) -->
+  <!-- ===== PARCHE VISUAL SOLO CSS ===== -->
   <style>
-    :root{
-      --st2-radius: 22px;
-      --st2-shadow: 0 8px 30px rgba(16,24,40,.06);
-      --st2-border: 1px solid rgba(2,6,23,.06);
-      --st2-bg: #fff;
-      --st2-field-h: 52px;
+  .av-topbar__inner,
+  .next-step,
+  .header,
+  .booking-row,
+  .ns-step,
+  .top-bar,
+  .topbar,
+  .header-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .step, .header-step, .ns-chip, .ns-badge {
+    background: #1f2937;
+    color: #fff;
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: 12px;
+  }
+
+  .progress, .ns-progress {
+    position: relative;
+    width: 120px;
+    height: 8px;
+    border-radius: 999px;
+    background: #111827;
+    overflow: hidden;
+  }
+  .progress > span, .ns-progress > span {
+    position: absolute; left:0; top:0; bottom:0;
+    width: 40%;
+    background: #de0108;
+  }
+
+  .route, .flight-info, .ns-route { min-width: 0; }
+  .route-main, .flight-code, .ns-route-main {
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    font-weight: 700;
+  }
+  .route-date, .flight-date, .ns-route-date {
+    display: block;
+    font-size: 12px; color: #d1d5db;
+    white-space: nowrap;
+  }
+  @media (min-width: 640px){
+    .route-date, .flight-date, .ns-route-date {
+      display:inline-block; margin-left:8px;
     }
+  }
 
-    /* Evita que el header fijo tape el contenido */
-    body.st-step2 main{ padding-top: clamp(64px, 8vh, 96px); }
+  input[type="text"],
+  input[type="email"],
+  input[type="number"],
+  input[type="tel"],
+  select {
+    height: 52px;
+    border-radius: 14px;
+    border: 1px solid #e5e7eb;
+    padding: 0 14px;
+    outline: none;
+    background: #fff;
+    transition: box-shadow .15s, border-color .15s;
+  }
+  input:focus, select:focus {
+    border-color: #de0108;
+    box-shadow: 0 0 0 3px rgba(222,1,8,.12);
+  }
 
-    /* ---------- TOP BAR (estilo tipo flight-detail) ---------- */
-    .av-topbar{ position: sticky; top:0; z-index: 50; background:#0f1115; color:#fff; }
-    .av-topbar__inner{ max-width: 1160px; margin:0 auto; padding: 10px 16px; display:flex; align-items:center; gap:16px; justify-content:space-between; }
-    .av-brand__logo{ height:28px; width:auto; }
+  button.btn, .btn.btn-gray, .btn-secondary {
+    border-radius: 14px;
+    padding: 12px 18px;
+    font-weight: 800;
+  }
 
-    .av-summary{ min-width:0; }
-    .av-summary__route{ font-size:16px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; margin:0; display:flex; align-items:center; gap:8px; }
-    .av-summary__meta{ display:flex; align-items:center; gap:8px; color:#d1d5db; font-size:12px; }
+  .form-section, .card, .card-like {
+    background: #fff;
+    border: 1px solid rgba(2,6,23,.06);
+    border-radius: 22px;
+    box-shadow: 0 8px 30px rgba(16,24,40,.06);
+    padding: clamp(16px, 2.4vw, 24px);
+  }
 
-    .av-progress{ display:flex; align-items:center; gap:12px; }
-    .av-progress__step{ background:#1f2937; padding:4px 10px; border-radius:999px; font-weight:700; font-size:12px; }
-    .av-progress__bar{ width:120px; height:8px; background:#111827; border-radius:999px; overflow:hidden; }
-    .av-progress__bar > span{ display:block; height:100%; background:#de0108; width:40%; }
-    .av-cart{ color:#fff; font-weight:800; background:#111827; padding:6px 12px; border-radius:999px; text-decoration:none; }
+  .footer-fixed-2 {
+    position: sticky; bottom: 0;
+    background: #fff;
+    border-top: 1px solid #e5e7eb;
+  }
+  .footer-flight-resume, .resume-row, .summary-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .footer-flight-resume h4 { margin: 0; }
+  .footer-flight-resume .fs-5 { margin: 0; color: #6b7280; }
 
-    /* ---------- Tarjetas/inputs/botones (línea de flight-detail) ---------- */
-    .form-section{ background:#fff; border-radius:var(--st2-radius); box-shadow:var(--st2-shadow); border:var(--st2-border); padding:clamp(16px,2.4vw,24px); margin-bottom:16px; }
+  button[type="submit"]:not(.btn):not(.button):not(.primary):not(.secondary) {
+    display: none !important;
+  }
 
-    .form-control input[type="text"],
-    .form-control input[type="email"],
-    .form-control input[type="number"],
-    .form-control input[type="tel"],
-    .form-control select{
-      height: var(--st2-field-h);
-      border-radius: 14px;
-      border: 1px solid #e5e7eb;
-      padding: 0 14px;
-      width: 100%;
-      transition: box-shadow .15s, border-color .15s;
-      outline: none;
-      background:#fff;
-    }
-    .form-control input:focus,
-    .form-control select:focus{
-      border-color: #de0108;
-      box-shadow: 0 0 0 3px rgba(222,1,8,.12);
-    }
+  main { padding-top: clamp(56px, 8vh, 96px); }
 
-    .btn.btn-gray{
-      border-radius: 14px;
-      padding: 12px 18px;
-      font-weight: 800;
-    }
-
-    /* ---------- Footer resumen responsive ---------- */
-    .footer-fixed-2{ position:sticky; bottom:0; background:#fff; border-top:1px solid #e5e7eb; }
-    .footer-flight-resume{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:16px;
-      flex-wrap: wrap;
-      padding: 10px 16px;
-      max-width:1160px;
-      margin:0 auto;
-    }
-    .footer-flight-resume h4{ margin:0; }
-    .footer-flight-resume .fs-5{ margin:0; color:#6b7280; }
-
-    /* Utilidades */
-    .mt-1{ margin-top: .5rem !important; }
-    .mb-1{ margin-bottom: .25rem !important; }
-    .align-items-center{ display:flex; align-items:center; gap:8px; }
-    .text-end{ text-align:right; }
-    .show{ display:flex; }
-    @media (max-width: 420px){
-      .av-topbar__inner{ gap:10px; }
-    }
+  .align-items-center{ display:flex; align-items:center; gap:8px; }
+  .text-end{ text-align:right; }
+  .mb-1{ margin-bottom:.25rem !important; }
+  .mt-1{ margin-top:.5rem !important; }
   </style>
 </head>
-
-<body class="st-step2">
-  <!-- =================== TOP BAR (visual only) =================== -->
+<body>
   <header class="av-topbar">
     <div class="av-topbar__inner">
-      <div class="av-brand">
-        <img src="./assets/svg/a_logo.svg" alt="Avianca" class="av-brand__logo">
+      <div class="route">
+        <span class="route-main" id="flightRoute">UIO → GPS</span>
+        <span class="route-date" id="flightDate">Mar, 17 Sep 2024 • 08:45</span>
       </div>
-
-      <div class="av-summary">
-        <h1 class="av-summary__route">
-          <span aria-hidden="true">✈</span>
-          <span class="av-route-fallback">Tu viaje</span>
-        </h1>
-        <div class="av-summary__meta">
-          <span class="av-route-meta">Completa los datos del pasajero</span>
-        </div>
-      </div>
-
-      <div class="av-progress">
-        <span class="av-progress__step">Paso 2 de 5</span>
-        <div class="av-progress__bar"><span style="width:40%"></span></div>
-        <a class="av-cart" href="javascript:void(0)">Resumen</a>
-      </div>
+      <div class="step">Paso 2 de 5</div>
+      <div class="price" id="flightPrice">USD 0,00</div>
     </div>
   </header>
 
-  <!-- (si usas loader, deja tu div loader aquí, pero visible por defecto)
-  <div class="loader show" aria-label="Cargando…"></div>
-  -->
-
   <main>
-    <!-- ====== SECCIÓN FORMULARIO PRINCIPAL ====== -->
     <section class="form-section">
-      <h2 class="mb-1">Datos del pasajero</h2>
-      <p id="editing-label" class="mb-1" style="color:#6b7280">Editando: Pasajero 1</p>
-
-      <div class="form-control" style="margin-bottom:12px;">
-        <input id="name" type="text" placeholder="Nombre" autocomplete="given-name" />
-      </div>
-
-      <div class="form-control" style="margin-bottom:12px;">
-        <input id="surname" type="text" placeholder="Apellido" autocomplete="family-name" />
-      </div>
-
-      <div class="form-control" style="margin-bottom:12px;">
-        <input id="number" type="tel" placeholder="Número de teléfono" autocomplete="tel" />
-      </div>
-
-      <div class="form-control" style="margin-bottom:12px;">
-        <input id="email" type="email" placeholder="Correo electrónico" autocomplete="email" />
-      </div>
-
-      <div class="form-control" style="margin-bottom:12px;">
-        <label for="select-passengers" class="mb-1" style="display:block; color:#6b7280;">Seleccionar pasajero</label>
-        <select id="select-passengers"></select>
-      </div>
-
-      <div class="form-actions" style="display:flex; gap:10px; flex-wrap:wrap;">
-        <button id="btn-next-passenger" type="button" class="btn btn-gray">Próximo pasajero</button>
-        <button id="next-step" type="button" class="btn btn-gray">Continuar a pagar</button>
-      </div>
+      <h2>Datos personales</h2>
+      <form id="passengerForm">
+        <input type="text" placeholder="Nombre" required>
+        <input type="text" placeholder="Apellido" required>
+        <label><input type="checkbox"> Tengo número de viajero frecuente (opcional)</label>
+        <label><input type="checkbox"> Necesito asistencia especial (opcional)</label>
+        <button type="button" class="btn btn-gray">Próximo pasajero</button>
+      </form>
     </section>
 
-    <!-- Puedes tener más secciones (contacto, preferencias, etc.) -->
-    <!-- <section class="form-section"> ... </section> -->
+    <section class="form-section">
+      <h2>Información de contacto</h2>
+      <form id="contactForm">
+        <input type="email" placeholder="Correo" required>
+        <input type="tel" placeholder="Número de teléfono" required>
+        <label><input type="checkbox"> Acepto promociones y novedades (opcional)</label>
+        <button type="button" class="btn btn-gray">Continuar a pagar</button>
+      </form>
+    </section>
   </main>
 
-  <!-- ====== FOOTER RESUMEN (IDs que usa tu JS) ====== -->
   <footer class="footer-fixed-2">
     <div class="footer-flight-resume">
       <div>
-        <p class="mb-1">Resumen del viaje:</p>
-        <div class="show align-items-center">
-          <h4 id="origin-code">---</h4>
-          <img src="./assets/svg/arrow.png" width="14" alt="→">
-          <h4 id="destination-code">---</h4>
-        </div>
+        <h4>Resumen del viaje:</h4>
+        <span id="footerRoute">UIO → GPS</span>
+        <span class="fs-5" id="footerDate">Mar, 17 Sep 2024 • 08:45</span>
       </div>
-      <div>
-        <h4 class="text-end mt-1">$<span id="flight-cost">- -</span> USD</h4>
-        <p class="fs-5">Total de tu reserva:</p>
-        <img src="./assets/svg/info_icon.png" width="15" alt="info">
+      <div class="text-end">
+        <h4 id="footerPrice">USD 0,00</h4>
+        <span class="fs-5">Total de tu reserva</span>
       </div>
     </div>
-    <p class="mt-2 mb-2" style="text-align:center; color:#9ca3af;">© Avianca S.A 2024</p>
   </footer>
 
-  <!-- SHIM DEFENSIVO (no toca tu archivo JS) -->
-  <script>
-    // Evita ReferenceError si no has inyectado estas variables antes
-    window.API_URL = window.API_URL || "";
-    window.API_KEY = window.API_KEY || "";
-    // Parche de seguridad: si tu JS intenta usar fetch con strings vacíos, no rompas la página
-    window.__safeFetch = (fn) => {
-      try { fn && fn(); } catch (e) { console.warn('fetch deshabilitado en step-two (variables faltantes)'); }
-    };
-  </script>
-
-  <!-- Tu lógica (NO tocada) -->
   <script src="./js/step-two.js"></script>
 </body>
 </html>
