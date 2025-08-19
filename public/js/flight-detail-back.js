@@ -21,11 +21,21 @@
   window.addEventListener('resize', set);
 })();
 
-/* ===== Handler unificado para EDITAR búsqueda (topbar o icono viejo) ===== */
+/* ===== Handler unificado para EDITAR (topbar o icono viejo) =====
+   Importante: NO marcamos info.edit = 1 para evitar loop de auto-búsqueda */
 (function attachEditHandler(){
   function goEdit(ev){
     if (ev && ev.preventDefault) ev.preventDefault();
-    try { info.edit = 1; updateLS(); } catch(e) {}
+    try {
+      if (typeof info === 'object' && info) {
+        info.edit = 0; // clave para permitir edición en index
+        if (info.flightInfo) {
+          delete info.flightInfo.ticket_sched;
+          delete info.flightInfo.ticket_type;
+        }
+        updateLS();
+      }
+    } catch (e) {}
     window.location.href = 'index.html';
   }
   document.addEventListener('click', (e) => {
@@ -35,9 +45,8 @@
 })();
 
 /**
- * flight-detail-back.js — Mismo comportamiento/UI que el de ida,
- * pero con textos/fechas invertidos para REGRESO.
- * Incluye despliegue INLINE de tarifas + fallback a modal.
+ * flight-detail-back.js — Igual UI/UX que el de ida,
+ * con textos/fechas de REGRESO. Incluye inline fares + fallback modal.
  */
 
 /* ===== CONFIG ===== */
@@ -58,7 +67,6 @@ setTimeout(() =>{
     document.querySelector('body').classList.remove('sb-hidden');
     loader.classList.remove('show');
 
-    console.log("Back ON");
     fetch(`${API_URL}/api/bot/status`, {
       method: 'POST',
       headers: {
@@ -240,7 +248,7 @@ function renderInlineFares(flight_sched){
   panel.scrollIntoView({ behavior:'smooth', block:'start' });
 }
 
-/* ===== NAVEGACIÓN (en regreso a step-two) ===== */
+/* ===== NAVEGACIÓN (regreso pasa a step-two) ===== */
 function nextStep(type){
   info.flightInfo.ticket_type = type;
   updateLS();
