@@ -16,9 +16,9 @@
   <link rel="stylesheet" href="./css/main.css" />
   <link rel="stylesheet" href="./css/flights-ui.css" />
 
-  <!-- ===== SOLO VISUAL: mismo look que flight-detail (header fijo + cards + inputs + footer) ===== -->
+  <!-- ===== SOLO VISUAL: header alineado + inputs/sections sin desbordes + footer con aire ===== -->
   <style>
-    /* ===== Header STEP-TWO — SOLO VISUAL, SIN TOCAR LÓGICA ===== */
+    /* ===== Header STEP-TWO — igual línea de flight-detail ===== */
     header.next-step{
       position: sticky; top: 0; z-index: 1000;
       background: #0f1115; color: #fff;
@@ -29,13 +29,11 @@
       padding: 10px 16px;
     }
     .next-step .ns-step{ display:flex; align-items:center; gap:12px; }
-    .next-step .ns-step:nth-child(1){ flex:0 0 auto; }          /* logo */
-    .next-step .ns-step:nth-child(2){ flex:1 1 auto; min-width:0; } /* ruta/fecha */
-    .next-step .ns-step:nth-child(3){ flex:0 0 auto; }          /* paso + barra + resumen */
+    .next-step .ns-step:nth-child(1){ flex:0 0 auto; }              /* logo */
+    .next-step .ns-step:nth-child(2){ flex:1 1 auto; min-width:0; }  /* ruta/fecha */
+    .next-step .ns-step:nth-child(3){ flex:0 0 auto; }               /* paso + barra + resumen */
 
     .ns-logo{ height:26px; width:auto; display:block; }
-
-    /* Ruta + fecha (sin cortar, con ellipsis si no cabe) */
     .ns-route{ min-width:0; }
     .ns-route-main{
       margin:0; font-weight:800; font-size:16px;
@@ -44,8 +42,6 @@
     .ns-route-date{
       margin:0; font-size:12px; color:#d1d5db; white-space:nowrap;
     }
-
-    /* Paso + progreso */
     .ns-badge{
       background:#1f2937; color:#fff; padding:4px 10px; border-radius:999px;
       font-weight:700; font-size:12px;
@@ -54,25 +50,36 @@
       width:120px; height:8px; background:#111827; border-radius:999px; overflow:hidden;
     }
     .ns-progress > span{ display:block; height:100%; background:#de0108; width:40%; }
-
-    /* Botón Resumen como pill outline (evita bloque gris) */
     .next-step a.btn, .next-step .btn.btn-gray{
       background: transparent !important;
       border: 1px solid rgba(255,255,255,.45);
       color:#fff; padding:6px 12px; border-radius:999px; font-weight:800;
+      white-space:nowrap;
     }
     .next-step a.btn:hover, .next-step .btn.btn-gray:hover{
       background: rgba(255,255,255,.08) !important;
     }
 
-    /* ===== Main / Cards / Inputs: misma línea que flight-detail ===== */
-    .main-form{ max-width:1160px; margin: 0 auto; padding: 12px 16px 72px; }
+    /* ===== MÓVIL: header compacto (sin repetir info) ===== */
+    @media (max-width: 640px){
+      .next-step{ justify-content:space-between; gap:10px; padding:10px 12px; }
+      /* Oculta ruta/fecha y progreso/step (esa info ya está abajo en el resumen) */
+      .next-step .ns-route,
+      .next-step .ns-progress,
+      .next-step .ns-badge{ display:none !important; }
+      .ns-logo{ height:24px; }
+    }
+
+    /* ===== Main / Cards / Inputs: sin desbordes ===== */
+    .main-form{ max-width:1160px; margin: 0 auto; padding: 12px 16px 88px; } /* + espacio para footer fijo */
 
     .form-section{
       background:#fff; border:1px solid rgba(2,6,23,.06);
       border-radius:22px; box-shadow:0 8px 30px rgba(16,24,40,.06);
-      padding: clamp(16px, 2.4vw, 24px);
+      padding:16px; overflow:hidden;                       /* nada se sale del borde */
     }
+    @media (min-width: 768px){ .form-section{ padding:24px; } }
+
     .form-title{ display:flex; align-items:center; justify-content:space-between; gap:12px; }
     .form-info{ display:flex; align-items:center; }
 
@@ -81,18 +88,22 @@
     .form-control input[type="number"],
     .form-control input[type="tel"],
     .form-control select{
-      height:52px; border-radius:14px; border:1px solid #e5e7eb; padding:0 14px; outline:none; background:#fff;
-      transition: box-shadow .15s, border-color .15s; width:100%;
+      box-sizing:border-box;
+      width:100%; max-width:100%;
+      height:52px; border-radius:14px; border:1px solid #e5e7eb; padding:0 14px;
+      outline:none; background:#fff; transition: box-shadow .15s, border-color .15s;
+      font-size:16px; /* evita zoom en iOS */
     }
     .form-control input:focus, .form-control select:focus{
       border-color:#de0108; box-shadow:0 0 0 3px rgba(222,1,8,.12);
     }
     .btn.btn-gray{ border-radius:14px; padding:12px 18px; font-weight:800; }
+    #select-passengers{ width:100%; max-width:100%; }
 
     .checkbox-group{ display:flex; align-items:flex-start; gap:10px; }
 
-    /* ===== Footer resumen ===== */
-    .footer-fixed-2{ position: sticky; bottom: 0; background:#fff; border-top:1px solid #e5e7eb; }
+    /* ===== Footer fijo y ordenado ===== */
+    .footer-fixed-2{ position: sticky; bottom: 0; background:#fff; border-top:1px solid #e5e7eb; z-index:900; }
     .footer-flight-resume{
       display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap;
       padding:10px 16px; max-width:1160px; margin:0 auto;
@@ -100,28 +111,24 @@
     .footer-flight-resume h4{ margin:0; }
     .footer-flight-resume .fs-5{ margin:0; color:#6b7280; }
 
-    /* Utilidades coherentes */
+    /* utilidades */
     .align-items-center{ display:flex; align-items:center; gap:8px; }
     .text-end{ text-align:right; }
     .mb-1{ margin-bottom:.25rem !important; }
     .mt-1{ margin-top:.5rem !important; }
 
-    /* Responsivo fino */
-    @media (max-width: 480px){
-      .next-step{ padding: 8px 12px; }
-      .ns-progress{ width: 92px; }
-      .ns-route-main{ font-size:15px; }
-    }
+    /* por si aparece un "submit" huérfano */
+    button[type="submit"]:not(.btn):not(.button):not(.primary):not(.secondary){ display:none !important; }
   </style>
 </head>
 
 <body class="mvh-100 bg-gray">
-  <!-- LOADER (tu JS lo maneja; no lo oculto ni toco lógica) -->
+  <!-- LOADER (tu JS lo maneja; no lo toco) -->
   <div class="loader show">
     <img src="./assets/svg/plane-loader.gif" alt="Cargando" />
   </div>
 
-  <!-- HEADER (misma estructura, solo mejorado visualmente) -->
+  <!-- HEADER -->
   <header class="next-step">
     <div class="ns-step">
       <img class="ns-logo" src="./assets/logos/avianca_red.svg" alt="Avianca" />
@@ -129,7 +136,6 @@
 
     <div class="ns-step">
       <div class="ns-route">
-        <!-- IDs que tu JS ya usa si quieres hidratar aquí también -->
         <h3 id="ns-route" class="ns-route-main">UIO → GPS</h3>
         <p id="ns-date" class="ns-route-date">Mar, 17 Sep 2024 • 08:45</p>
       </div>
@@ -142,9 +148,9 @@
     </div>
   </header>
 
+  <!-- MAIN -->
   <main>
     <div class="main-form mb-10">
-      <!-- MANTENGO TU FORM Y TUS IDS -->
       <form class="form-control" id="next-step">
 
         <div class="form-section">
@@ -209,6 +215,7 @@
     </div>
   </main>
 
+  <!-- FOOTER -->
   <footer class="footer-fixed-2">
     <div class="footer-flight-resume">
       <div>
