@@ -2,224 +2,243 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Avianca - Booking</title>
-
-  <!-- Fuentes -->
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Reserva – Paso 2 de 5</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@400;500;600;700;800;900&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
-
-  <!-- Estilos base del proyecto -->
-  <link rel="stylesheet" href="./css/normalize.css">
-  <link rel="stylesheet" href="./css/flight.css">
-
-  <!-- UI unificada (misma que usar para selección de vuelos) -->
-  <link rel="stylesheet" href="./css/flights-ui.css">
-
-  <!-- Utilidades y datos compartidos -->
-  <script src="./js/functions.js"></script>
-
+  <link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
-    /* Ajustes mínimos específicos de esta vista (sin tocar tu CSS global) */
-    .av-topbar {
-      position: sticky; top: 0; z-index: 5;
-      background:#0e0e0f; color:#fff; border-bottom: 1px solid rgba(255,255,255,.08);
+    :root{
+      --bg:#f3f4f6;
+      --card:#fff;
+      --text:#111827;
+      --muted:#6b7280;
+      --brand:#d61f26; /* rojo Avianca */
+      --btn:#585b63;
+      --radius:16px;
     }
-    .av-topbar__wrap {
-      max-width: 1180px; margin: 0 auto; padding: 12px 16px;
-      display:flex; align-items:center; justify-content:space-between; gap:16px;
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:"Red Hat Display",system-ui,Segoe UI,Roboto,Arial,sans-serif;
+      color:var(--text);
+      background:var(--bg);
     }
-    .av-topbar__left { display:flex; align-items:center; gap:16px; flex-wrap: wrap; }
-    .av-logo { height:22px; }
-    .av-route { display:flex; align-items:center; gap:10px; font-weight:700; }
-    .av-route img { width:14px; opacity:.75 }
-    .av-date { font-weight:500; opacity:.85; margin-left:6px; }
-    .av-topbar__right { display:flex; align-items:center; gap:16px; }
-    .av-step { font-weight:600; opacity:.9; }
-    .av-total { background:#1b1b1d; padding:8px 12px; border-radius:22px; font-weight:800; }
 
-    /* contenedor principal con el mismo ritmo que en vuelos */
-    main.av-main { padding: 24px 16px 56px; max-width:1180px; margin:0 auto; }
-
-    /* tarjeta del formulario */
-    .av-card {
-      background: #fff; border-radius:18px;
-      box-shadow: 0 2px 16px rgba(13,16,23,.06);
-      padding: 20px; margin-bottom: 18px;
+    /* ====== HEADER ====== */
+    .booking-header{
+      position:sticky; top:0; z-index:50;
+      background:#0f1115;
+      color:#fff;
+      padding:10px 14px;
     }
-    .av-card h2 { margin:0 0 6px 0; font-size:20px; }
-    .av-card h3 { margin:16px 0 6px 0; font-size:16px; opacity:.9 }
-    .av-form-grid { display:grid; gap:12px; }
-    .btn.btn-gray { min-height:44px; border-radius:12px; }
-
-    /* footer relajado (no fijo) */
-    .av-footer { padding:14px 16px 28px; }
-    .footer-flight-resume {
-      background:#fff; border-radius:16px;
-      box-shadow:0 2px 16px rgba(13,16,23,.06);
-      padding:14px 16px; display:flex; justify-content:space-between; gap:16px; align-items:center;
-      max-width:1180px; margin:0 auto;
+    .booking-row{
+      display:flex; gap:10px; align-items:center; justify-content:space-between; flex-wrap:wrap;
     }
-    .av-footer p { text-align:center; opacity:.7; margin-top:10px }
-    /* móvil */
-    @media (max-width: 768px){
-      .av-topbar__wrap { padding:10px 12px; }
-      .av-total { padding:6px 10px; }
-      main.av-main { padding: 16px 12px 52px; }
-      .footer-flight-resume { flex-direction:column; align-items:flex-start; }
+    .brand-minilogo{
+      display:flex; align-items:center; gap:10px; min-width:0;
+    }
+    .route{
+      display:flex; flex-direction:column; min-width:0;
+    }
+    .route-main{
+      font-weight:700; letter-spacing:.3px;
+      white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+    }
+    .route-sub{
+      font-size:12px; color:#d1d5db; line-height:1.2;
+      display:flex; align-items:center; gap:6px; white-space:nowrap;
+    }
+    .step-price{
+      margin-left:auto;
+      display:flex; align-items:center; gap:12px; flex-wrap:wrap;
+    }
+    .step{
+      font-weight:600; font-size:13px; padding:4px 10px; border-radius:999px; background:#1f2937;
+    }
+    .price-pill{
+      font-weight:700; padding:6px 12px; border-radius:999px; background:#111827;
+    }
+
+    /* ====== LAYOUT ====== */
+    .container{max-width:980px; margin:14px auto; padding:0 14px;}
+    .card{background:var(--card); border-radius:var(--radius); box-shadow:0 1px 3px rgba(0,0,0,.06); padding:18px;}
+
+    h2{margin:0 0 12px 0; font-size:20px}
+    .field{margin-bottom:12px}
+    .input, .checkbox{
+      width:100%; border:1px solid #e5e7eb; border-radius:12px; padding:12px 14px; font-size:15px; background:#fff;
+    }
+    .row-actions{display:flex; gap:10px; flex-wrap:wrap}
+    .btn{
+      appearance:none; border:0; border-radius:12px; background:var(--btn);
+      color:#fff; padding:12px 16px; font-weight:700; cursor:pointer;
+    }
+    .btn[disabled]{opacity:.6; cursor:not-allowed}
+
+    /* Quitar “submit” genérico si existe en el HTML heredado */
+    form button[type="submit"]. ghost-remove,
+    form > button[type="submit"]:not(.btn){ display:none !important; }
+
+    /* ====== RESUMEN ====== */
+    .summary{display:grid; gap:10px}
+    .summary-line{display:flex; justify-content:space-between; align-items:center; gap:10px}
+    .summary-title{font-weight:700}
+    .total{font-size:18px; font-weight:800}
+
+    /* ====== RESPONSIVE ====== */
+    @media (min-width:640px){
+      .route{flex-direction:row; align-items:baseline; gap:10px}
+      .route-sub{font-size:13px}
     }
   </style>
 </head>
+<body>
 
-<body class="bg-gray">
-
-  <!-- Topbar consistente -->
-  <header class="av-topbar">
-    <div class="av-topbar__wrap">
-      <div class="av-topbar__left">
-        <img src="./assets/svg/a_logo.svg" alt="Avianca" class="av-logo">
-        <div class="av-route">
-          <span id="tb-origin">—</span>
-          <img src="./assets/svg/arrow.png" alt="">
-          <span id="tb-dest">—</span>
-          <span class="av-date" id="tb-date">—</span>
+  <!-- HEADER -->
+  <header class="booking-header">
+    <div class="booking-row">
+      <div class="brand-minilogo">
+        <span style="font-weight:800">av</span>
+        <div class="route">
+          <div class="route-main" id="routeText">UIO → GPS</div>
+          <div class="route-sub" id="dateText">
+            <span aria-hidden="true">📅</span>
+            <span>Mar, 17 Sep 2024 • 08:45</span>
+          </div>
         </div>
       </div>
-      <div class="av-topbar__right">
-        <span class="av-step">Paso 2 de 5</span>
-        <span class="av-total">USD <span id="tb-total">0,00</span></span>
+      <div class="step-price">
+        <span class="step" id="stepText">Paso 2 de 5</span>
+        <span class="price-pill" id="pricePill">USD 0,00</span>
       </div>
     </div>
   </header>
 
-  <main class="av-main">
-    <!-- Datos personales -->
-    <section class="av-card">
+  <main class="container">
+    <!-- DATOS PERSONALES -->
+    <section class="card">
       <h2>Datos personales</h2>
+      <p style="margin-top:-6px; color:var(--muted); font-size:13px">
+        Ingresa nombre y primer apellido exactamente como aparecen en el documento.
+      </p>
+      <form id="passengerForm">
+        <div class="field"><input class="input" placeholder="Nombre" required></div>
+        <div class="field"><input class="input" placeholder="Apellido" required></div>
+        <div class="field"><label style="display:flex; gap:10px; align-items:center">
+          <input type="checkbox"> <span>Tengo número de viajero frecuente (opcional)</span>
+        </label></div>
+        <div class="field"><label style="display:flex; gap:10px; align-items:center">
+          <input type="checkbox"> <span>Necesito asistencia especial (opcional)</span>
+        </label></div>
 
-      <select id="select-passengers"></select>
-
-      <h3>Pasajero – <span id="editing-label">Adulto 1</span></h3>
-      <p class="fs-4">Ingresa el nombre y primer apellido (de cada pasajero) tal y como aparecen en el pasaporte o documento de identidad. También, agrega el número de viajero frecuente LifeMiles o de una aerolínea aliada para disfrutar de más beneficios.</p>
-
-      <div class="av-form-grid">
-        <div>
-          <input id="name" type="text" placeholder="Nombre">
-          <span name="name-error" class="input-error-label">Por favor, ingresa tu primer nombre</span>
+        <div class="row-actions">
+          <button type="button" class="btn" id="nextPaxBtn">Próximo pasajero</button>
         </div>
-        <div>
-          <input id="surname" type="text" placeholder="Apellido">
-          <span name="surname-error" class="input-error-label">Por favor, ingresa tu primer apellido</span>
-        </div>
-      </div>
-
-      <div class="checkbox-group mt-4">
-        <input class="check" type="checkbox" id="cb-lifemiles">
-        <label for="cb-lifemiles">Tengo un número de viajero frecuente <span class="bold-gray">LifeMiles</span> o de otra aerolínea aliada (opcional).</label>
-      </div>
-      <div class="checkbox-group mt-2">
-        <input class="check" type="checkbox" id="cb-asistencia">
-        <label for="cb-asistencia">Necesito asistencia especial (opcional)</label>
-      </div>
-
-      <div class="mt-4 show justify-content-center">
-        <button id="btn-next-passenger" type="button" class="btn btn-gray">Próximo pasajero</button>
-      </div>
-    </section>
-
-    <!-- Información de contacto -->
-    <section class="av-card">
-      <div class="form-info" style="display:flex;align-items:center">
-        <img src="./assets/svg/tel_icon.png" alt="" width="22" height="22" style="margin-right:10px;">
-        <div>
-          <p class="fs-2" style="margin:0">Información de contacto</p>
-          <p class="fs-4 mt-2">Estos datos serán utilizados para informarte sobre tu reserva.</p>
-        </div>
-      </div>
-
-      <div class="av-form-grid" style="margin-top:12px">
-        <div>
-          <input id="email" type="email" placeholder="Correo">
-          <span name="name-error" class="input-error-label">Por favor, ingresa tu correo</span>
-        </div>
-        <div>
-          <input id="number" type="number" placeholder="Número de teléfono" oninput="limitDigits(this, 10)">
-          <span name="name-error" class="input-error-label">Por favor, ingresa tu número de teléfono</span>
-        </div>
-      </div>
-
-      <div class="checkbox-group mt-4">
-        <input class="check" type="checkbox" id="cb-promos">
-        <label for="cb-promos">Acepto el uso de mis datos personales para recibir promociones, ofertas y novedades que Avianca tiene para mí.</label>
-      </div>
-
-      <div class="mt-4 show justify-content-center">
-        <button type="button" class="btn btn-gray" onclick="document.getElementById('next-step-form-submit').click()">Continuar a pagar</button>
-      </div>
-
-      <!-- Botón real del form (permite seguir usando tu step-two.js si lo esperara) -->
-      <form id="next-step" class="hide">
-        <button id="next-step-form-submit" type="submit">submit</button>
       </form>
     </section>
-  </main>
 
-  <!-- Footer relajado (no fixed) -->
-  <footer class="av-footer">
-    <div class="footer-flight-resume">
-      <div>
-        <p class="mb-1">Resumen del viaje:</p>
-        <div class="show align-items-center">
-          <h4 id="origin-code">—</h4>
-          <img src="./assets/svg/arrow.png" width="14" alt="">
-          <h4 id="destination-code">—</h4>
+    <!-- CONTACTO -->
+    <section class="card" style="margin-top:14px">
+      <h2>Información de contacto</h2>
+      <form id="contactForm">
+        <div class="field"><input type="email" class="input" placeholder="Correo" required></div>
+        <div class="field"><input type="tel" class="input" placeholder="Número de teléfono" required></div>
+        <div class="field"><label style="display:flex; gap:10px; align-items:center">
+          <input type="checkbox"> <span>Acepto promociones y novedades (opcional)</span>
+        </label></div>
+        <div class="row-actions">
+          <button type="button" class="btn" id="continueBtn">Continuar a pagar</button>
+        </div>
+        <!-- Si por herencia existía un botón submit, lo ocultamos con CSS arriba -->
+        <button type="submit" class="ghost-remove">submit</button>
+      </form>
+    </section>
+
+    <!-- RESUMEN -->
+    <aside class="card" style="margin-top:14px">
+      <div class="summary">
+        <div class="summary-line">
+          <div>
+            <div class="summary-title">Resumen del viaje</div>
+            <div id="summaryRoute" style="font-weight:700">UIO → GPS</div>
+          </div>
+          <div class="total" id="summaryTotal">USD 0,00</div>
+        </div>
+        <div class="summary-line" style="color:var(--muted); font-size:13px">
+          <span id="summaryDate">Mar, 17 Sep 2024 • 08:45</span>
+          <span>Total de tu reserva</span>
         </div>
       </div>
-      <div>
-        <h4 class="text-end mt-1">USD <span id="flight-cost">0,00</span></h4>
-        <p class="fs-5">Total de tu reserva:</p>
-        <img src="./assets/svg/info_icon.png" width="15" alt="">
-      </div>
-    </div>
-    <p class="mt-2 mb-2">© Avianca S.A 2024</p>
-  </footer>
+    </aside>
 
-  <!-- Tu JS de esta página -->
-  <script src="./js/step-two.js"></script>
+    <p style="text-align:center; color:#9ca3af; font-size:13px; margin:22px 0 10px">© Avianca S.A 2024</p>
+  </main>
 
-  <!-- Relleno del topbar/resumen usando los mismos datos globales -->
   <script>
-    (function () {
+    /* ==========
+      TOTAL DINÁMICO
+      - 1) Busca precios en elementos seleccionados con data-price
+           ej: <input type="radio" name="vuelo" data-price="120.50" checked>
+      - 2) Si no encuentra, usa localStorage:
+           selectedOutboundPrice, selectedInboundPrice, fees (números)
+    ========== */
+
+    function readPriceFromDOM() {
+      const chosen = [
+        ...document.querySelectorAll('[data-price][aria-checked="true"], [data-price]:checked')
+      ];
+      if (chosen.length) {
+        return chosen.reduce((acc, el) => acc + parseFloat(el.getAttribute('data-price') || 0), 0);
+      }
+      return null;
+    }
+
+    function readPriceFromStorage() {
+      const o = parseFloat(localStorage.getItem('selectedOutboundPrice') || '0');
+      const i = parseFloat(localStorage.getItem('selectedInboundPrice') || '0');
+      const f = parseFloat(localStorage.getItem('fees') || '0');
+      const sum = o + i + f;
+      return isFinite(sum) ? sum : 0;
+    }
+
+    function money(n){ 
       try {
-        // info viene de localStorage, mismo que usas en otras pantallas (functions.js)
-        const info = JSON.parse(localStorage.getItem('info') || '{}');
+        return new Intl.NumberFormat('es-CO', {style:'currency', currency:'USD', minimumFractionDigits:2}).format(n).replace(/\s/g,' ');
+      } catch { 
+        return 'USD ' + (n||0).toFixed(2);
+      }
+    }
 
-        // Ruta + fecha
-        const o = info?.flightInfo?.origin?.code || document.getElementById('origin-code')?.textContent || '—';
-        const d = info?.flightInfo?.destination?.code || document.getElementById('destination-code')?.textContent || '—';
-        const dateStr = (info?.flightInfo?.flightDates?.[0]) ? (()=>{
-          const [y,m,day]=info.flightInfo.flightDates[0].split('-').map(Number);
-          const dt = new Date(y, m-1, day);
-          return dt.toLocaleDateString('es-EC', { weekday:'short', day:'2-digit', month:'short', year:'numeric' });
-        })() : '';
+    function setTotal(amount){
+      const pill = document.getElementById('pricePill');
+      const sum  = document.getElementById('summaryTotal');
+      const txt  = money(amount).replace('US$', 'USD ');
+      if (pill) pill.textContent = txt;
+      if (sum)  sum.textContent  = txt;
+    }
 
-        document.getElementById('tb-origin').textContent = o;
-        document.getElementById('tb-dest').textContent   = d;
-        document.getElementById('tb-date').textContent   = dateStr;
+    function refreshTotal(){
+      const dom = readPriceFromDOM();
+      const total = dom !== null ? dom : readPriceFromStorage();
+      setTotal(total || 0);
+    }
 
-        // Totales (usa el total que ya guardas; si no, cae al de footer)
-        const total = (info?.totalPrice || '').toLocaleString?.('es-EC', {minimumFractionDigits:2, maximumFractionDigits:2}) ||
-                      (document.getElementById('flight-cost')?.textContent || '0,00');
-
-        document.getElementById('tb-total').textContent   = total;
-        document.getElementById('flight-cost').textContent = total;
-
-        // Resumen del footer
-        document.getElementById('origin-code').textContent      = o;
-        document.getElementById('destination-code').textContent = d;
-      } catch(e) { /* no-op */ }
+    // Ruta y fecha: si vienen de storage, úsalas
+    (function hydrateHeader(){
+      const route = localStorage.getItem('routeText') || 'UIO → GPS';
+      const date  = localStorage.getItem('routeDate') || 'Mar, 17 Sep 2024 • 08:45';
+      const routeEls = [document.getElementById('routeText'), document.getElementById('summaryRoute')];
+      routeEls.forEach(el => el && (el.textContent = route));
+      const dateEls  = [document.getElementById('dateText')?.lastElementChild, document.getElementById('summaryDate')];
+      dateEls.forEach(el => el && (el.textContent = date));
     })();
+
+    // Recalcular al cargar y cuando cambien selecciones
+    refreshTotal();
+    document.addEventListener('change', (e)=>{
+      if (e.target && e.target.hasAttribute('data-price')) refreshTotal();
+    });
   </script>
 </body>
 </html>
