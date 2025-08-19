@@ -297,15 +297,71 @@
     </section>
 
     <!-- Condiciones -->
-    <div class="conditions mt-3 av-accordion" id="ct-accordion">
-      <button class="av-accordion__header" aria-expanded="false" aria-controls="ct-panel">
-        <img src="./assets/svg/dot_menu.png" width="25" alt="" style="margin-right:10px;">
-        <span>Condiciones tarifarias</span>
-        <img class="av-accordion__chev" src="./assets/svg/down_arrow.png" width="15" alt="">
-      </button>
-      <div class="av-accordion__panel" id="ct-panel" hidden></div>
-    </div>
-  </main>
+<!-- Condiciones tarifarias (acordeón) -->
+<section class="av-terms">
+  <button class="av-accordion__header js-acc" aria-expanded="false">
+    <span>Condiciones tarifarias</span>
+    <svg class="av-accordion__chev" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M7 10l5 5 5-5" fill="none" stroke="currentColor" stroke-width="2"></path>
+    </svg>
+  </button>
+
+  <div class="av-accordion__panel js-acc-panel" hidden>
+    <h3>Cambios de vuelo</h3>
+    <ul class="av-list">
+      <li><b>Diferencia de tarifa:</b> es la diferencia en dinero entre la tarifa que compraste y la nueva que estás eligiendo (aplica para todas las tarifas).</li>
+      <li><b>Diferencias generadas por impuestos:</b> aplican según las normativas vigentes de cada país.</li>
+      <li><b>Cargo por cambio:</b> cargos adicionales al cambiar tu vuelo de manera voluntaria (aplica únicamente para las tarifas Basic, Light y Classic).</li>
+    </ul>
+
+    <table class="av-table">
+      <thead>
+        <tr><th>Región</th><th>Cargo</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Vuelos nacionales en Colombia</td><td>120.000 COP</td></tr>
+        <tr><td>Vuelos nacionales en Ecuador</td><td>30 USD</td></tr>
+        <tr><td>Vuelos internacionales al interior de Suramérica</td><td>185 USD</td></tr>
+        <tr><td>Otros vuelos internacionales en las Américas y vuelos hacia Europa</td><td>USD/CAD 210</td></tr>
+        <tr><td>Desde Reino Unido</td><td>GBP 150</td></tr>
+        <tr><td>Desde el resto de Europa</td><td>EUR 180</td></tr>
+      </tbody>
+    </table>
+
+    <p>Para las tarifas Flex y Business se permiten cambios antes de salida del vuelo sin cargo por cambio, pero podrán aplicar cargos por diferencia de tarifa e impuestos.</p>
+
+    <h3>Reembolsos</h3>
+    <ul class="av-list">
+      <li>Aplica para las tarifas <b>Flex</b> y <b>Business</b>, antes del vuelo.</li>
+      <li>Los reembolsos después del vuelo no se permiten en ninguna tarifa, excepto ante eventos operacionales.</li>
+      <li>La condición de reembolso aplica sobre el valor pagado por la tarifa. Los impuestos serán reembolsados de acuerdo con las disposiciones legales aplicables.</li>
+      <li>Todas nuestras tarifas (Basic, Light, Classic y Flex), excepto la Business, son tarifas promocionales.</li>
+      <li>Los servicios adicionales que compres y decidas no utilizar serán reembolsables <b>únicamente</b> si tu tarifa es Flex o Business. Si no fueron prestados por causa imputable a la aerolínea, son reembolsables para todas las tarifas.</li>
+      <li>Más información sobre derecho de retracto, desistimiento y otras leyes por país en nuestro <i>Centro de ayuda</i>.</li>
+      <li>Estás obligado a utilizar todos los segmentos de tu itinerario según el plan contratado. No puedes quedarte en la ciudad de conexión sin continuar; si no completas el itinerario, se considerará como viaje completado hasta el destino final programado (sin reembolso por segmentos no volados, salvo impuestos/tasas no causadas).</li>
+    </ul>
+
+    <h3>Experiencia a bordo</h3>
+    <ul class="av-list">
+      <li>INSIGNIA by avianca en Business Class aplica únicamente para vuelos entre El Salvador o Colombia y Europa.</li>
+      <li>La reclinación máxima de los asientos en Business Class puede variar según el tipo de avión.</li>
+      <li>Asiento Business Class, Business Class (Flatbed) o Premium (según el avión) incluidos para la tarifa Business con sus beneficios.</li>
+    </ul>
+
+    <h3>Vuelos operados por Clic Air S.A. con origen o conexión en Bogotá</h3>
+    <ul class="av-list">
+      <li>Si tu vuelo es a través de código compartido (números 2900 a 2999), el día del viaje dirígete al Terminal 2 (Puente Aéreo).</li>
+      <li>Si no está en ese rango, será operado por Clic Air S.A. para <i>avianca Express</i> y el día del viaje deberás dirigirte al Terminal 1 (Aeropuerto El Dorado). Estos vuelos no cuentan con servicio de venta a bordo.</li>
+    </ul>
+
+    <h3>Acumulación Lifemiles</h3>
+    <ul class="av-list">
+      <li>El precio de la tarifa tomado para el cálculo de las millas no incluye tasas, impuestos ni servicios adicionales.</li>
+      <li>Socios élite acumulan millas adicionales: Diamond 80%, Gold 60%, Silver 20% y RedPlus 10%.</li>
+    </ul>
+  </div>
+</section>
+
 
   <!-- MODAL (respaldo) -->
   <div class="modal mt-10" id="modal-select-ticket">
