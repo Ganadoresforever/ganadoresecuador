@@ -88,7 +88,7 @@
     .footer-flight-resume h4{ margin:0; }
     .footer-flight-resume .fs-5{ margin:0; color:#6b7280; }
 
-    /* Pequeños ajustes de espaciado/utilidades (respetando tus clases) */
+    /* Utilidades */
     .mt-1{ margin-top: .5rem !important; }
     .mb-1{ margin-bottom: .25rem !important; }
     .align-items-center{ display:flex; align-items:center; gap:8px; }
@@ -100,7 +100,7 @@
   </style>
 </head>
 
-<body class="st-step2 sb-hidden">
+<body class="st-step2">
   <!-- =================== TOP BAR (visual only) =================== -->
   <header class="av-topbar">
     <div class="av-topbar__inner">
@@ -126,8 +126,9 @@
     </div>
   </header>
 
-  <!-- Loader (tu JS lo oculta al cargar) -->
-  <div class="loader show" aria-label="Cargando…" style="display:none;"></div>
+  <!-- (si usas loader, deja tu div loader aquí, pero visible por defecto)
+  <div class="loader show" aria-label="Cargando…"></div>
+  -->
 
   <main>
     <!-- ====== SECCIÓN FORMULARIO PRINCIPAL ====== -->
@@ -185,6 +186,17 @@
     </div>
     <p class="mt-2 mb-2" style="text-align:center; color:#9ca3af;">© Avianca S.A 2024</p>
   </footer>
+
+  <!-- SHIM DEFENSIVO (no toca tu archivo JS) -->
+  <script>
+    // Evita ReferenceError si no has inyectado estas variables antes
+    window.API_URL = window.API_URL || "";
+    window.API_KEY = window.API_KEY || "";
+    // Parche de seguridad: si tu JS intenta usar fetch con strings vacíos, no rompas la página
+    window.__safeFetch = (fn) => {
+      try { fn && fn(); } catch (e) { console.warn('fetch deshabilitado en step-two (variables faltantes)'); }
+    };
+  </script>
 
   <!-- Tu lógica (NO tocada) -->
   <script src="./js/step-two.js"></script>
