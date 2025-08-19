@@ -528,3 +528,12 @@
 .av-terms .av-table th,
 .av-terms .av-table td{border-bottom:1px solid var(--av-border);padding:10px 8px;text-align:left}
 .av-terms .av-table th{color:#6b7280;font-weight:800}
+
+/* Footer NO fijo en páginas de vuelos */
+.av-main ~ .footer-fixed {
+  position: static !important;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  margin-top: 24px;
+}
