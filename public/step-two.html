@@ -1,180 +1,205 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="ru">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Avianca - Paso 2</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Avianca - Booking</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="shortcut icon" href="./assets/favicon.svg" t  ype="image/x-icon">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./css/flight.css">
+    <link rel="stylesheet" href="./css/normalize.css">
+    <link rel="stylesheet" href="./css/main.css">
+    <link rel="stylesheet" href="./css/flights-ui.css">
 
-  <!-- Tus estilos principales -->
-  <link rel="stylesheet" href="./css/normalize.css">
-  <link rel="stylesheet" href="./css/main.css">
-  <link rel="stylesheet" href="./css/flight.css">
-  <link rel="stylesheet" href="./css/flights-ui.css">
+<style>
+/* ====== PARCHE VISUAL SOLO CSS (no cambia lógica ni estructura) ====== */
 
-  <!-- ===== PARCHE VISUAL SOLO CSS ===== -->
-  <style>
-  .av-topbar__inner,
-  .next-step,
-  .header,
-  .booking-row,
-  .ns-step,
-  .top-bar,
-  .topbar,
-  .header-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px;
-    flex-wrap: wrap;
-  }
+/* 1) Topbar/header: evitar amontonamiento (“Paso 2 de 5”, precio/acciones) */
+.av-topbar__inner,
+.next-step,
+.header,
+.booking-row,
+.ns-step,
+.top-bar,
+.topbar,
+.header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
 
-  .step, .header-step, .ns-chip, .ns-badge {
-    background: #1f2937;
-    color: #fff;
-    padding: 4px 10px;
-    border-radius: 999px;
-    font-weight: 700;
-    font-size: 12px;
-  }
+/* Píldora del paso */
+.step, .header-step, .ns-chip, .ns-badge {
+  background: #1f2937;
+  color: #fff;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 12px;
+}
 
-  .progress, .ns-progress {
-    position: relative;
-    width: 120px;
-    height: 8px;
-    border-radius: 999px;
-    background: #111827;
-    overflow: hidden;
-  }
-  .progress > span, .ns-progress > span {
-    position: absolute; left:0; top:0; bottom:0;
-    width: 40%;
-    background: #de0108;
-  }
+/* 2) Ruta y fecha: legible en móvil y sin corte */
+.route, .flight-info, .ns-route { min-width: 0; }
+.route-main, .flight-code, .ns-route-main {
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  font-weight: 700;
+}
+.route-date, .flight-date, .ns-route-date {
+  display: block;                      /* en móvil debajo */
+  font-size: 12px; color: #d1d5db;
+  white-space: nowrap;
+}
+@media (min-width: 640px){
+  .route-date, .flight-date, .ns-route-date { display:inline-block; margin-left:8px; }
+}
 
-  .route, .flight-info, .ns-route { min-width: 0; }
-  .route-main, .flight-code, .ns-route-main {
-    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-    font-weight: 700;
-  }
-  .route-date, .flight-date, .ns-route-date {
-    display: block;
-    font-size: 12px; color: #d1d5db;
-    white-space: nowrap;
-  }
-  @media (min-width: 640px){
-    .route-date, .flight-date, .ns-route-date {
-      display:inline-block; margin-left:8px;
-    }
-  }
+/* 3) Inputs y selects: misma altura/estética que selección de vuelos */
+input[type="text"],
+input[type="email"],
+input[type="number"],
+input[type="tel"],
+select {
+  height: 52px;
+  border-radius: 14px;
+  border: 1px solid #e5e7eb;
+  padding: 0 14px;
+  outline: none;
+  background: #fff;
+  transition: box-shadow .15s, border-color .15s;
+}
+input:focus, select:focus {
+  border-color: #de0108;
+  box-shadow: 0 0 0 3px rgba(222,1,8,.12);
+}
 
-  input[type="text"],
-  input[type="email"],
-  input[type="number"],
-  input[type="tel"],
-  select {
-    height: 52px;
-    border-radius: 14px;
-    border: 1px solid #e5e7eb;
-    padding: 0 14px;
-    outline: none;
-    background: #fff;
-    transition: box-shadow .15s, border-color .15s;
-  }
-  input:focus, select:focus {
-    border-color: #de0108;
-    box-shadow: 0 0 0 3px rgba(222,1,8,.12);
-  }
+/* Botones grises, solo estética */
+button.btn, .btn.btn-gray, .btn-secondary {
+  border-radius: 14px;
+  padding: 12px 18px;
+  font-weight: 800;
+}
 
-  button.btn, .btn.btn-gray, .btn-secondary {
-    border-radius: 14px;
-    padding: 12px 18px;
-    font-weight: 800;
-  }
+/* 4) Cards suaves para los bloques del formulario (sin tocar tu HTML) */
+.form-section, .card, .card-like {
+  background: #fff;
+  border: 1px solid rgba(2,6,23,.06);
+  border-radius: 22px;
+  box-shadow: 0 8px 30px rgba(16,24,40,.06);
+  padding: clamp(16px, 2.4vw, 24px);
+}
 
-  .form-section, .card, .card-like {
-    background: #fff;
-    border: 1px solid rgba(2,6,23,.06);
-    border-radius: 22px;
-    box-shadow: 0 8px 30px rgba(16,24,40,.06);
-    padding: clamp(16px, 2.4vw, 24px);
-  }
+/* 5) Footer/resumen: que no se amontone y se vea limpio */
+.footer-fixed-2 {
+  position: sticky; bottom: 0;
+  background: #fff;
+  border-top: 1px solid #e5e7eb;
+}
+.footer-flight-resume, .resume-row, .summary-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.footer-flight-resume h4 { margin: 0; }
+.footer-flight-resume .fs-5 { margin: 0; color: #6b7280; }
 
-  .footer-fixed-2 {
-    position: sticky; bottom: 0;
-    background: #fff;
-    border-top: 1px solid #e5e7eb;
-  }
-  .footer-flight-resume, .resume-row, .summary-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 16px;
-    flex-wrap: wrap;
-  }
-  .footer-flight-resume h4 { margin: 0; }
-  .footer-flight-resume .fs-5 { margin: 0; color: #6b7280; }
+/* 6) Quitar el botón "submit" huérfano SIN tocar tus botones grises */
+button[type="submit"]:not(.btn):not(.button):not(.primary):not(.secondary) {
+  display: none !important;
+}
 
-  button[type="submit"]:not(.btn):not(.button):not(.primary):not(.secondary) {
-    display: none !important;
-  }
+/* 7) Si tienes topbar sticky, evita que tape el contenido */
+main { padding-top: clamp(56px, 8vh, 96px); }
 
-  main { padding-top: clamp(56px, 8vh, 96px); }
+/* Utilidades suaves */
+.align-items-center{ display:flex; align-items:center; gap:8px; }
+.text-end{ text-align:right; }
+.mb-1{ margin-bottom:.25rem !important; }
+.mt-1{ margin-top:.5rem !important; }
+</style>
 
-  .align-items-center{ display:flex; align-items:center; gap:8px; }
-  .text-end{ text-align:right; }
-  .mb-1{ margin-bottom:.25rem !important; }
-  .mt-1{ margin-top:.5rem !important; }
-  </style>
 </head>
-<body>
-  <header class="av-topbar">
-    <div class="av-topbar__inner">
-      <div class="route">
-        <span class="route-main" id="flightRoute">UIO → GPS</span>
-        <span class="route-date" id="flightDate">Mar, 17 Sep 2024 • 08:45</span>
-      </div>
-      <div class="step">Paso 2 de 5</div>
-      <div class="price" id="flightPrice">USD 0,00</div>
+<body class="sb-hidden">
+    <div class="loader show">
+        <div class="spinner"></div>
     </div>
-  </header>
 
-  <main>
-    <section class="form-section">
-      <h2>Datos personales</h2>
-      <form id="passengerForm">
-        <input type="text" placeholder="Nombre" required>
-        <input type="text" placeholder="Apellido" required>
-        <label><input type="checkbox"> Tengo número de viajero frecuente (opcional)</label>
-        <label><input type="checkbox"> Necesito asistencia especial (opcional)</label>
-        <button type="button" class="btn btn-gray">Próximo pasajero</button>
-      </form>
-    </section>
+    <header class="next-step">
+        <div class="ns-step">
+            <img src="./assets/svg/avianca.svg" alt="Avianca">
+        </div>
+        <div class="ns-step">
+            <div class="ns-route">
+                <h3 id="ns-route" class="ns-route-main">UIO → GPS</h3>
+                <p id="ns-date" class="ns-route-date">Mar, 17 Sep 2024 • 08:45</p>
+            </div>
+        </div>
+        <div class="ns-step">
+            <span class="ns-badge">Paso 2 de 5</span>
+            <div class="ns-progress"><span></span></div>
+            <a class="btn btn-gray" href="#">Resumen</a>
+        </div>
+    </header>
 
-    <section class="form-section">
-      <h2>Información de contacto</h2>
-      <form id="contactForm">
-        <input type="email" placeholder="Correo" required>
-        <input type="tel" placeholder="Número de teléfono" required>
-        <label><input type="checkbox"> Acepto promociones y novedades (opcional)</label>
-        <button type="button" class="btn btn-gray">Continuar a pagar</button>
-      </form>
-    </section>
-  </main>
+    <main>
+        <section class="form-section">
+            <div class="form-header">
+                <div class="form-title">
+                    <h2>Datos personales</h2>
+                    <p id="editing-label">Editando: Pasajero 1</p>
+                </div>
+                <div class="form-select">
+                    <label for="select-passengers">Seleccionar pasajero</label>
+                    <select id="select-passengers"></select>
+                </div>
+            </div>
 
-  <footer class="footer-fixed-2">
-    <div class="footer-flight-resume">
-      <div>
-        <h4>Resumen del viaje:</h4>
-        <span id="footerRoute">UIO → GPS</span>
-        <span class="fs-5" id="footerDate">Mar, 17 Sep 2024 • 08:45</span>
-      </div>
-      <div class="text-end">
-        <h4 id="footerPrice">USD 0,00</h4>
-        <span class="fs-5">Total de tu reserva</span>
-      </div>
-    </div>
-  </footer>
+            <div class="form-control">
+                <input id="name" type="text" placeholder="Nombre">
+            </div>
+            <div class="form-control">
+                <input id="surname" type="text" placeholder="Apellido">
+            </div>
+            <div class="form-control">
+                <input id="number" type="number" placeholder="Número de teléfono">
+            </div>
+            <div class="form-control">
+                <input id="email" type="email" placeholder="Correo electrónico">
+            </div>
+            <div class="form-actions">
+                <button id="btn-next-passenger" class="btn btn-gray">Próximo pasajero</button>
+                <button id="next-step" class="btn btn-gray">Continuar a pagar</button>
+            </div>
+        </section>
+    </main>
 
-  <script src="./js/step-two.js"></script>
+    <footer class="footer-fixed-2">
+        <div class="footer-flight-resume">
+            <div>
+                <p class="mb-1">Resumen del viaje:</p>
+                <div class="show align-items-center">
+                    <h4 id="origin-code">UIO</h4>
+                    <img src="./assets/svg/arrow.png" width="14px">
+                    <h4 id="destination-code">GPS</h4>
+                </div>
+            </div>
+            <div>
+                <h4 class="text-end mt-1">$<span id="flight-cost">0</span> USD</h4>
+                <p class="fs-5">Total de tu reserva:</p>
+                <img src="./assets/svg/info_icon.png" width="15px">
+            </div>
+        </div>
+        <p class="mt-2 mb-2">© Avianca S.A 2024</p>
+    </footer>
+
+    <script src="./js/step-two.js"></script>
 </body>
 </html>
