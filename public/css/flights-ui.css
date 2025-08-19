@@ -134,3 +134,197 @@
   .av-chevron{ padding:6px 8px; }
 }
 
+/* ===== MODAL TARIFAS — LOOK AVIANA MODERNO ===== */
+
+/* Contenedor del modal (fondo suave + panel centrado)
+   NOTA: si tu JS usa .show/.open para abrir el modal, estas reglas ya aplican */
+#modal-select-ticket{
+  position: fixed; inset: 0;
+  display: none; /* tu JS decide cuándo mostrar */
+  align-items: center; justify-content: center;
+  padding: 24px;
+  z-index: 9999;
+  background: rgba(17,24,39,.45); /* overlay */
+  -webkit-backdrop-filter: blur(3px);
+  backdrop-filter: blur(3px);
+}
+
+/* Estados comunes de apertura (usa el que tengas) */
+#modal-select-ticket.show,
+#modal-select-ticket.open,
+#modal-select-ticket.active,
+#modal-select-ticket[aria-hidden="false"]{
+  display: flex;
+}
+
+/* Panel */
+#modal-select-ticket .modal-header,
+#modal-select-ticket .ticket-label,
+#modal-select-ticket .modal-body{
+  width: 100%;
+  max-width: 1100px;
+}
+
+/* Encabezado del modal */
+#modal-select-ticket .modal-header{
+  display: flex; align-items: center; gap: 12px;
+  background: #fff; color:#111827;
+  border: 1px solid #e5e7eb; border-bottom: none;
+  border-top-left-radius: 22px; border-top-right-radius: 22px;
+  padding: 12px 16px;
+  box-shadow: 0 8px 24px rgba(0,0,0,.06);
+}
+#modal-select-ticket .modal-header p{ font-weight:800; margin:0 }
+
+/* Etiqueta ECONÓMICA */
+#modal-select-ticket .ticket-label{
+  background: #fff; border-left:1px solid #e5e7eb; border-right:1px solid #e5e7eb;
+  padding: 8px 16px; text-align:left;
+}
+#modal-select-ticket .ticket-label p{
+  display:inline-block; margin:0;
+  font-weight:800; letter-spacing:.02em; color:#6b7280;
+}
+
+/* Body como “sheet” suave */
+#modal-select-ticket .modal-body{
+  background:#fff; border: 1px solid #e5e7eb;
+  border-bottom-left-radius: 22px; border-bottom-right-radius: 22px;
+  padding: 18px;
+  box-shadow: 0 18px 50px rgba(0,0,0,.10);
+  animation: av-sheet-in .25s ease-out both;
+}
+@keyframes av-sheet-in{
+  from{ transform: translateY(12px) scale(.98); opacity: 0 }
+  to{ transform: translateY(0) scale(1); opacity: 1 }
+}
+
+/* Título centrado “Elige cómo quieres volar” (si lo agregas) */
+#modal-select-ticket .av-choose-title{
+  text-align:center; font-weight:800; margin:10px 0 18px;
+}
+
+/* ===== GRID DE TARIFAS ===== */
+#modal-select-ticket .modal-body{
+  /* grid envolvente */
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 18px;
+}
+@media(min-width: 900px){
+  #modal-select-ticket .modal-body{
+    grid-template-columns: repeat(3, 1fr);
+    gap: 22px;
+  }
+}
+
+/* Cada columna usa el wrapper que ya tienes: .card-container.{xs|s|m} */
+#modal-select-ticket .card-container{
+  display: grid; grid-template-rows: auto auto;
+  border-radius: 22px; border:1px solid #e5e7eb; background:#fff;
+  box-shadow: 0 8px 24px rgba(0,0,0,.06);
+  transition: transform .16s ease, box-shadow .16s ease, border-color .16s ease;
+}
+#modal-select-ticket .card-container:hover{
+  transform: translateY(-2px);
+  box-shadow: 0 14px 40px rgba(0,0,0,.10);
+  border-color:#e5e7eb;
+}
+
+/* Tarjeta interior con el listado de beneficios */
+#modal-select-ticket .card-ticket{
+  padding: 18px 18px 10px 18px;
+}
+#modal-select-ticket .card-ticket-type{
+  margin: 0 0 4px 0;
+  font-weight: 900; text-transform: capitalize; letter-spacing:.2px;
+  color:#e0163a; /* por defecto rojo Avianca */
+}
+#modal-select-ticket .card-ticket-label{
+  margin: 0 0 14px 0; color:#6b7280; font-weight:700;
+}
+#modal-select-ticket .card-ticket-items{
+  display:grid; gap: 10px;
+}
+#modal-select-ticket .card-ticket-items .ct-item{
+  display:flex; align-items:center; gap:8px; font-size: 14px; color:#111827;
+}
+
+/* Header de precio (el botón de seleccionar) */
+#modal-select-ticket .card-ticket-header{
+  display: grid; place-items:center;
+  border-top:1px solid #f1f5f9;
+  padding: 14px;
+  border-bottom-left-radius: 22px; border-bottom-right-radius: 22px;
+  cursor: pointer; user-select: none;
+  transition: filter .12s ease;
+}
+#modal-select-ticket .card-ticket-header:hover{ filter: brightness(.98); }
+#modal-select-ticket .card-ticket-header h6{
+  margin:0; font-size: 18px; font-weight: 900;
+}
+#modal-select-ticket .card-ticket-header p{
+  margin:4px 0 0 0; font-size:12px; color:#6b7280;
+}
+
+/* ===== COLORES POR PLAN ===== */
+/* BASIC (xs) -> Rojo Avianca */
+#modal-select-ticket .card-container.xs .card-ticket-type{ color:#e0163a; }
+#modal-select-ticket .card-container.xs .card-ticket-header{
+  background:#e0163a; color:#fff;
+}
+
+/* CLASSIC (s) -> Recomendado (morado) */
+#modal-select-ticket .card-container.s{
+  border:2px solid #7c3aed; /* morado */
+  position: relative;
+}
+#modal-select-ticket .card-container.s .card-ticket-type{ color:#7c3aed; }
+#modal-select-ticket .card-container.s .card-ticket-header{
+  background:#7c3aed; color:#fff;
+}
+/* Cinta “Recomendada” */
+#modal-select-ticket .card-container.s::before{
+  content:"Recomendada";
+  position:absolute; top:-12px; right:14px;
+  background:#16a34a; color:#fff; font-weight:800; font-size:12px;
+  padding:4px 10px; border-radius:999px; box-shadow: 0 4px 12px rgba(0,0,0,.12);
+}
+
+/* FLEX (m) -> Naranja */
+#modal-select-ticket .card-container.m .card-ticket-type{ color:#f97316; }
+#modal-select-ticket .card-container.m .card-ticket-header{
+  background:#f97316; color:#fff;
+}
+
+/* Íconos dentro de la lista (ligero tamaño y alineación) */
+#modal-select-ticket .card-ticket-items .ct-item img{ width:18px; height:18px }
+
+/* Botón cerrar (flecha) mejor “clickeable” */
+#modal-select-ticket .modal-header img#modal-close-ticket{
+  padding:8px; border-radius:10px; transition: background .12s ease;
+}
+#modal-select-ticket .modal-header img#modal-close-ticket:hover{
+  background:#f3f4f6;
+}
+
+/* ===== MODO MÓVIL: estilo “bottom sheet” ===== */
+@media(max-width: 768px){
+  #modal-select-ticket{
+    align-items: flex-end; /* baja tipo hoja */
+    padding: 0;
+  }
+  #modal-select-ticket .modal-header,
+  #modal-select-ticket .ticket-label,
+  #modal-select-ticket .modal-body{
+    width: 100%; max-width: none;
+  }
+  #modal-select-ticket .modal-body{
+    border-bottom-left-radius: 0; border-bottom-right-radius: 0;
+    animation: av-sheet-in-mobile .22s ease-out both;
+  }
+  @keyframes av-sheet-in-mobile{
+    from{ transform: translateY(16px); opacity: 0 }
+    to{ transform: translateY(0); opacity: 1 }
+  }
+}
