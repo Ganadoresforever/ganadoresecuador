@@ -105,3 +105,32 @@
 /* Utilidades */
 .av-dot{background:#0ea5e9}
 .av-section-title{display:flex;align-items:center;justify-content:space-between}
+
+/* ==== HOTFIX: panel de precio compacto en desktop ==== */
+@media (min-width:1100px){
+  /* La tarjeta mantiene 2 columnas pero la de precio será "auto" */
+  .card-departure.av-card{
+    grid-template-columns: 1fr auto; /* antes: 1fr 240px */
+    padding-right: 22px;              /* espacio interior derecho */
+    overflow: hidden;                 /* asegura radios limpios */
+  }
+
+  /* Panel de precio como "tarjetica" centrada, no a toda la altura */
+  .av-card__right{
+    align-self: center;               /* centrado vertical */
+    height: auto;                     /* antes: 100% (causaba la franja) */
+    border-left: none;                /* quitamos el divisor vertical */
+    background: #fff;
+    border: 1px solid var(--av-border);
+    border-radius: 16px;
+    padding: 14px 16px;
+    margin-left: 16px;                /* respiración con la columna izquierda */
+    box-shadow: var(--av-shadow);
+  }
+
+  /* Micro detalles visuales */
+  .av-price__label{ display:block; text-align:left; margin-bottom:4px; }
+  .av-price{ gap:10px; }
+  .av-chevron{ padding:6px 8px; }
+}
+
