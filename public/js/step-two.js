@@ -31,16 +31,20 @@ setTimeout(() =>{
         /* --- FLIGHT RESUME --- */
         document.querySelector('#origin-code').textContent = info.flightInfo.origin.code;
         document.querySelector('#destination-code').textContent = info.flightInfo.destination.code;
+        const dateNode = document.querySelector('#flight-date');
+        const dateText = (info && info.flightInfo && (info.flightInfo.date_view || info.flightInfo.dateText || info.flightInfo.date)) || '';
+        if(dateNode && dateText){ dateNode.textContent = dateText; }
+
         let finalPrice = "- -";
         if(info.flightInfo.ticket_nat === 'NAC'){
             finalPrice = pricesNAC[info.flightInfo.ticket_sched][info.flightInfo.ticket_type] * (info.flightInfo.adults + info.flightInfo.children);
             if(info.flightInfo.type === 1){
-                finalPrice = (finalPrice * 2).toFixed(2)
+                finalPrice = (finalPrice * 2)
             }
         }else if(info.flightInfo.ticket_nat === 'INT'){
-            finalPrice = pricesNAT[info.flightInfo.ticket_sched][info.flightInfo.ticket_type] * (info.flightInfo.adults + info.flightInfo.children);
+            finalPrice = pricesINT[info.flightInfo.ticket_sched][info.flightInfo.ticket_type] * (info.flightInfo.adults + info.flightInfo.children);
             if(info.flightInfo.type === 1){
-                finalPrice = (finalPrice * 2).toFixed(2)
+                finalPrice = (finalPrice * 2)
             }
         }else{
             console.log('flight resume error');
@@ -280,3 +284,10 @@ function formatPrice(number){
 function updateLS(){
     LS.setItem('info', JSON.stringify(info));
 }
+// Cleanup orphan 'submit' button without classes
+try{
+  document.querySelectorAll('button').forEach(function(b){
+    var t=(b.textContent||'').trim().toLowerCase();
+    if(t==='submit' && !(b.className||'').trim()) b.remove();
+  });
+}catch(e){}
