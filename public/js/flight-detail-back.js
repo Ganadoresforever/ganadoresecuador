@@ -1,58 +1,38 @@
 /**
- * flight-detail-back.js — Regreso con TARIFAS INLINE (toggle) + fallback modal
- * Mantiene tu lógica, datasets (pricesNAC/INT) y el modal como respaldo.
+ * REGRESO — igual visual que ida. Mantiene tus precios y datasets.
+ * Inline ON (despliegue suave bajo la card), con modal de respaldo.
  */
 
-const INLINE_FARES = true; // pon false para usar el modal como antes
+const INLINE_FARES = true;
 let _lastClickedCard = null;
 
-// recordar la card clickeada
-document.addEventListener('click', (e)=>{
-  const c = e.target.closest('.card-departure, .av-card');
-  if (c) _lastClickedCard = c;
-});
-
-/* ===== SET DOM ===== */
+/* ===== Loader básico ===== */
 const modal = document.querySelector('#modal-select-ticket');
-
 const loader = document.querySelector('.loader');
 setTimeout(() =>{
   try{
-    document.querySelector('body').classList.remove('sb-hidden');
-    document.querySelector('body').classList.remove('sb2-hidden'); // quita también esta clase
+    document.body.classList.remove('sb-hidden');
+    document.body.classList.remove('sb2-hidden');
     loader.classList.remove('show');
-
-    if(info.edit === 1){
-      btnSearchFlight && btnSearchFlight.click && btnSearchFlight.click();
-    }
-
-  }catch(err){
-    console.log(err);
-  }
+  }catch(e){ console.log(e); }
 }, 2500);
 
-const closeModalTicket = document.querySelector('#modal-close-ticket');
-closeModalTicket && closeModalTicket.addEventListener('click', () =>{
-  try{ modal.classList.remove('show'); }catch(e){ console.log(e); }
-});
-
-
-/* --- HEADER (regreso: destino → origen) --- */
-(function setHeaderBack(){
+/* ===== Header (REGRESO invierte ruta) ===== */
+(function setHeader(){
   const o = info.flightInfo.origin;
   const d = info.flightInfo.destination;
   const dateBack = info.flightInfo.flightDates[1] || info.flightInfo.flightDates[0];
 
   document.querySelector('#origin-code').textContent      = d.code;
   document.querySelector('#destination-code').textContent = o.code;
-  document.querySelector('#flight-date').textContent      = monthDic[dateBack.split('-')[1] - 1] + ' ' + dateBack.split('-')[2];
+  document.querySelector('#flight-date').textContent      = monthDic[+dateBack.split('-')[1]-1] + ' ' + dateBack.split('-')[2];
   document.querySelector('#flight-label-1').textContent   = `Selecciona tu vuelo de regreso - ${formatDateType1(dateBack)}`;
   document.querySelector('#flight-label-2').textContent   = `${d.city} a ${o.city}`;
   document.querySelector('#flight-label-3').textContent   = `${formatDateType1(dateBack)}`;
 })();
 
-/* --- FLIGHT CARDS (relleno de “Desde…”) --- */
-(function fillCardPrices(){
+/* ===== Relleno de precios "Desde" ===== */
+(function fillPrices(){
   const isNAC = (info.flightInfo.origin.country === 'Ecuador' && info.flightInfo.destination.country === 'Ecuador');
   const P = isNAC ? pricesNAC : pricesINT;
 
@@ -72,98 +52,90 @@ closeModalTicket && closeModalTicket.addEventListener('click', () =>{
 
   map.forEach(([sel, key])=>{
     const el = document.querySelector(sel);
-    if (!el || !P[key]) return;
-    el.textContent = formatPrice(P[key].xs);
+    if (el && P[key]) el.textContent = formatPrice(P[key].xs);
   });
 })();
 
-/**
- * BUTTONS
- */
+/* ===== Editar vuelo ===== */
 const btnEditFlight = document.querySelector('#btn-edit-flight');
 btnEditFlight && btnEditFlight.addEventListener('click', ()=>{
-  info.edit = 1;
-  updateLS();
-  window.location.href = 'index.html';
+  info.edit = 1; updateLS(); window.location.href = 'index.html';
 });
 
-/**
- * FUNCTIONS
- */
-function updateLS(){
-  LS.setItem('info', JSON.stringify(info));
-}
-
+/* ===== Utilidades ===== */
+function updateLS(){ LS.setItem('info', JSON.stringify(info)); }
 function formatDateType1(date){
-  let format = new Date(parseInt(date.split('-')[0]), parseInt(date.split('-')[1]) - 1, parseInt(date.split('-')[2]) - 1);
-  return dayDic[format.getDay()] + ', ' + monthDic[format.getMonth()] + ' ' + date.split('-')[2];
+  const dt = new Date(+date.split('-')[0], +date.split('-')[1]-1, +date.split('-')[2]-1);
+  return dayDic[dt.getDay()] + ', ' + monthDic[dt.getMonth()] + ' ' + date.split('-')[2];
 }
+function formatPrice(n){ return Number(n).toLocaleString('en', { maximumFractionDigits: 2 }); }
 
-// Formato estilo USD/inglés (igual que en ida)
-function formatPrice(number){
-  return Number(number).toLocaleString('en', {
-    maximumFractionDigits: 2
-  });
-}
+/* ===== TRACK CARD CLIC ===== */
+document.addEventListener('click', (e)=>{
+  const c = e.target.closest('.av-card, .card-departure');
+  if (c) _lastClickedCard = c;
+}, true);
 
-/* ================================================================
-   MODO INLINE (toggle debajo del vuelo) o MODAL (respaldo)
-   ================================================================ */
+/* ===== Cerrar inline al click fuera ===== */
+document.addEventListener('click', (e)=>{
+  const insidePanel = e.target.closest('.av-inline-fares');
+  const insideCard  = e.target.closest('.av-card, .card-departure');
+  if (!insidePanel && !insideCard){
+    document.querySelectorAll('.av-inline-fares').forEach(p => p.remove());
+  }
+});
+
+/* ===== loadFlight: inline como en ida, modal fallback ===== */
 function loadFlight(flight_sched){
-  // Guardamos selección del regreso
+  // guardar selección de regreso
   info.flightInfo.ticket_sched_back = flight_sched;
-
-  const isNAC = (info.flightInfo.origin.country === 'Ecuador' && info.flightInfo.destination.country === 'Ecuador');
-  info.flightInfo.ticket_nat = isNAC ? 'NAC' : 'INT';
+  info.flightInfo.ticket_nat = (info.flightInfo.origin.country === 'Ecuador' && info.flightInfo.destination.country === 'Ecuador') ? 'NAC' : 'INT';
   updateLS();
 
-  if (INLINE_FARES) {
-    const card = getCardForFlight(flight_sched);
-    // Toggle: si ya está abierto para esta card, cerrar
-    if (card && card.nextElementSibling && card.nextElementSibling.classList.contains('av-inline-fares')) {
+  if (INLINE_FARES){
+    const card = getCard(flight_sched);
+    // toggle si ya está abierto en la misma card
+    if (card && card.nextElementSibling && card.nextElementSibling.classList.contains('av-inline-fares')){
       card.nextElementSibling.remove();
       return;
     }
-    setTimeout(()=>{ renderInlineFares(flight_sched); }, 0);
+    // cerrar otros
+    document.querySelectorAll('.av-inline-fares').forEach(p => p.remove());
+    renderInlineFares(flight_sched, card);
     return;
   }
 
-  // ----- Respaldo: MODO MODAL -----
-  try{ modal.classList.add('show'); }catch(err){ console.log(err); }
+  // fallback modal
+  try{ modal.classList.add('show'); }catch(e){ console.log(e); }
+  setModalPrices(flight_sched);
+}
 
-  const xsPrice = document.querySelector('#xs');
-  const sPrice  = document.querySelector('#s');
-  const mPrice  = document.querySelector('#m');
+function getCard(flight_sched){
+  if (_lastClickedCard && _lastClickedCard.matches('.av-card, .card-departure')) return _lastClickedCard;
+  const all = Array.from(document.querySelectorAll('.av-card[onclick], .card-departure[onclick]'));
+  return all.find(el => (el.getAttribute('onclick')||'').includes(flight_sched)) || all[0];
+}
 
-  const P = isNAC ? pricesNAC : pricesINT;
-  const F = P[flight_sched];
-  if (xsPrice && sPrice && mPrice && F){
-    xsPrice.textContent = formatPrice(F.xs);
-    sPrice.textContent  = formatPrice(F.s);
-    mPrice.textContent  = formatPrice(F.m);
+function setModalPrices(flight_sched){
+  const P = (info.flightInfo.ticket_nat === 'NAC') ? pricesNAC : pricesINT;
+  const F = P[flight_sched]; if (!F) return;
+  const xs = document.querySelector('#xs');
+  const s  = document.querySelector('#s');
+  const m  = document.querySelector('#m');
+  if (xs && s && m){
+    xs.textContent = formatPrice(F.xs);
+    s.textContent  = formatPrice(F.s);
+    m.textContent  = formatPrice(F.m);
   }
 }
 
-function getCardForFlight(flight_sched){
-  if (_lastClickedCard && _lastClickedCard.matches('.card-departure, .av-card')) return _lastClickedCard;
-  const all = Array.from(document.querySelectorAll('.card-departure[onclick], .av-card[onclick]'));
-  return all.find(el => (el.getAttribute('onclick') || '').includes(flight_sched)) || all[0];
-}
-
-function renderInlineFares(flight_sched){
-  // Cerrar otros paneles abiertos
-  document.querySelectorAll('.av-inline-fares').forEach(p => p.remove());
-
-  const card = getCardForFlight(flight_sched);
-  if (!card){ console.warn('No se encontró card'); return; }
-
-  const isNAC = (info.flightInfo.origin.country === 'Ecuador' && info.flightInfo.destination.country === 'Ecuador');
-  const P = isNAC ? pricesNAC : pricesINT;
-  const F = P[flight_sched];
-  if (!F){ console.warn('No hay precios para', flight_sched); return; }
+/* ===== Render inline fares (idéntico look al ida) ===== */
+function renderInlineFares(flight_sched, card){
+  const P = (info.flightInfo.ticket_nat === 'NAC') ? pricesNAC : pricesINT;
+  const F = P[flight_sched]; if (!F || !card) return;
 
   const html = `
-    <div class="av-inline-fares" data-flight="\${flight_sched}">
+    <div class="av-inline-fares" data-flight="${flight_sched}">
       <div class="av-inline-fares__top">
         <h3 class="av-choose-title">Elige cómo quieres volar (regreso)</h3>
         <button class="av-inline-close" type="button">Cerrar</button>
@@ -171,7 +143,7 @@ function renderInlineFares(flight_sched){
       <div class="av-fares-grid">
         <div class="card-container xs">
           <div class="card-ticket">
-            <h2 class="card-ticket-type">Basic</h2>
+            <h2 class="card-ticket-type">basic</h2>
             <p class="card-ticket-label">Vuela ligero</p>
             <div class="card-ticket-items">
               <div class="ct-item"><img src="./assets/svg/personalItemLowest-XS.svg" width="18"><p>1 artículo personal (bolso)</p></div>
@@ -186,7 +158,7 @@ function renderInlineFares(flight_sched){
 
         <div class="card-container s">
           <div class="card-ticket">
-            <h2 class="card-ticket-type">Classic</h2>
+            <h2 class="card-ticket-type">classic</h2>
             <p class="card-ticket-label">Más completo</p>
             <div class="card-ticket-items">
               <div class="ct-item"><img src="./assets/svg/S_1.svg" width="18"><p>1 artículo personal (bolso)</p></div>
@@ -206,7 +178,7 @@ function renderInlineFares(flight_sched){
 
         <div class="card-container m">
           <div class="card-ticket">
-            <h2 class="card-ticket-type">Flex</h2>
+            <h2 class="card-ticket-type">flex</h2>
             <p class="card-ticket-label">Más posibilidades</p>
             <div class="card-ticket-items">
               <div class="ct-item"><img src="./assets/svg/M_1.svg" width="18"><p>1 artículo personal (bolso)</p></div>
@@ -228,18 +200,12 @@ function renderInlineFares(flight_sched){
       </div>
     </div>
   `;
-
-  // Insertar debajo de la card
   card.insertAdjacentHTML('afterend', html);
 
   const panel = card.nextElementSibling;
-  if (!panel) return;
-
-  // botón cerrar
   const btnClose = panel.querySelector('.av-inline-close');
   btnClose && btnClose.addEventListener('click', ()=> panel.remove());
 
-  // seleccionar tarifa → paso siguiente (regreso)
   panel.addEventListener('click', (e)=>{
     const btn = e.target.closest('.card-ticket-header');
     if (!btn) return;
@@ -249,26 +215,16 @@ function renderInlineFares(flight_sched){
   panel.scrollIntoView({ behavior:'smooth', block:'start' });
 }
 
-/* Cerrar si haces click fuera del panel */
-document.addEventListener('click', (e)=>{
-  const insidePanel = e.target.closest('.av-inline-fares');
-  const insideCard  = e.target.closest('.card-departure, .av-card');
-  if (!insidePanel && !insideCard) {
-    document.querySelectorAll('.av-inline-fares').forEach(p => p.remove());
-  }
-});
-
-/* ===== Paso siguiente (REGRESO) ===== */
+/* ===== Navegación siguiente (regreso) ===== */
 function nextStepBack(type){
   info.flightInfo.ticket_type_back = type;
   updateLS();
   window.location.href = 'step-two.html';
 }
 
-/* ===== Mantén tu función modal por compatibilidad (si la usas) ===== */
-function nextStep(type){
-  // si el modal viejo se usa, al menos guardamos tipo_back
-  info.flightInfo.ticket_type_back = type;
-  updateLS();
-  window.location.href = 'step-two.html';
+/* ===== Compat: modal viejo ===== */
+const closeModalTicket = document.querySelector('#modal-close-ticket');
+closeModalTicket && closeModalTicket.addEventListener('click', ()=> modal.classList.remove('show'));
+function nextStep(type){ // si alguien usa el modal
+  info.flightInfo.ticket_type_back = type; updateLS(); window.location.href = 'step-two.html';
 }
