@@ -844,3 +844,10 @@ h4{
 .me-2{
     margin-right: 12px;
 }
+
+.form-control {
+  border-radius: 22px !important; /* 🔥 todas las esquinas curvas */
+  background-color: transparent !important; /* 🔥 quita el gris */
+  box-shadow: none !important; /* 🔥 sin sombras raras */
+  border: none !important; /* 🔥 que no meta borde feo */
+}
