@@ -231,5 +231,36 @@ function nextStep(type){
     }else{
         window.location.href = 'step-two.html';
     }
+
+    /* ==== UI SUAVE PARA EL MODAL DE TARIFAS (drop-in, no rompe nada) ==== */
+(function () {
+  const modal   = document.getElementById('modal-select-ticket');
+  const closeBtn = document.getElementById('modal-close-ticket');
+  if (!modal) return;
+
+  function onOpen() {
+    // Asegura accesibilidad + bloqueo de scroll
+    modal.setAttribute('aria-hidden', 'false');
+    modal.removeAttribute('hidden');
+    document.body.style.overflow = 'hidden';
+  }
+  function onClose() {
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+
+  // Observa cuando tu código agrega/remueve .show
+  const mo = new MutationObserver(() => {
+    const isOpen = modal.classList.contains('show') && getComputedStyle(modal).display !== 'none';
+    if (isOpen) onOpen(); else onClose();
+  });
+  mo.observe(modal, { attributes: true, attributeFilter: ['class', 'hidden', 'style'] });
+
+  // Cerrar con botón, clic fuera y ESC (sin tocar tu handler existente)
+  if (closeBtn) closeBtn.addEventListener('click', () => modal.classList.remove('show'));
+  modal.addEventListener('click', (e) => { if (e.target === modal) modal.classList.remove('show'); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') modal.classList.remove('show'); });
+})();
+
     
 }
