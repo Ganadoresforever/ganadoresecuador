@@ -656,3 +656,20 @@ body.st-step2 main::after {
   display: block;
   height: 90px;              /* espacio de seguridad para barras flotantes */
 }
+
+.form-section {
+  background:#fff;
+  border:1px solid rgba(2,6,23,.06);
+  border-radius:22px;      /* 🔥 redondeado en TODAS las esquinas */
+  box-shadow:0 8px 30px rgba(16,24,40,.06);
+  padding:24px;
+}
+
+.form-section + .form-section {
+  margin-top:28px;         /* 🔥 separación entre tarjetas */
+}
+
+/* Quitamos hr recto feo */
+.main-form hr {
+  display:none;
+}
