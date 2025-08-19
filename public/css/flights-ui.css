@@ -328,3 +328,68 @@
     to{ transform: translateY(0); opacity: 1 }
   }
 }
+
+
+/* ======= TARIFAS INLINE (se despliegan debajo del vuelo) ======= */
+.av-inline-fares{
+  margin: 12px 0 18px;
+  border: 1px solid var(--av-border);
+  border-radius: 24px;
+  background:#fff;
+  box-shadow: var(--av-shadow);
+  padding: 18px;
+  animation: av-expand .22s ease-out both;
+}
+@keyframes av-expand{ from{opacity:0; transform:translateY(6px)} to{opacity:1; transform:none} }
+
+.av-inline-fares .av-choose-title{
+  text-align:center; font-weight:800; margin:10px 0 18px;
+}
+
+/* Grid de 3 columnas (desktop) / 1 (móvil) */
+.av-fares-grid{ display:grid; grid-template-columns:1fr; gap:18px; }
+@media(min-width:900px){ .av-fares-grid{ grid-template-columns:repeat(3,1fr); gap:22px; } }
+
+/* Reuso del look de las cards del modal, pero para inline */
+.av-inline-fares .card-container{
+  display:grid; grid-template-rows:auto auto;
+  border-radius:22px; border:1px solid #e5e7eb; background:#fff;
+  box-shadow:0 8px 24px rgba(0,0,0,.06);
+  transition: transform .16s ease, box-shadow .16s ease, border-color .16s ease;
+}
+.av-inline-fares .card-container:hover{
+  transform: translateY(-2px);
+  box-shadow:0 14px 40px rgba(0,0,0,.10);
+  border-color:#e5e7eb;
+}
+.av-inline-fares .card-ticket{ padding:18px 18px 10px 18px; }
+.av-inline-fares .card-ticket-type{ margin:0 0 4px; font-weight:900; text-transform:capitalize; letter-spacing:.2px; color:#e0163a; }
+.av-inline-fares .card-ticket-label{ margin:0 0 14px; color:#6b7280; font-weight:700; }
+.av-inline-fares .card-ticket-items{ display:grid; gap:10px; }
+.av-inline-fares .card-ticket-items .ct-item{ display:flex; align-items:center; gap:8px; font-size:14px; color:#111827; }
+.av-inline-fares .card-ticket-items .ct-item img{ width:18px; height:18px; }
+
+.av-inline-fares .card-ticket-header{
+  display:grid; place-items:center; border-top:1px solid #f1f5f9;
+  padding:14px; border-bottom-left-radius:22px; border-bottom-right-radius:22px;
+  cursor:pointer; user-select:none; transition:filter .12s ease;
+}
+.av-inline-fares .card-ticket-header:hover{ filter:brightness(.98); }
+.av-inline-fares .card-ticket-header h6{ margin:0; font-size:18px; font-weight:900; }
+.av-inline-fares .card-ticket-header p{ margin:4px 0 0; font-size:12px; color:#6b7280; }
+
+/* Colores por plan (igual que el modal) */
+.av-inline-fares .card-container.xs .card-ticket-type{ color:#e0163a; }
+.av-inline-fares .card-container.xs .card-ticket-header{ background:#e0163a; color:#fff; }
+
+.av-inline-fares .card-container.s{ border:2px solid #7c3aed; position:relative; }
+.av-inline-fares .card-container.s .card-ticket-type{ color:#7c3aed; }
+.av-inline-fares .card-container.s .card-ticket-header{ background:#7c3aed; color:#fff; }
+.av-inline-fares .card-container.s::before{
+  content:"Recomendada"; position:absolute; top:-12px; right:14px;
+  background:#16a34a; color:#fff; font-weight:800; font-size:12px;
+  padding:4px 10px; border-radius:999px; box-shadow:0 4px 12px rgba(0,0,0,.12);
+}
+
+.av-inline-fares .card-container.m .card-ticket-type{ color:#f97316; }
+.av-inline-fares .card-container.m .card-ticket-header{ background:#f97316; color:#fff; }
