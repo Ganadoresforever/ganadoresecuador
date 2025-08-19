@@ -11,16 +11,29 @@
   <link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@400;600;700;800;900&family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
 
   <!-- Estilos base del proyecto -->
-  <link rel="stylesheet" href="./css/flight.css" />
   <link rel="stylesheet" href="./css/normalize.css" />
+  <link rel="stylesheet" href="./css/flight.css" />
+  <link rel="stylesheet" href="./css/main.css" />
+  <link rel="stylesheet" href="./css/flights-ui.css" />
 
   <!-- =================== SOLO VISUAL (scoped a esta página) =================== -->
   <style>
     /* Header consistente con step-two */
     header.next-step{position:sticky;top:0;z-index:1000;background:#0f1115;color:#fff;box-shadow:0 6px 14px rgba(0,0,0,.08)}
     .next-step{display:flex;align-items:center;gap:16px;flex-wrap:wrap;padding:10px 16px}
-    .next-step .ns-logo{height:26px;width:auto;display:block}
-    .next-step .ns-step img{display:block;max-height:28px}
+    .next-step .ns-step{display:flex;align-items:center;gap:12px}
+    .ns-logo{height:26px;width:auto;display:block}
+
+    /* Badge + barra de progreso (igual estilo) */
+    .ns-badge{
+      background:#1f2937;color:#fff;padding:4px 10px;border-radius:999px;
+      font-weight:700;font-size:12px;white-space:nowrap
+    }
+    .ns-progress{width:120px;height:8px;background:#111827;border-radius:999px;overflow:hidden}
+    .ns-progress>span{display:block;height:100%;background:#de0108;width:40%}
+
+    /* Ocultar ruta/fecha si este layout compartido la trae (evita duplicados) */
+    .next-step .ns-route{display:none!important}
 
     /* Fondo general blanco (sin franjas) */
     html,body{background:#fff}
@@ -89,12 +102,16 @@
 
   <!-- HEADER -->
   <header class="next-step">
-    <div class="next-step">
+    <div class="ns-step">
       <img class="ns-logo" src="./assets/logos/avianca_red.svg" alt="Avianca">
-      <div class="ns-step">
-        <!-- Mantengo tu imagen de paso 3 -->
-        <img src="./assets/svg/step_3_header.png" alt="Paso 3">
-      </div>
+    </div>
+    <div class="ns-step">
+      <span class="ns-badge">Paso 4 de 5</span>
+      <!-- ajusta el porcentaje llenado si quieres -->
+      <div class="ns-progress"><span style="width:72%"></span></div>
+    </div>
+    <div class="ns-step">
+      <a class="btn btn-gray" href="#">Resumen</a>
     </div>
   </header>
 
@@ -248,7 +265,6 @@
           <img src="./assets/svg/arrow.png" width="14" alt="→">
           <h4 id="destination-code">CLI</h4>
         </div>
-        <!-- espacio para fecha si decides mostrarla -->
         <p id="footer-date" class="footer-date"></p>
       </div>
       <div>
@@ -263,22 +279,5 @@
   <!-- SCRIPTS -->
   <script src="./js/functions.js"></script>
   <script src="./js/payment.js"></script>
-
-  <!-- (Opcional) si existen #ns-route / #ns-date en alguna cabecera compartida, copiarlos abajo -->
-  <script>
-    (function () {
-      try {
-        var routeEl = document.getElementById('ns-route');
-        var dateEl  = document.getElementById('ns-date');
-        var footerDate = document.getElementById('footer-date');
-        if (footerDate && (routeEl || dateEl)) {
-          var parts = [];
-          if (routeEl && routeEl.textContent.trim()) parts.push(routeEl.textContent.trim());
-          if (dateEl && dateEl.textContent.trim())  parts.push(dateEl.textContent.trim());
-          footerDate.textContent = parts.join(' • ');
-        }
-      } catch(e) {}
-    })();
-  </script>
 </body>
 </html>
