@@ -21,10 +21,22 @@
   window.addEventListener('resize', set);
 })();
 
+/* ===== Handler unificado para EDITAR búsqueda (topbar o icono viejo) ===== */
+(function attachEditHandler(){
+  function goEdit(ev){
+    if (ev && ev.preventDefault) ev.preventDefault();
+    try { info.edit = 1; updateLS(); } catch(e) {}
+    window.location.href = 'index.html';
+  }
+  document.addEventListener('click', (e) => {
+    const btn = e.target.closest('#btn-edit-flight, .av-edit, [data-action="edit-flight"], [aria-label="Editar"]');
+    if (btn) goEdit(e);
+  });
+})();
+
 /**
  * flight-detail.js — con TARIFAS INLINE + fallback modal
  * - INLINE_FARES = true -> se despliega debajo del vuelo
- * - No cambia tu back ni tus IDs/funciones existentes
  */
 
 /* ===== CONFIG ===== */
@@ -87,7 +99,6 @@ if(info.flightInfo.origin.country === 'Ecuador' && info.flightInfo.destination.c
   document.querySelector('#flight-price-1').textContent  = formatPrice(pricesNAC.flight_1.xs);
   document.querySelector('#flight-price-2').textContent  = formatPrice(pricesNAC.flight_2.xs);
   document.querySelector('#flight-price-3').textContent  = formatPrice(pricesNAC.flight_3.xs);
-  // añadidos 4..10 (si existen en functions.js)
   document.querySelector('#flight-price-4') && (document.querySelector('#flight-price-4').textContent  = formatPrice(pricesNAC.flight_4.xs));
   document.querySelector('#flight-price-5') && (document.querySelector('#flight-price-5').textContent  = formatPrice(pricesNAC.flight_5.xs));
   document.querySelector('#flight-price-6') && (document.querySelector('#flight-price-6').textContent  = formatPrice(pricesNAC.flight_6.xs));
@@ -101,7 +112,6 @@ if(info.flightInfo.origin.country === 'Ecuador' && info.flightInfo.destination.c
   document.querySelector('#flight-price-1').textContent  = formatPrice(pricesINT.flight_1.xs);
   document.querySelector('#flight-price-2').textContent  = formatPrice(pricesINT.flight_2.xs);
   document.querySelector('#flight-price-3').textContent  = formatPrice(pricesINT.flight_3.xs);
-  // añadidos 4..10 (si existen en functions.js)
   document.querySelector('#flight-price-4') && (document.querySelector('#flight-price-4').textContent  = formatPrice(pricesINT.flight_4.xs));
   document.querySelector('#flight-price-5') && (document.querySelector('#flight-price-5').textContent  = formatPrice(pricesINT.flight_5.xs));
   document.querySelector('#flight-price-6') && (document.querySelector('#flight-price-6').textContent  = formatPrice(pricesINT.flight_6.xs));
@@ -111,28 +121,14 @@ if(info.flightInfo.origin.country === 'Ecuador' && info.flightInfo.destination.c
   document.querySelector('#flight-price-10') && (document.querySelector('#flight-price-10').textContent = formatPrice(pricesINT.flight_10.xs));
 }
 
-/**
- * BUTTONS
- */
-const btnEditFlight = document.querySelector('#btn-edit-flight');
-btnEditFlight && btnEditFlight.addEventListener('click', ()=>{
-  info.edit = 1;
-  updateLS();
-  window.location.href = 'index.html';
-});
-
-/**
- * FUNCTIONS
- */
+/* ===== BASE FUNCS ===== */
 function updateLS(){
   LS.setItem('info', JSON.stringify(info));
 }
-
 function formatDateType1(date){
   let format = new Date(parseInt(date.split('-')[0]), parseInt(date.split('-')[1]) - 1, parseInt(date.split('-')[2]) - 1);
   return dayDic[format.getDay()] + ', ' + monthDic[format.getMonth()] + ' ' + date.split('-')[2];
 }
-
 function formatPrice(number){
   return number.toLocaleString('en', { maximumFractionDigits: 2 });
 }
@@ -255,7 +251,6 @@ function renderInlineFares(flight_sched){
     </div>
   `;
 
-  // insertar justo después de la card seleccionada
   card.insertAdjacentHTML('afterend', html);
 
   // acciones: seleccionar tarifa -> tu flujo original
@@ -306,7 +301,7 @@ function nextStep(type){
   mo.observe(modalEl, { attributes: true, attributeFilter: ['class', 'hidden', 'style'] });
 
   closeBtnEl && closeBtnEl.addEventListener('click', () => modalEl.classList.remove('show'));
-  modalEl.addEventListener('click', (e) => { if (e.target === modalEl) modal.classList.remove('show'); });
+  modal.addEventListener('click', (e) => { if (e.target === modal) modal.classList.remove('show'); });
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape') modalEl.classList.remove('show'); });
 })();
 
