@@ -497,3 +497,34 @@
 .has-topbar .av-main{
   padding-top: calc(var(--av-topbar-h) + 12px); /* +12px de aire visual */
 }
+
+/* ==== Footer libre (no fijo) en páginas de vuelos ==== */
+.av-main ~ .footer-fixed{
+  position: static !important;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  margin-top: 24px;
+}
+.footer-fixed p{ text-align:center; color:#6b7280; }
+
+/* ==== Acordeón Condiciones ==== */
+.av-terms{max-width:1200px; margin:24px auto;}
+.av-accordion__header{
+  width:100%;display:flex;align-items:center;justify-content:space-between;gap:12px;
+  padding:12px 16px;background:#f3f4f6;border:1px solid var(--av-border);
+  border-radius:16px;cursor:pointer;font-weight:800;
+}
+.av-accordion__chev{transition:transform .2s ease}
+.av-accordion__header[aria-expanded="true"] .av-accordion__chev{transform:rotate(180deg)}
+.av-accordion__panel{
+  padding:16px;background:#fff;border:1px solid var(--av-border);
+  border-top:none;border-bottom-left-radius:16px;border-bottom-right-radius:16px
+}
+
+.av-terms h3{margin:14px 0 8px;font-weight:900}
+.av-terms .av-list{display:grid;gap:8px;padding-left:18px}
+.av-terms .av-table{width:100%;border-collapse:collapse;margin:10px 0 18px}
+.av-terms .av-table th,
+.av-terms .av-table td{border-bottom:1px solid var(--av-border);padding:10px 8px;text-align:left}
+.av-terms .av-table th{color:#6b7280;font-weight:800}
