@@ -1,3 +1,26 @@
+/* ==== FIX: topbar fija sin tapar contenido (móvil/desktop) ==== */
+(function fixTopbarOverlap(){
+  const tb = document.querySelector('.av-topbar');
+  if (!tb) return;
+
+  const set = () => {
+    const h = tb.getBoundingClientRect().height || tb.offsetHeight || 0;
+    document.documentElement.style.setProperty('--av-topbar-h', h + 'px');
+  };
+
+  const run = () => {
+    set();
+    document.body.classList.add('has-topbar');
+  };
+
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(run);
+  } else {
+    window.addEventListener('load', run);
+  }
+  window.addEventListener('resize', set);
+})();
+
 /**
  * flight-detail.js — con TARIFAS INLINE + fallback modal
  * - INLINE_FARES = true -> se despliega debajo del vuelo
@@ -283,19 +306,11 @@ function nextStep(type){
   mo.observe(modalEl, { attributes: true, attributeFilter: ['class', 'hidden', 'style'] });
 
   closeBtnEl && closeBtnEl.addEventListener('click', () => modalEl.classList.remove('show'));
-  modalEl.addEventListener('click', (e) => { if (e.target === modalEl) modalEl.classList.remove('show'); });
+  modalEl.addEventListener('click', (e) => { if (e.target === modalEl) modal.classList.remove('show'); });
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape') modalEl.classList.remove('show'); });
 })();
 
-/* === CIERRE / TOGGLE DEL BLOQUE DE TARIFAS INLINE ===================
-   - Cierra al volver a tocar el mismo vuelo (toggle)
-   - Cierra al hacer click fuera
-   - Cierra con botón .av-inline-close si lo tienes
-   * No modifica tus funciones; corre en paralelo
-===================================================================== */
-
-// 1) Toggle: si el panel ya está abierto para esa card, ciérralo.
-//    Lo ponemos en "capturing" para que se ejecute ANTES del onclick inline.
+/* === CIERRE / TOGGLE DEL BLOQUE DE TARIFAS INLINE =================== */
 document.addEventListener('click', function (e) {
   const card = e.target.closest('.card-departure');
   if (!card) return;
@@ -303,13 +318,11 @@ document.addEventListener('click', function (e) {
   const panel = card.nextElementSibling;
   if (panel && panel.classList.contains('av-inline-fares')) {
     panel.remove();
-    // evita que se dispare tu onclick y lo vuelva a abrir
     e.stopImmediatePropagation();
     e.preventDefault();
   }
 }, true);
 
-// 2) Cerrar al hacer click fuera del panel y fuera de cualquier card.
 document.addEventListener('click', function (e) {
   const insidePanel = e.target.closest('.av-inline-fares');
   const insideCard  = e.target.closest('.card-departure');
@@ -318,11 +331,9 @@ document.addEventListener('click', function (e) {
   }
 });
 
-// 3) (Opcional) Si tu panel tiene un botón con clase .av-inline-close, úsalo.
 document.addEventListener('click', function (e) {
   const btn = e.target.closest('.av-inline-close');
   if (!btn) return;
   const panel = btn.closest('.av-inline-fares');
   if (panel) panel.remove();
 });
-
