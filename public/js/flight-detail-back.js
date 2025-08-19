@@ -1,3 +1,26 @@
+/* ==== FIX: topbar fija sin tapar contenido (móvil/desktop) ==== */
+(function fixTopbarOverlap(){
+  const tb = document.querySelector('.av-topbar');
+  if (!tb) return;
+
+  const set = () => {
+    const h = tb.getBoundingClientRect().height || tb.offsetHeight || 0;
+    document.documentElement.style.setProperty('--av-topbar-h', h + 'px');
+  };
+
+  const run = () => {
+    set();
+    document.body.classList.add('has-topbar');
+  };
+
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(run);
+  } else {
+    window.addEventListener('load', run);
+  }
+  window.addEventListener('resize', set);
+})();
+
 /**
  * flight-detail-back.js — Mismo comportamiento/UI que el de ida,
  * pero con textos/fechas invertidos para REGRESO.
@@ -248,7 +271,6 @@ function nextStep(type){
 })();
 
 /* ===== Toggle/cerrar panel inline ===== */
-// 1) si vuelves a tocar la misma card, cierra
 document.addEventListener('click', function (e) {
   const card = e.target.closest('.card-departure');
   if (!card) return;
@@ -259,7 +281,7 @@ document.addEventListener('click', function (e) {
     e.preventDefault();
   }
 }, true);
-// 2) click fuera
+
 document.addEventListener('click', function (e) {
   const insidePanel = e.target.closest('.av-inline-fares');
   const insideCard  = e.target.closest('.card-departure');
