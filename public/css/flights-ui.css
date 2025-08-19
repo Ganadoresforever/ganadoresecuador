@@ -440,3 +440,45 @@
 @media(min-width:1100px){
   .av-inline-fares{ padding:20px 24px; }
 }
+
+/* ==== COMPAT: Back page usa av-card/av-card__main/av-card__side ==== */
+
+/* base de la card */
+.av-card{
+  display:grid; grid-template-columns: 1fr; gap:0;
+  border:1px solid var(--av-border); border-radius:24px; background:var(--av-bg); box-shadow:var(--av-shadow);
+  padding:14px;
+}
+@media(min-width:1100px){
+  .av-card{ grid-template-columns: 1fr auto; padding-right:22px; overflow:hidden; }
+}
+
+/* columna izquierda (alias de .av-card__left) */
+.av-card__main{ padding:6px 6px 10px; }
+@media(min-width:1100px){ .av-card__main{ padding:18px 22px; } }
+
+/* columna derecha (alias de .av-card__right) */
+.av-card__side{
+  border-top:1px solid var(--av-border);
+  display:flex; align-items:center; justify-content:space-between; gap:10px;
+  padding:12px 14px; background:#f9fafb;
+  border-bottom-left-radius:24px; border-bottom-right-radius:24px;
+}
+@media(min-width:1100px){
+  /* versión compacta tipo “tarjetica” */
+  .av-card__side{
+    align-self:center;
+    height:auto;
+    border-left:none;
+    background:#fff;
+    border:1px solid var(--av-border);
+    border-radius:16px;
+    padding:14px 16px;
+    margin-left:16px;
+    box-shadow:var(--av-shadow);
+  }
+}
+
+/* Topbar simple para el back */
+.av-topbar{display:flex; align-items:center; justify-content:space-between; padding:10px 16px}
+.av-topbar__left, .av-topbar__center, .av-topbar__right{display:flex; align-items:center; gap:12px}
