@@ -555,3 +555,104 @@
     padding-bottom: 16px;
   }
 }
+
+
+/* ==== SKIN STEP TWO (Datos del pasajero) ==== */
+body.st-step2 {
+  --st2-radius: 22px;
+  --st2-shadow: 0 6px 24px rgba(41,50,65,.06);
+  --st2-border: 1px solid rgba(0,0,0,.06);
+  --st2-bg: #fff;
+  --st2-field-h: 52px;
+  --st2-gap: 16px;
+}
+
+/* contenedor principal centrado y con respiración */
+body.st-step2 main {
+  max-width: 1120px;
+  margin: 24px auto 110px;   /* deja espacio al “total”/botón flotante */
+  padding: 0 16px;
+}
+
+/* “tarjetas” del formulario: aplica a hijos directos del main sin romper otras páginas */
+body.st-step2 main > div {
+  background: var(--st2-bg);
+  border: var(--st2-border);
+  border-radius: var(--st2-radius);
+  box-shadow: var(--st2-shadow);
+  padding: 24px;
+  margin-bottom: 16px;
+}
+
+/* títulos dentro de tarjetas */
+body.st-step2 main > div h2,
+body.st-step2 main > div h3 {
+  margin: 0 0 12px;
+  line-height: 1.2;
+}
+
+/* tipografía sutil para etiquetas */
+body.st-step2 label {
+  font-size: 14px;
+  color: #6a7280;
+}
+
+/* inputs y selects uniformes */
+body.st-step2 input[type="text"],
+body.st-step2 input[type="email"],
+body.st-step2 input[type="tel"],
+body.st-step2 input[type="number"],
+body.st-step2 select {
+  height: var(--st2-field-h);
+  border-radius: 14px;
+  border: 1px solid #e6e8f0;
+  padding: 0 14px;
+  outline: none;
+  transition: box-shadow .15s, border-color .15s;
+  width: 100%;
+  background: #fff;
+}
+
+body.st-step2 input:focus,
+body.st-step2 select:focus {
+  border-color: #00a1a9;
+  box-shadow: 0 0 0 3px rgba(0,161,169,.12);
+}
+
+/* grid suave para filas de campos (funciona aunque el HTML no tenga clases) */
+body.st-step2 .row,
+body.st-step2 .grid,
+body.st-step2 .form-row {
+  display: grid !important;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--st2-gap);
+}
+@media (max-width: 1024px) {
+  body.st-step2 .row,
+  body.st-step2 .grid,
+  body.st-step2 .form-row { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 640px) {
+  body.st-step2 .row,
+  body.st-step2 .grid,
+  body.st-step2 .form-row { grid-template-columns: 1fr; }
+}
+
+/* checkboxes con más área de toque en móvil */
+@media (max-width: 640px) {
+  body.st-step2 input[type="checkbox"] { width: 18px; height: 18px; }
+}
+
+/* barra de resumen / botón flotante: evita montarse sobre el contenido */
+body.st-step2 .footer-fixed {
+  position: static;          /* que no quede fijada aquí */
+  box-shadow: none;
+  padding: 24px 0 0;
+}
+
+/* Si tienes un contenedor de resumen/botón fijo propio, asegura un “spacer” al final */
+body.st-step2 main::after {
+  content: "";
+  display: block;
+  height: 90px;              /* espacio de seguridad para barras flotantes */
+}
