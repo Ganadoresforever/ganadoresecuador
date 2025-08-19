@@ -483,3 +483,17 @@
 .av-topbar{display:flex; align-items:center; justify-content:space-between; padding:10px 16px}
 .av-topbar__left, .av-topbar__center, .av-topbar__right{display:flex; align-items:center; gap:12px}
 
+/* ===== Topbar fija sin tapar contenido ===== */
+:root { --av-topbar-h: 0px; }                  /* la setea JS */
+
+.av-topbar{
+  position: fixed;                             /* barra fija (como te gusta) */
+  top: 0; left: 0; right: 0;
+  z-index: 1000;
+}
+
+/* Reserva espacio arriba para que no se oculte nada */
+.has-topbar main,
+.has-topbar .av-main{
+  padding-top: calc(var(--av-topbar-h) + 12px); /* +12px de aire visual */
+}
