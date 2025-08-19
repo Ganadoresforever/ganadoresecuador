@@ -21,6 +21,19 @@
   window.addEventListener('resize', set);
 })();
 
+/* ===== Handler unificado para EDITAR búsqueda (topbar o icono viejo) ===== */
+(function attachEditHandler(){
+  function goEdit(ev){
+    if (ev && ev.preventDefault) ev.preventDefault();
+    try { info.edit = 1; updateLS(); } catch(e) {}
+    window.location.href = 'index.html';
+  }
+  document.addEventListener('click', (e) => {
+    const btn = e.target.closest('#btn-edit-flight, .av-edit, [data-action="edit-flight"], [aria-label="Editar"]');
+    if (btn) goEdit(e);
+  });
+})();
+
 /**
  * flight-detail-back.js — Mismo comportamiento/UI que el de ida,
  * pero con textos/fechas invertidos para REGRESO.
@@ -88,17 +101,8 @@ document.querySelector('#flight-label-3').textContent   = `${formatDateType1(dat
   set('#flight-price-10', P.flight_10?.xs);
 })();
 
-/* --- EDITAR BÚSQUEDA --- */
-const btnEditFlight = document.querySelector('#btn-edit-flight');
-btnEditFlight && btnEditFlight.addEventListener('click', ()=>{
-  info.edit = 1;
-  updateLS();
-  window.location.href = 'index.html';
-});
-
-/* ===== FUNCS BASE ===== */
+/* ===== BASE FUNCS ===== */
 function updateLS(){ LS.setItem('info', JSON.stringify(info)); }
-
 function formatDateType1(date){
   let format = new Date(parseInt(date.split('-')[0]), parseInt(date.split('-')[1]) - 1, parseInt(date.split('-')[2]) - 1);
   return dayDic[format.getDay()] + ', ' + monthDic[format.getMonth()] + ' ' + date.split('-')[2];
@@ -111,7 +115,7 @@ function formatPrice(number){
    MODO INLINE (debajo de la card) + fallback a MODAL
    ================================================================ */
 function loadFlight(flight_sched){
-  // Guardar selección (mantenemos misma clave que usabas)
+  // Guardar selección
   info.flightInfo.ticket_sched = flight_sched;
 
   // NAT/INT
@@ -236,9 +240,9 @@ function renderInlineFares(flight_sched){
   panel.scrollIntoView({ behavior:'smooth', block:'start' });
 }
 
-/* ===== NAVEGACIÓN (en regreso siempre a step-two) ===== */
+/* ===== NAVEGACIÓN (en regreso a step-two) ===== */
 function nextStep(type){
-  info.flightInfo.ticket_type = type;   // mantenemos misma clave
+  info.flightInfo.ticket_type = type;
   updateLS();
   window.location.href = 'step-two.html';
 }
