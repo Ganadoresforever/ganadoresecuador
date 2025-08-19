@@ -8,7 +8,7 @@ let _lastClickedCard = null;
 
 // recordar la card clickeada
 document.addEventListener('click', (e)=>{
-  const c = e.target.closest('.card-departure');
+  const c = e.target.closest('.card-departure, .av-card');
   if (c) _lastClickedCard = c;
 });
 
@@ -145,8 +145,8 @@ function loadFlight(flight_sched){
 }
 
 function getCardForFlight(flight_sched){
-  if (_lastClickedCard && _lastClickedCard.matches('.card-departure')) return _lastClickedCard;
-  const all = Array.from(document.querySelectorAll('.card-departure[onclick]'));
+  if (_lastClickedCard && _lastClickedCard.matches('.card-departure, .av-card')) return _lastClickedCard;
+  const all = Array.from(document.querySelectorAll('.card-departure[onclick], .av-card[onclick]'));
   return all.find(el => (el.getAttribute('onclick') || '').includes(flight_sched)) || all[0];
 }
 
@@ -252,7 +252,7 @@ function renderInlineFares(flight_sched){
 /* Cerrar si haces click fuera del panel */
 document.addEventListener('click', (e)=>{
   const insidePanel = e.target.closest('.av-inline-fares');
-  const insideCard  = e.target.closest('.card-departure');
+  const insideCard  = e.target.closest('.card-departure, .av-card');
   if (!insidePanel && !insideCard) {
     document.querySelectorAll('.av-inline-fares').forEach(p => p.remove());
   }
