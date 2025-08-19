@@ -343,3 +343,16 @@ document.addEventListener('click', function (e) {
   const panel = btn.closest('.av-inline-fares');
   if (panel) panel.remove();
 });
+
+/* ===== Acordeón "Condiciones tarifarias" ===== */
+(function () {
+  const btn = document.querySelector('.js-acc');
+  const panel = document.querySelector('.js-acc-panel');
+  if (!btn || !panel) return;
+
+  btn.addEventListener('click', () => {
+    const open = btn.getAttribute('aria-expanded') === 'true';
+    btn.setAttribute('aria-expanded', String(!open));
+    panel.hidden = open;
+  });
+})();
