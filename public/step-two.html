@@ -35,51 +35,38 @@
     .next-step a.btn,.next-step .btn.btn-gray{background:transparent!important;border:1px solid rgba(255,255,255,.45);color:#fff;padding:6px 12px;border-radius:999px;font-weight:800;white-space:nowrap}
     .next-step a.btn:hover,.next-step .btn.btn-gray:hover{background:rgba(255,255,255,.08)!important}
 
-    /* ——— Fondo global BLANCO para evitar franjas grises heredadas ——— */
+    /* 🚫 Quitar ruta/fecha del header (para que NO se repita) */
+    .next-step .ns-route{display:none!important}
+
+    /* ——— Fondo global BLANCO ——— */
     html,body{background:#fff !important}
     body.bg-gray{background:#fff !important}
-
-    /* Cualquier contenedor “gris” envolvente que pueda pintar la franja */
     .main-form, .container, .content, .wrapper, .booking-container{background:transparent !important}
 
     /* ——— Cards / Inputs ——— */
     .main-form{max-width:1160px;margin:0 auto;padding:12px 16px 88px}
     .form-section{
-      background:#fff;
-      border:1px solid rgba(2,6,23,.06);
-      border-radius:22px;        
-      box-shadow:0 8px 30px rgba(16,24,40,.06);
-      padding:16px;
-      overflow:hidden;           
+      background:#fff;border:1px solid rgba(2,6,23,.06);
+      border-radius:22px;box-shadow:0 8px 30px rgba(16,24,40,.06);
+      padding:16px;overflow:hidden;
     }
     @media (min-width:768px){.form-section{padding:24px}}
-
-    /* Separación real entre tarjetas */
     .form-section + .form-section{margin-top:28px}
-
-    /* Oculta separadores grises */
-    hr, .divider, .section-divider,
-    .main-form::before, .main-form::after,
-    .form-section::before, .form-section::after{display:none !important;content:none !important}
+    .main-form hr{display:none}
 
     .form-title{display:flex;align-items:center;justify-content:space-between;gap:12px}
     .form-info{display:flex;align-items:center}
 
-    /* ——— Inputs solo para esta página ——— */
-    body.step-two .form-control input[type="text"],
-    body.step-two .form-control input[type="email"],
-    body.step-two .form-control input[type="number"],
-    body.step-two .form-control input[type="tel"],
-    body.step-two .form-control select{
+    .form-control input[type="text"],
+    .form-control input[type="email"],
+    .form-control input[type="number"],
+    .form-control input[type="tel"],
+    .form-control select{
       box-sizing:border-box;width:100%;max-width:100%;
       height:52px;border-radius:14px;border:1px solid #e5e7eb;padding:0 14px;
       outline:none;background:#fff;transition:box-shadow .15s,border-color .15s;font-size:16px
     }
-    body.step-two .form-control input:focus,
-    body.step-two .form-control select:focus{
-      border-color:#de0108;box-shadow:0 0 0 3px rgba(222,1,8,.12)
-    }
-
+    .form-control input:focus,.form-control select:focus{border-color:#de0108;box-shadow:0 0 0 3px rgba(222,1,8,.12)}
     .btn.btn-gray{border-radius:14px;padding:12px 18px;font-weight:800}
     #select-passengers{width:100%;max-width:100%}
     .checkbox-group{display:flex;align-items:flex-start;gap:10px}
@@ -88,16 +75,12 @@
     .footer-fixed-2{position:sticky;bottom:0;background:#fff;border-top:1px solid #e5e7eb;z-index:900}
     .footer-flight-resume{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;padding:10px 16px;max-width:1160px;margin:0 auto}
     .footer-flight-resume h4{margin:0}.footer-flight-resume .fs-5{margin:0;color:#6b7280}
-
-    /* Utilidades */
-    .align-items-center{display:flex;align-items:center;gap:8px}
-    .text-end{text-align:right}
-    .mb-1{margin-bottom:.25rem!important}
-    .mt-1{margin-top:.5rem!important}
+    .footer-left p{margin:0}
+    .footer-date{font-size:12px;color:#6b7280;margin-top:4px}
   </style>
 </head>
 
-<body class="mvh-100 bg-gray step-two">
+<body class="mvh-100 bg-gray">
   <!-- LOADER -->
   <div class="loader show">
     <img src="./assets/svg/plane-loader.gif" alt="Cargando" />
@@ -109,6 +92,7 @@
       <img class="ns-logo" src="./assets/logos/avianca_red.svg" alt="Avianca" />
     </div>
     <div class="ns-step">
+      <!-- ns-route oculto por CSS para evitar duplicado -->
       <div class="ns-route">
         <h3 id="ns-route" class="ns-route-main">UIO → GPS</h3>
         <p id="ns-date" class="ns-route-date">Mar, 17 Sep 2024 • 08:45</p>
@@ -124,7 +108,7 @@
   <!-- MAIN -->
   <main>
     <div class="main-form mb-10">
-      <form class="form-control" id="next-step">
+      <form id="next-step" class="form-control">
 
         <!-- SECCIÓN 1 -->
         <div class="form-section">
@@ -136,7 +120,7 @@
           <select id="select-passengers"></select>
 
           <h3>Pasajero - <span id="editing-label">Adulto 1</span></h3>
-          <p class="fs-4">Ingresa el nombre y primer apellido tal y como aparecen en el pasaporte o documento de identidad. También, agrega el número de viajero frecuente LifeMiles o de una aerolínea aliada.</p>
+          <p class="fs-4">Ingresa el nombre y primer apellido (de cada pasajero) tal y como aparecen en el pasaporte o documento de identidad. También, agrega el número de viajero frecuente LifeMiles o de una aerolínea aliada para disfrutar de más beneficios.</p>
 
           <input id="name" class="mt-5" type="text" placeholder="Nombre" />
           <span name="name-error" class="input-error-label">Por favor, ingresa tu primer nombre</span>
@@ -146,7 +130,7 @@
 
           <div class="checkbox-group mt-4">
             <input class="check" type="checkbox" />
-            <label for="">Tengo un número de viajero frecuente <span class="bold-gray">LifeMiles</span> (opcional).</label>
+            <label for="">Tengo un número de viajero frecuente <span class="bold-gray">LifeMiles</span> o de otra aerolínea aliada (opcional).</label>
           </div>
           <div class="checkbox-group mt-2">
             <input class="check" type="checkbox" />
@@ -176,7 +160,7 @@
 
           <div class="checkbox-group mt-4">
             <input class="check" type="checkbox" id="promo-check" />
-            <label for="promo-check">Acepto el uso de mis datos personales para recibir promociones y ofertas.</label>
+            <label for="promo-check">Acepto el uso de mis datos personales para recibir promociones, ofertas y novedades que Avianca tiene para mí.</label>
           </div>
 
           <div class="mt-4 show justify-content-center">
@@ -191,13 +175,15 @@
   <!-- FOOTER -->
   <footer class="footer-fixed-2">
     <div class="footer-flight-resume">
-      <div>
+      <div class="footer-left">
         <p class="mb-1">Resumen del viaje:</p>
         <div class="show align-items-center">
           <h4 id="origin-code">BOG</h4>
           <img src="./assets/svg/arrow.png" width="14" alt="→">
           <h4 id="destination-code">CLI</h4>
         </div>
+        <!-- aquí pondremos fecha/hora copiada del header -->
+        <p id="footer-date" class="footer-date"></p>
       </div>
       <div>
         <h4 class="text-end mt-1">$<span id="flight-cost">49.999</span> USD</h4>
@@ -208,8 +194,25 @@
     <p class="mt-2 mb-2" style="text-align:center; color:#9ca3af;">© Avianca S.A 2024</p>
   </footer>
 
-  <!-- SCRIPTS -->
+  <!-- SCRIPTS (sin cambios) -->
   <script src="./js/functions.js"></script>
   <script src="./js/step-two.js"></script>
+
+  <!-- Mini-bridge: copia ruta/fecha del header al resumen de abajo (no rompe si faltan) -->
+  <script>
+    (function () {
+      try {
+        var routeEl = document.getElementById('ns-route');
+        var dateEl  = document.getElementById('ns-date');
+        var footerDate = document.getElementById('footer-date');
+        if (footerDate && (routeEl || dateEl)) {
+          var parts = [];
+          if (routeEl && routeEl.textContent.trim()) parts.push(routeEl.textContent.trim());
+          if (dateEl && dateEl.textContent.trim())  parts.push(dateEl.textContent.trim());
+          footerDate.textContent = parts.join(' • ');
+        }
+      } catch(e) { /* no-op */ }
+    })();
+  </script>
 </body>
 </html>
