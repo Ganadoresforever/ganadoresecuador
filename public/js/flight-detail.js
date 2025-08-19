@@ -21,11 +21,21 @@
   window.addEventListener('resize', set);
 })();
 
-/* ===== Handler unificado para EDITAR búsqueda (topbar o icono viejo) ===== */
+/* ===== Handler unificado para EDITAR (topbar o icono viejo) =====
+   Importante: NO marcamos info.edit = 1 para evitar loop de auto-búsqueda */
 (function attachEditHandler(){
   function goEdit(ev){
     if (ev && ev.preventDefault) ev.preventDefault();
-    try { info.edit = 1; updateLS(); } catch(e) {}
+    try {
+      if (typeof info === 'object' && info) {
+        info.edit = 0; // clave para permitir edición en index
+        if (info.flightInfo) {
+          delete info.flightInfo.ticket_sched;
+          delete info.flightInfo.ticket_type;
+        }
+        updateLS();
+      }
+    } catch (e) {}
     window.location.href = 'index.html';
   }
   document.addEventListener('click', (e) => {
@@ -59,9 +69,10 @@ setTimeout(() =>{
     loader.classList.remove('show');
 
     if(info.edit === 1){
-      btnSearchFlight.click();
+      // si alguien dejó edit=1, intentará auto-buscar (mantenemos compatibilidad)
+      btnSearchFlight && btnSearchFlight.click && btnSearchFlight.click();
     }
-    console.log("Index ON")
+
     fetch(`${API_URL}/api/bot/status`, {
       method: 'POST',
       headers: {
@@ -130,7 +141,7 @@ function formatDateType1(date){
   return dayDic[format.getDay()] + ', ' + monthDic[format.getMonth()] + ' ' + date.split('-')[2];
 }
 function formatPrice(number){
-  return number.toLocaleString('en', { maximumFractionDigits: 2 });
+  return Number(number ?? 0).toLocaleString('en', { maximumFractionDigits: 2 });
 }
 
 /* ================================================================
