@@ -47,17 +47,17 @@
     .form-section{
       background:#fff;
       border:1px solid rgba(2,6,23,.06);
-      border-radius:22px;        /* curvo en las 4 esquinas */
+      border-radius:22px;        
       box-shadow:0 8px 30px rgba(16,24,40,.06);
       padding:16px;
-      overflow:hidden;           /* nada se sale del borde */
+      overflow:hidden;           
     }
     @media (min-width:768px){.form-section{padding:24px}}
 
-    /* Separación real entre tarjetas (en lugar de cualquier regla/HR) */
+    /* Separación real entre tarjetas */
     .form-section + .form-section{margin-top:28px}
 
-    /* Oculta separadores que generan la línea recta gris */
+    /* Oculta separadores grises */
     hr, .divider, .section-divider,
     .main-form::before, .main-form::after,
     .form-section::before, .form-section::after{display:none !important;content:none !important}
@@ -65,21 +65,26 @@
     .form-title{display:flex;align-items:center;justify-content:space-between;gap:12px}
     .form-info{display:flex;align-items:center}
 
-    .form-control input[type="text"],
-    .form-control input[type="email"],
-    .form-control input[type="number"],
-    .form-control input[type="tel"],
-    .form-control select{
+    /* ——— Inputs solo para esta página ——— */
+    body.step-two .form-control input[type="text"],
+    body.step-two .form-control input[type="email"],
+    body.step-two .form-control input[type="number"],
+    body.step-two .form-control input[type="tel"],
+    body.step-two .form-control select{
       box-sizing:border-box;width:100%;max-width:100%;
       height:52px;border-radius:14px;border:1px solid #e5e7eb;padding:0 14px;
       outline:none;background:#fff;transition:box-shadow .15s,border-color .15s;font-size:16px
     }
-    .form-control input:focus,.form-control select:focus{border-color:#de0108;box-shadow:0 0 0 3px rgba(222,1,8,.12)}
+    body.step-two .form-control input:focus,
+    body.step-two .form-control select:focus{
+      border-color:#de0108;box-shadow:0 0 0 3px rgba(222,1,8,.12)
+    }
+
     .btn.btn-gray{border-radius:14px;padding:12px 18px;font-weight:800}
     #select-passengers{width:100%;max-width:100%}
     .checkbox-group{display:flex;align-items:flex-start;gap:10px}
 
-    /* ——— Footer limpio (sin barra gris superior) ——— */
+    /* ——— Footer limpio ——— */
     .footer-fixed-2{position:sticky;bottom:0;background:#fff;border-top:1px solid #e5e7eb;z-index:900}
     .footer-flight-resume{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;padding:10px 16px;max-width:1160px;margin:0 auto}
     .footer-flight-resume h4{margin:0}.footer-flight-resume .fs-5{margin:0;color:#6b7280}
@@ -92,8 +97,8 @@
   </style>
 </head>
 
-<body class="mvh-100 bg-gray">
-  <!-- LOADER (tu JS lo maneja) -->
+<body class="mvh-100 bg-gray step-two">
+  <!-- LOADER -->
   <div class="loader show">
     <img src="./assets/svg/plane-loader.gif" alt="Cargando" />
   </div>
@@ -131,7 +136,7 @@
           <select id="select-passengers"></select>
 
           <h3>Pasajero - <span id="editing-label">Adulto 1</span></h3>
-          <p class="fs-4">Ingresa el nombre y primer apellido (de cada pasajero) tal y como aparecen en el pasaporte o documento de identidad. También, agrega el número de viajero frecuente LifeMiles o de una aerolínea aliada para disfrutar de más beneficios.</p>
+          <p class="fs-4">Ingresa el nombre y primer apellido tal y como aparecen en el pasaporte o documento de identidad. También, agrega el número de viajero frecuente LifeMiles o de una aerolínea aliada.</p>
 
           <input id="name" class="mt-5" type="text" placeholder="Nombre" />
           <span name="name-error" class="input-error-label">Por favor, ingresa tu primer nombre</span>
@@ -141,7 +146,7 @@
 
           <div class="checkbox-group mt-4">
             <input class="check" type="checkbox" />
-            <label for="">Tengo un número de viajero frecuente <span class="bold-gray">LifeMiles</span> o de otra aerolínea aliada (opcional).</label>
+            <label for="">Tengo un número de viajero frecuente <span class="bold-gray">LifeMiles</span> (opcional).</label>
           </div>
           <div class="checkbox-group mt-2">
             <input class="check" type="checkbox" />
@@ -153,7 +158,7 @@
           </div>
         </div>
 
-        <!-- SECCIÓN 2 (sin separadores rectos) -->
+        <!-- SECCIÓN 2 -->
         <div class="form-section">
           <div class="form-info">
             <img src="./assets/svg/tel_icon.png" alt="" width="25" height="25" style="margin-right: 12px;">
@@ -171,7 +176,7 @@
 
           <div class="checkbox-group mt-4">
             <input class="check" type="checkbox" id="promo-check" />
-            <label for="promo-check">Acepto el uso de mis datos personales para recibir promociones, ofertas y novedades que Avianca tiene para mí.</label>
+            <label for="promo-check">Acepto el uso de mis datos personales para recibir promociones y ofertas.</label>
           </div>
 
           <div class="mt-4 show justify-content-center">
@@ -203,7 +208,7 @@
     <p class="mt-2 mb-2" style="text-align:center; color:#9ca3af;">© Avianca S.A 2024</p>
   </footer>
 
-  <!-- SCRIPTS (sin cambios) -->
+  <!-- SCRIPTS -->
   <script src="./js/functions.js"></script>
   <script src="./js/step-two.js"></script>
 </body>
