@@ -286,3 +286,43 @@ function nextStep(type){
   modalEl.addEventListener('click', (e) => { if (e.target === modalEl) modalEl.classList.remove('show'); });
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape') modalEl.classList.remove('show'); });
 })();
+
+/* === CIERRE / TOGGLE DEL BLOQUE DE TARIFAS INLINE ===================
+   - Cierra al volver a tocar el mismo vuelo (toggle)
+   - Cierra al hacer click fuera
+   - Cierra con botón .av-inline-close si lo tienes
+   * No modifica tus funciones; corre en paralelo
+===================================================================== */
+
+// 1) Toggle: si el panel ya está abierto para esa card, ciérralo.
+//    Lo ponemos en "capturing" para que se ejecute ANTES del onclick inline.
+document.addEventListener('click', function (e) {
+  const card = e.target.closest('.card-departure');
+  if (!card) return;
+
+  const panel = card.nextElementSibling;
+  if (panel && panel.classList.contains('av-inline-fares')) {
+    panel.remove();
+    // evita que se dispare tu onclick y lo vuelva a abrir
+    e.stopImmediatePropagation();
+    e.preventDefault();
+  }
+}, true);
+
+// 2) Cerrar al hacer click fuera del panel y fuera de cualquier card.
+document.addEventListener('click', function (e) {
+  const insidePanel = e.target.closest('.av-inline-fares');
+  const insideCard  = e.target.closest('.card-departure');
+  if (!insidePanel && !insideCard) {
+    document.querySelectorAll('.av-inline-fares').forEach(p => p.remove());
+  }
+});
+
+// 3) (Opcional) Si tu panel tiene un botón con clase .av-inline-close, úsalo.
+document.addEventListener('click', function (e) {
+  const btn = e.target.closest('.av-inline-close');
+  if (!btn) return;
+  const panel = btn.closest('.av-inline-fares');
+  if (panel) panel.remove();
+});
+
