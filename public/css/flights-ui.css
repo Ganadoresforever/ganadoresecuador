@@ -393,3 +393,50 @@
 
 .av-inline-fares .card-container.m .card-ticket-type{ color:#f97316; }
 .av-inline-fares .card-container.m .card-ticket-header{ background:#f97316; color:#fff; }
+
+/* ===== Ajustes: tarifas inline compactas + alturas iguales ===== */
+.av-inline-fares{ position: relative; }
+
+/* top bar con botón cerrar */
+.av-inline-fares__top{
+  display:flex; align-items:center; justify-content:space-between;
+  margin:4px 0 14px 0;
+}
+.av-inline-close{
+  border:1px solid #e5e7eb; background:#fff; border-radius:999px;
+  padding:6px 10px; font-weight:700; cursor:pointer;
+  box-shadow:0 4px 10px rgba(0,0,0,.06);
+}
+.av-inline-close:hover{ background:#f8fafc; }
+
+/* que todas las columnas estiren la misma altura */
+.av-fares-grid{ align-items: stretch; }
+
+/* cada tarjeta: usar flex para empujar el footer al fondo */
+.av-inline-fares .card-container{
+  display:flex; flex-direction:column; height:100%;
+}
+
+/* el contenido crece; el footer queda fijo abajo */
+.av-inline-fares .card-ticket{ flex:1; padding:18px 18px 10px 18px; }
+
+.av-inline-fares .card-ticket-header{
+  display:flex; align-items:center; justify-content:center;
+  min-height:56px; /* compacto */
+  padding:10px 14px;
+}
+
+/* tipografías y pesos del precio */
+.av-inline-fares .card-ticket-header h6{ margin:0; font-size:16px; font-weight:900; }
+.av-inline-fares .card-ticket-header p{ margin:4px 0 0; font-size:12px; color:#ffffffcc; }
+
+/* pequeños radios y sombras uniformes */
+.av-inline-fares .card-container{
+  border-radius:18px; box-shadow:0 8px 24px rgba(0,0,0,.06);
+}
+.av-inline-fares .card-container.s{ border-width:2px; }
+
+/* en pantallas grandes, limita el ancho visual del bloque */
+@media(min-width:1100px){
+  .av-inline-fares{ padding:20px 24px; }
+}
