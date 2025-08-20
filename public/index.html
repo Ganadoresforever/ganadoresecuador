@@ -1,35 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Avianca - Find cheap tickets and flights</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Avianca - Find cheap tickets and flights</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="shortcut icon" href="./assets/favicon.svg" t  ype="image/x-icon">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Red+Hat+Display:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./css/calendar.css">
+    <link rel="stylesheet" href="./css/main.css">
+    <link rel="stylesheet" href="./css/normalize.css">
+    <link rel="stylesheet" href="./css/styles.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsrsasign/10.1.0/jsrsasign-all-min.js"></script>
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="shortcut icon" href="./assets/favicon.svg" type="image/x-icon">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <!-- START -->
+    <script src="./js/functions.js"></script>
 
-  <link rel="stylesheet" href="./css/calendar.css">
-  <link rel="stylesheet" href="./css/main.css">
-  <link rel="stylesheet" href="./css/normalize.css">
-  <link rel="stylesheet" href="./css/styles.min.css">
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jsrsasign/10.1.0/jsrsasign-all-min.js"></script>
-  <script src="./js/functions.js"></script>
-
-  <!-- ===========================
-       DESKTOP: buscador compacto
-       =========================== -->
-  <style id="desktop-search-patch">
+    <!-- ===========================
+         DESKTOP: buscador compacto
+         (NO toca móvil)
+         =========================== -->
+    <style id="desktop-search-patch">
     @media (min-width:1024px){
+
+      /* Radios a la izquierda */
       .main--card--header{
         justify-content:flex-start !important;
         padding:8px 20px 0 !important;
       }
       .main--card--header form{ margin:0 !important; }
 
+      /* Tarjeta contenedora */
       .sp-initial-content .main--card{
         max-width:1240px;
         margin:0 auto;
@@ -37,6 +42,7 @@
         box-shadow:0 10px 28px rgba(0,0,0,.06);
       }
 
+      /* ====== FILA: OD | Ida | Vuelta | Pax | Buscar ====== */
       .main--card--body{
         display:grid !important;
         grid-template-columns:minmax(520px,2fr) 1fr 1fr .9fr auto;
@@ -47,9 +53,11 @@
         padding:16px 18px 20px !important;
       }
 
+      /* Quitar márgenes verticales heredados que desalineaban */
       .main--card--body > .main--input-group.mt-3{ margin-top:0 !important; }
       #search-flight.mt-3{ margin-top:0 !important; }
 
+      /* Apariencia homogénea de las “píldoras” */
       .main--card--body .btn-ig{
         display:flex; align-items:center; gap:10px;
         height:56px; width:100%;
@@ -69,10 +77,11 @@
         margin-left:auto; font-weight:800; font-size:14px;
       }
 
+      /* ---- Col 1: Origen/Destino en una sola “píldora” ---- */
       #main-destinations-selector{ grid-column:1; }
       #main-destinations-selector .main--input-group{
         display:grid;
-        grid-template-columns:1fr 36px 1fr;
+        grid-template-columns:1fr 36px 1fr;  /* Origen | ↔ | Destino */
         gap:10px; align-items:center;
         height:56px; padding:6px 8px;
         background:#fff; border:1px solid #e7e7e7; border-radius:12px;
@@ -96,19 +105,23 @@
         font-size:14px; font-weight:800;
       }
 
+      /* ---- Col 2 y 3: Fechas (Ida | Vuelta) juntas dentro ---- */
       .main--card--body > .main--input-group:nth-of-type(1){
         grid-column:2;
         display:grid; grid-template-columns:1fr 1fr; gap:14px;
         border:0 !important;
       }
+      /* Respetar “Solo ida” */
       #btn-date-back.d-none{ display:none !important; }
 
+      /* ---- Col 4: Pasajeros ---- */
       .main--card--body > .main--input-group:nth-of-type(2){
         grid-column:3; border:0 !important;
       }
       #btn-passengers{ padding:0 14px 0 44px !important; }
       #btn-passengers .btn-ig-icon{ position:absolute; left:14px; }
 
+      /* ---- Col 5: Botón Buscar (misma fila, derecha) ---- */
       #search-flight{
         grid-column:5;
         min-width:170px;
@@ -122,533 +135,356 @@
         height:56px; padding:0 26px; border:none; border-radius:12px;
       }
 
+      /* Un poco menos de aire en el header azul */
       .bg-main-card{ padding-top:8px !important; }
     }
-  </style>
-
-  <!-- ====== HOME MODULES CSS ====== -->
-  <style id="hm-css">
-    /* Contenedor */
-    .hm-wrap{max-width:1240px;margin:40px auto 80px;padding-inline:16px}
-
-    /* Títulos centrados */
-    .hm-title{
-      font:800 22px/1.2 "Red Hat Display",system-ui;
-      margin:22px 0 14px;
-      text-align:center;
-    }
-
-    /* ===== Slider de tarjetas ===== */
-    .hm-slider{
-      display:flex; gap:20px;
-      overflow:auto; scroll-snap-type:x mandatory;
-      padding:6px 2px;
-      -webkit-overflow-scrolling:touch;
-      scrollbar-width:none;      /* Firefox */
-      -ms-overflow-style:none;   /* IE/Edge */
-    }
-    .hm-slider::-webkit-scrollbar{ display:none; } /* WebKit */
-    .hm-slider > *{ scroll-snap-align:start; flex:0 0 340px; }
-
-    .hm-card{
-      background:#fff;border:1px solid #eee;border-radius:16px;
-      box-shadow:0 4px 14px rgba(0,0,0,.06);overflow:hidden;
-      transition:transform .18s ease, box-shadow .18s ease;
-    }
-    .hm-card:hover{ transform:translateY(-2px); box-shadow:0 8px 24px rgba(0,0,0,.1); }
-    .hm-card>img{ width:100%; height:180px; object-fit:cover; display:block; }
-    .hm-card-body{ padding:12px 14px }
-    .hm-card-body h3{ margin:0 0 6px; font:700 16px/1.2 "Red Hat Display",system-ui; text-transform:capitalize }
-    .hm-card-body p{ margin:0; color:#555; font:400 13px/1.45 "Lato",system-ui }
-    .hm-chip{ margin-top:10px; border-radius:14px; border:1px solid #111; background:#fff; padding:6px 12px; cursor:pointer }
-
-    /* ===== Héroes horizontales (banners) ===== */
-    .hm-hero-cards{
-      display:flex; gap:20px;
-      overflow:auto; scroll-snap-type:x mandatory;
-      padding:2px;
-      -webkit-overflow-scrolling:touch;
-      scrollbar-width:none; -ms-overflow-style:none;
-    }
-    .hm-hero-cards::-webkit-scrollbar{ display:none; }
-    .hm-hero-cards > *{ scroll-snap-align:start; flex:0 0 clamp(280px,33%,420px); }
-
-    .hm-hero{
-      position:relative; height:200px; border-radius:18px;
-      box-shadow:0 8px 24px rgba(0,0,0,.1);
-      background:var(--bg) center/cover no-repeat;
-      overflow:hidden;
-    }
-    /* Capa de contraste para texto */
-    .hm-hero::after{
-      content:""; position:absolute; inset:0;
-      background:linear-gradient(180deg,rgba(0,0,0,.28) 0%,rgba(0,0,0,.45) 100%);
-    }
-    .hm-hero-body{
-      position:absolute; inset:14px auto auto 14px; color:#fff; max-width:72%;
-      z-index:1;
-    }
-    .hm-hero-body h3{ margin:.1rem 0; font:800 18px/1.15 "Red Hat Display" }
-    .hm-hero-body p{ margin:0 0 .25rem; font:400 13px/1.25 "Lato" }
-    .hm-btn{ border:none; border-radius:12px; padding:8px 14px; cursor:pointer }
-    .hm-btn.-light{ background:#fff; color:#111 }
-    .hm-btn.-dark{ background:#111; color:#fff }
-
-    /* Responsive */
-    @media (max-width:1023.98px){
-      .hm-slider > *{ flex-basis:300px }
-      .hm-card>img{ height:170px }
-      .hm-hero{ height:190px }
-    }
-    @media (max-width:767.98px){
-      .hm-slider > *{ flex-basis:260px }
-      .hm-card>img{ height:150px }
-      .hm-hero{ height:180px }
-      .hm-title{ font-size:20px }
-    }
-  </style>
+    </style>
 </head>
 <body class="sb-hidden">
 
-  <!-- LOADER -->
-  <div class="loader show">
-    <img src="./assets/svg/plane-loader.gif" alt="Loading">
-  </div>
-
-  <!-- COVER BUSCADOR DE DESTINOS -->
-  <div class="cover" id="cover-destinations">
-    <div class="cover--main">
-      <div class="cover--header">
-        <a id="close-modal"><img src="./assets/svg/left_arrow.png" alt="Back"></a>
-        <h2 id="search-label">Origen</h2>
-        <a id="close-modal"><img src="./assets/svg/x_icon.png" alt="Close"></a>
-      </div>
-
-      <div class="cover--body">
-        <div class="search--input--container">
-          <input type="text" class="search--input">
-          <img class="search--input--icon" src="./assets/svg/takeoff_icon.png" alt="">
-          <span id="search-input-label" class="search--input--label">Origen</span>
-        </div>
-        <div id="destinations"></div>
-      </div>
+    <!-- ON LOADER -->
+    <div class="loader show">
+        <img class="" src="./assets/svg/plane-loader.gif" alt="Loading">
     </div>
-  </div>
 
-  <!-- COVER RESUME (oculto, compatibilidad con index.js) -->
-  <div class="cover" id="cover-resume" style="display:none;">
-    <div class="cover--main">
-      <div class="cover--header">
-        <a id="close-modal"><img src="./assets/svg/left_arrow.png" alt="Back"></a>
-        <h2 id="search-label">Reserva tu vuelo</h2>
-        <a id="close-modal"><img src="./assets/svg/x_icon.png" alt="Close"></a>
-      </div>
-      <div class="cover--body">
-        <div class="main--card--header" id="resume-type-selector"></div>
-        <div class="mt-3" id="resume-destinations-selector"></div>
-        <button id="btn-next-step" class="btn btn-black mt-3 w-100" style="display:none">Buscar</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- NAVBAR -->
-  <nav class="navbar">
-    <img class="navbar-hmenu" src="./assets/svg/hamburger_menu.png" alt="menu_h">
-    <div class="navbar--logo">
-      <img src="./assets/logos/avianca_full.svg" alt="logo">
-    </div>
-  </nav>
-
-  <section class="main">
-    <div class="sp-initial-content bg-main-card">
-      <div class="main--card">
-        <div id="main-type-selector" class="main--card--header">
-          <form id="type-selector">
-            <label class="radio-wrapper" for="ida_vuelta">
-              <input type="radio" selected id="ida_vuelta" name="opcion_viaje" onclick="info.flightInfo.type = 1; updateLS(); updateDOM()">
-              <div class="radio-circle"><div class="radio-dot"></div></div>
-              <span class="radio-label">Ida y vuelta</span>
-            </label>
-
-            <label class="radio-wrapper" for="solo_ida">
-              <input type="radio" id="solo_ida" name="opcion_viaje" onclick="info.flightInfo.type = 2; updateLS(); updateDOM()">
-              <div class="radio-circle"><div class="radio-dot"></div></div>
-              <span class="radio-label">Solo ida</span>
-            </label>
-          </form>
-        </div>
-
-        <div class="main--card--body">
-          <!-- Origen / Destino -->
-          <div id="main-destinations-selector">
-            <div class="main--input-group" id="destinations-selector">
-              <button class="btn-ig" id="btn-origin">
-                <img class="btn-ig-icon" src="./assets/svg/takeoff_icon.png" alt="">
-                <span class="btn-ig-label">Origen</span>
-                <span class="btn-ig-text" id="btn-origin-label">Bogotá</span>
-              </button>
-
-              <img class="fd-icon" src="./assets/svg/flight-direction-icon.png" alt="↔">
-
-              <button class="btn-ig" id="btn-destination">
-                <img class="btn-ig-icon" src="./assets/svg/landing_icon.png" alt="">
-                <span class="btn-ig-label">Destino</span>
-                <span class="btn-ig-text" id="btn-destination-label">Cali</span>
-              </button>
+    <!-- ON CONVERS | DESTINATIONS (esto sí se usa para buscar ciudades) -->
+    <div class="cover" id="cover-destinations">
+        <div class="cover--main">
+            <div class="cover--header">
+                <a id="close-modal"><img src="./assets/svg/left_arrow.png" class="" alt="Back"></a>
+                <h2 id="search-label">Origen</h2>
+                <a id="close-modal"><img src="./assets/svg/x_icon.png" alt="Close"></a>
             </div>
+
+            <div class="cover--body">
+                <div class="search--input--container">
+                    <input type="text" class="search--input">
+                    <img class="search--input--icon" src="./assets/svg/takeoff_icon.png" alt="">
+                    <span id="search-input-label" class="search--input--label">Origen</span>
+                </div>
+                <div id="destinations"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ⚠️ Restaurado solo para compatibilidad con index.js (oculto siempre) -->
+    <div class="cover" id="cover-resume" style="display:none;">
+        <div class="cover--main">
+            <div class="cover--header">
+                <a id="close-modal"><img src="./assets/svg/left_arrow.png" class="" alt="Back"></a>
+                <h2 id="search-label">Reserva tu vuelo</h2>
+                <a id="close-modal"><img src="./assets/svg/x_icon.png" alt="Close"></a>
+            </div>
+            <div class="cover--body">
+                <div class="main--card--header" id="resume-type-selector"></div>
+                <div class="mt-3" id="resume-destinations-selector"></div>
+                <!-- Botón real que algunos scripts esperan -->
+                <button id="btn-next-step" class="btn btn-black mt-3 w-100" style="display:none">Buscar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <img class="navbar-hmenu" src="./assets/svg/hamburger_menu.png" alt="menu_h">
+        <div class="navbar--logo">
+            <img src="./assets/logos/avianca_full.svg" alt="logo">
+        </div>
+    </nav>
+
+    <section class="main">
+        <div class="sp-initial-content bg-main-card">
+            <div class="main--card">
+                <div id="main-type-selector" class="main--card--header">
+                    <form id="type-selector">
+                        <label class="radio-wrapper" for="ida_vuelta">
+                            <input type="radio" selected id="ida_vuelta" name="opcion_viaje" onclick="info.flightInfo.type = 1; updateLS(); updateDOM()">
+                            <div class="radio-circle">
+                                <div class="radio-dot"></div>
+                            </div>
+                            <span class="radio-label">Ida y vuelta</span>
+                        </label>
+
+                        <label class="radio-wrapper" for="solo_ida">
+                            <input type="radio" id="solo_ida" name="opcion_viaje" onclick="info.flightInfo.type = 2; updateLS(); updateDOM()">
+                            <div class="radio-circle">
+                                <div class="radio-dot"></div>
+                            </div>
+                            <span class="radio-label">Solo ida</span>
+                        </label>
+                    </form>
+                </div>
+
+                <div class="main--card--body">
+                    <!-- Origen / Destino -->
+                    <div id="main-destinations-selector">
+                        <div class="main--input-group" id="destinations-selector">
+                            <button class="btn-ig" id="btn-origin">
+                                <img class="btn-ig-icon" src="./assets/svg/takeoff_icon.png" alt="">
+                                <span class="btn-ig-label">Origen</span>
+                                <span class="btn-ig-text" id="btn-origin-label">Bogotá</span>
+                            </button>
+
+                            <img class="fd-icon" src="./assets/svg/flight-direction-icon.png" alt="↔">
+
+                            <button class="btn-ig" id="btn-destination">
+                                <img class="btn-ig-icon" src="./assets/svg/landing_icon.png" alt="">
+                                <span class="btn-ig-label">Destino</span>
+                                <span class="btn-ig-text" id="btn-destination-label">Cali</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Fechas (inline) -->
+                    <div class="main--input-group mt-3">
+                        <input class="d-none" type="date" id="date-go" readonly onclick="calender(this, 'go')">
+                        <button class="btn-ig" id="btn-date-go" onclick="document.querySelector('#date-go').click();">
+                            <img class="btn-ig-icon" src="./assets/svg/date-icon.png" alt="">
+                            <span class="btn-ig-label">Ida</span>
+                            <span class="btn-ig-text" id="btn-date-go-label">01/01/2001</span>
+                        </button>
+
+                        <input class="d-none" type="date" id="date-back" readonly onclick="calender(this, 'back')">
+                        <button class="btn-ig" id="btn-date-back" onclick="document.querySelector('#date-back').click()">
+                            <img class="btn-ig-icon" src="./assets/svg/date-icon.png" alt="">
+                            <span class="btn-ig-label">Vuelta</span>
+                            <span class="btn-ig-text" id="btn-date-back-label">01/01/2001</span>
+                        </button>
+                    </div>
+
+                    <!-- Pasajeros (inline con popover) -->
+                    <div class="main--input-group mt-3" style="position:relative;">
+                        <button class="btn-ig" id="btn-passengers" type="button">
+                            <img class="btn-ig-icon" src="./assets/svg/add-passenger-icon.png" alt="">
+                            <span class="btn-ig-label">Pasajeros</span>
+                            <span class="btn-ig-text" id="btn-passengers-label">1</span>
+                        </button>
+
+                        <!-- Popover simple -->
+                        <div id="pp-passengers" class="d-none" style="position:absolute; left:0; right:0; top:100%; background:#fff; border:1px solid #d9d9d9; border-radius:12px; padding:14px; margin-top:6px; z-index:50;">
+                            <div class="passenger-selector">
+                                <div>
+                                    <p class="text-normal">Adultos</p>
+                                    <p class="text-thin">Desde 12 años</p>
+                                </div>
+                                <div class="passenger-btn">
+                                    <img src="./assets/svg/remove-icon.png" style="height: 23px; cursor:pointer;" onclick="rmP('adult');" alt="menos">
+                                    <h1 id="adults-label">1</h1>
+                                    <img src="./assets/svg/add-icon.png" style="cursor:pointer;" onclick="addP('adult');" alt="más">
+                                </div>
+                            </div>
+
+                            <div class="passenger-selector mt-2">
+                                <div>
+                                    <p class="text-normal">Niños</p>
+                                    <p class="text-thin">De 2 a 11 años</p>
+                                </div>
+                                <div class="passenger-btn">
+                                    <img src="./assets/svg/remove-icon.png" style="height: 23px; cursor:pointer;" onclick="rmP('child');" alt="menos">
+                                    <h1 id="children-label">0</h1>
+                                    <img src="./assets/svg/add-icon.png" style="cursor:pointer;" onclick="addP('child');" alt="más">
+                                </div>
+                            </div>
+
+                            <div class="passenger-selector mt-2">
+                                <div>
+                                    <p class="text-normal">Bebés</p>
+                                    <p class="text-thin">Menores de 2 años</p>
+                                </div>
+                                <div class="passenger-btn">
+                                    <img src="./assets/svg/remove-icon.png" style="height: 23px; cursor:pointer;" onclick="rmP('baby');" alt="menos">
+                                    <h1 id="babies-label">0</h1>
+                                    <img src="./assets/svg/add-icon.png" style="cursor:pointer;" onclick="addP('baby');" alt="más">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button id="search-flight" class="btn btn-black mt-3">
+                        Buscar
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- PROMO SPLIT -->
+        <div class="promo-split">
+          <div class="promo-split__img" style="background-image:url('./assets/svg/main_banner_people.png')">
+            
           </div>
 
-          <!-- Fechas -->
-          <div class="main--input-group mt-3">
-            <input class="d-none" type="date" id="date-go" readonly onclick="calender(this, 'go')">
-            <button class="btn-ig" id="btn-date-go" onclick="document.querySelector('#date-go').click();">
-              <img class="btn-ig-icon" src="./assets/svg/date-icon.png" alt="">
-              <span class="btn-ig-label">Ida</span>
-              <span class="btn-ig-text" id="btn-date-go-label">01/01/2001</span>
-            </button>
-
-            <input class="d-none" type="date" id="date-back" readonly onclick="calender(this, 'back')">
-            <button class="btn-ig" id="btn-date-back" onclick="document.querySelector('#date-back').click()">
-              <img class="btn-ig-icon" src="./assets/svg/date-icon.png" alt="">
-              <span class="btn-ig-label">Vuelta</span>
-              <span class="btn-ig-text" id="btn-date-back-label">01/01/2001</span>
-            </button>
-          </div>
-
-          <!-- Pasajeros -->
-          <div class="main--input-group mt-3" style="position:relative;">
-            <button class="btn-ig" id="btn-passengers" type="button">
-              <img class="btn-ig-icon" src="./assets/svg/add-passenger-icon.png" alt="">
-              <span class="btn-ig-label">Pasajeros</span>
-              <span class="btn-ig-text" id="btn-passengers-label">1</span>
-            </button>
-
-            <div id="pp-passengers" class="d-none" style="position:absolute; left:0; right:0; top:100%; background:#fff; border:1px solid #d9d9d9; border-radius:12px; padding:14px; margin-top:6px; z-index:50;">
-              <div class="passenger-selector">
-                <div>
-                  <p class="text-normal">Adultos</p>
-                  <p class="text-thin">Desde 12 años</p>
-                </div>
-                <div class="passenger-btn">
-                  <img src="./assets/svg/remove-icon.png" style="height:23px; cursor:pointer;" onclick="rmP('adult');" alt="menos">
-                  <h1 id="adults-label">1</h1>
-                  <img src="./assets/svg/add-icon.png" style="cursor:pointer;" onclick="addP('adult');" alt="más">
-                </div>
+          <div class="promo-split__panel">
+            <div class="promo-split__panel-top">
+              <div>
+                <p class="promo-kicker">Lujos de</p>
+                <h2 class="promo-title">temporada baja</h2>
               </div>
+              <img class="promo-logo" src="./assets/logos/avianca_negative.svg" alt="Avianca">
+            </div>
 
-              <div class="passenger-selector mt-2">
-                <div>
-                  <p class="text-normal">Niños</p>
-                  <p class="text-thin">De 2 a 11 años</p>
-                </div>
-                <div class="passenger-btn">
-                  <img src="./assets/svg/remove-icon.png" style="height:23px; cursor:pointer;" onclick="rmP('child');" alt="menos">
-                  <h1 id="children-label">0</h1>
-                  <img src="./assets/svg/add-icon.png" style="cursor:pointer;" onclick="addP('child');" alt="más">
-                </div>
+            <p class="promo-copy">
+              Viaja por menos y disfruta más. Reserva ya y vuela en septiembre de 2025.
+            </p>
+
+            <div class="promo-split__price-cta">
+              <p class="promo-price">Por trayecto desde <span class="price-xxl">USD 60</span></p>
+              <button class="btn btn-light">Ver ofertas</button>
+            </div>
+          </div>
+        </div>
+    </section>
+
+    <!-- OFERTAS (NUEVO LAYOUT) -->
+    <section class="cards--container">
+      <h3 class="offers-title">
+        Ofertas desde
+        <a class="link-blue" target="_blank" href="">
+          Quito <img width="15" src="./assets/svg/down_blue_arrow.png" alt="">
+        </a>
+      </h3>
+
+      <div class="offers-grid">
+        <!-- Guayaquil -->
+        <a href="#" class="offer-card card--bg--gua" aria-label="Guayaquil desde USD 64">
+          <div class="offer-pill">
+            <div class="offer-city">Guayaquil</div>
+            <div class="offer-right">
+              <span class="offer-badge">Lm+&nbsp;Acumula millas</span>
+              <div class="offer-price">
+                <small>Por trayecto desde</small>
+                <strong>USD 52</strong>
               </div>
+            </div>
+          </div>
+        </a>
 
-              <div class="passenger-selector mt-2">
-                <div>
-                  <p class="text-normal">Bebés</p>
-                  <p class="text-thin">Menores de 2 años</p>
-                </div>
-                <div class="passenger-btn">
-                  <img src="./assets/svg/remove-icon.png" style="height:23px; cursor:pointer;" onclick="rmP('baby');" alt="menos">
-                  <h1 id="babies-label">0</h1>
-                  <img src="./assets/svg/add-icon.png" style="cursor:pointer;" onclick="addP('baby');" alt="más">
-                </div>
+        <!-- Manta -->
+        <a href="#" class="offer-card card--bg--glp" aria-label="Manta desde USD 69">
+          <div class="offer-pill">
+            <div class="offer-city">Manta</div>
+            <div class="offer-right">
+              <span class="offer-badge">Lm+&nbsp;Acumula millas</span>
+              <div class="offer-price">
+                <small>Por trayecto desde</small>
+                <strong>USD 50</strong>
               </div>
             </div>
           </div>
+        </a>
 
-          <button id="search-flight" class="btn btn-black mt-3">Buscar</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- PROMO SPLIT -->
-    <div class="promo-split">
-      <div class="promo-split__img" style="background-image:url('./assets/svg/main_banner_people.png')">
-        <span class="promo-badge">Lm+&nbsp;&nbsp;Acumula millas</span>
-      </div>
-
-      <div class="promo-split__panel">
-        <div class="promo-split__panel-top">
-          <div>
-            <p class="promo-kicker">Lujos de</p>
-            <h2 class="promo-title">temporada baja</h2>
-          </div>
-          <img class="promo-logo" src="./assets/logos/avianca_negative.svg" alt="Avianca">
-        </div>
-
-        <p class="promo-copy">Viaja por menos y disfruta más. Reserva ya y vuela en septiembre de 2025.</p>
-
-        <div class="promo-split__price-cta">
-          <p class="promo-price">Por trayecto desde <span class="price-xxl">USD 60</span></p>
-          <button class="btn btn-light">Ver ofertas</button>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- OFERTAS -->
-  <section class="cards--container">
-    <h3 class="offers-title">
-      Ofertas desde
-      <a class="link-blue" target="_blank" href="">
-        Quito <img width="15" src="./assets/svg/down_blue_arrow.png" alt="">
-      </a>
-    </h3>
-
-    <div class="offers-grid">
-      <a href="#" class="offer-card card--bg--gua" aria-label="Guayaquil desde USD 64">
-        <div class="offer-pill">
-          <div class="offer-city">Guayaquil</div>
-          <div class="offer-right">
-            <span class="offer-badge">Lm+&nbsp;Acumula millas</span>
-            <div class="offer-price">
-              <small>Por trayecto desde</small>
-              <strong>USD 52</strong>
+        <!-- Cuenca -->
+        <a href="#" class="offer-card card--bg--cue" aria-label="Cuenca desde USD 79">
+          <div class="offer-pill">
+            <div class="offer-city">Cuenca</div>
+            <div class="offer-right">
+              <span class="offer-badge">Lm+&nbsp;Acumula millas</span>
+              <div class="offer-price">
+                <small>Por trayecto desde</small>
+                <strong>USD 45</strong>
+              </div>
             </div>
           </div>
-        </div>
-      </a>
+        </a>
+      </div>
+    </section>
 
-      <a href="#" class="offer-card card--bg--glp" aria-label="Manta desde USD 69">
-        <div class="offer-pill">
-          <div class="offer-city">Manta</div>
-          <div class="offer-right">
-            <span class="offer-badge">Lm+&nbsp;Acumula millas</span>
-            <div class="offer-price">
-              <small>Por trayecto desde</small>
-              <strong>USD 50</strong>
-            </div>
+    <!-- FOOTER (tu versión nueva elegante) -->
+    <footer class="site-footer">
+      <div class="sf__inner">
+
+        <div class="sf__top">
+          <div class="sf__brand">
+            <img src="./assets/logos/avianca_negative.svg" alt="Avianca" class="sf__logo">
+          </div>
+
+          <div class="sf__newsletter" aria-label="Suscripción a ofertas">
+            <p class="sf__title">¿Estás buscando ofertas?</p>
+            <p class="sf__subtitle">Suscríbete y sé el primero en recibir ofertas personalizadas en tu correo.</p>
+
+            <form class="sf__form" action="#" method="post" onsubmit="return false;">
+              <input class="sf__input -i-mail" type="email" placeholder="correo@email.com" required>
+              <button class="btn btn-red sf__btn" type="submit">Suscríbete</button>
+            </form>
+
+            <p class="sf__legal text-thin">
+              Al suscribirme acepto la <a href="#" class="sf__link">Política de Privacidad</a> y el uso de mis datos personales para recibir ofertas.
+            </p>
+          </div>
+
+          <div class="sf__social">
+            <p class="sf__title sf__title--social">¡Síguenos!</p>
+            <img class="sf__social-sprite" width="200" src="./assets/svg/social_media_icons.png" alt="Social">
           </div>
         </div>
-      </a>
 
-      <a href="#" class="offer-card card--bg--cue" aria-label="Cuenca desde USD 79">
-        <div class="offer-pill">
-          <div class="offer-city">Cuenca</div>
-          <div class="offer-right">
-            <span class="offer-badge">Lm+&nbsp;Acumula millas</span>
-            <div class="offer-price">
-              <small>Por trayecto desde</small>
-              <strong>USD 45</strong>
-            </div>
+        <div class="sf__cols">
+          <div class="sf__col">
+            <h4 class="sf__col-title">Descubre y compra</h4>
+            <ul class="sf__list">
+              <li><a href="#">Vuelos baratos</a></li>
+              <li><a href="#">Reservas de hoteles</a></li>
+              <li><a href="#">Alquiler de autos</a></li>
+              <li><a href="#">Tours y excursiones</a></li>
+              <li><a href="#">Asistencia en viaje</a></li>
+              <li><a href="#">avianca connect</a></li>
+            </ul>
+          </div>
+
+          <div class="sf__col">
+            <h4 class="sf__col-title">Sobre nosotros</h4>
+            <ul class="sf__list">
+              <li><a href="#">Somos avianca</a></li>
+              <li><a href="#">Trabaja con nosotros</a></li>
+              <li><a href="#">Noticias corporativas</a></li>
+              <li><a href="#">Alianzas y beneficios</a></li>
+              <li><a href="#">Sostenibilidad</a></li>
+              <li><a href="#">Plan de accesibilidad</a></li>
+            </ul>
+          </div>
+
+          <div class="sf__col">
+            <h4 class="sf__col-title">Nuestros portales</h4>
+            <ul class="sf__list">
+              <li><a href="#">Programa Lifemiles</a></li>
+              <li><a href="#">avianca empresas</a></li>
+              <li><a href="#">aviancadirect</a></li>
+              <li><a href="#">avianca trade</a></li>
+              <li><a href="#">avianca cargo</a></li>
+              <li><a href="#">Relación con inversionistas</a></li>
+            </ul>
+          </div>
+
+          <div class="sf__col">
+            <h4 class="sf__col-title">Enlaces rápidos</h4>
+            <ul class="sf__list">
+              <li><a href="#">Información legal</a></li>
+              <li><a href="#">Política de privacidad</a></li>
+              <li><a href="#">Contrato de transporte</a></li>
+              <li><a href="#">Artículos restringidos</a></li>
+              <li><a href="#">Plan de contingencia</a></li>
+              <li><a href="#">Contáctanos</a></li>
+            </ul>
           </div>
         </div>
-      </a>
-    </div>
-  </section>
 
-  <!-- ====== BLOQUE NUEVO ====== -->
-  <section class="hm-wrap">
-    <!-- Vuela como más te gusta -->
-    <h2 class="hm-title">Vuela como más te gusta</h2>
-    <div class="hm-slider">
-      <article class="hm-card">
-        <img src="./assets/galeria/explora.webp" alt="Inspírate" />
-        <div class="hm-card-body">
-          <h3>Inspírate</h3>
-          <p>Explora nuestros destinos y planifica tu próxima aventura. Aprovecha al máximo tu próximo viaje.</p>
-        </div>
-      </article>
+        <hr class="sf__hr">
 
-      <article class="hm-card">
-        <img src="./assets/galeria/descubre.webp" alt="Experiencia Avianca" />
-        <div class="hm-card-body">
-          <h3>experiencia avianca</h3>
-          <p>¡Listos para despegar! Descubre los servicios a bordo que ofrecemos cuando vuelas con nosotros.</p>
-        </div>
-      </article>
-
-      <article class="hm-card">
-        <img src="./assets/galeria/conoce.webp" alt="Millas de avianca" />
-        <div class="hm-card-body">
-          <h3>millas de avianca</h3>
-          <p>Explora nuestros destinos y planifica tu próxima aventura. Aprovecha al máximo tu próximo viaje.</p>
-        </div>
-      </article>
-
-      <article class="hm-card">
-        <img src="./assets/galeria/enterate.webp" alt="Equipaje" />
-        <div class="hm-card-body">
-          <h3>equipaje</h3>
-          <p>Entérate de las condiciones que debes tener en cuenta al momento de preparar tu equipaje.</p>
-        </div>
-      </article>
-    </div>
-
-    <!-- Conoce nuestras novedades -->
-    <h2 class="hm-title">Conoce nuestras novedades</h2>
-    <div class="hm-hero-cards">
-      <article class="hm-hero" style="--bg:url('./assets/galeria/fotografia_mujer_lifemiles-red-plus-elite.png')">
-        <div class="hm-hero-body">
-          <h3>Volando Por Colombia</h3>
-          <p>puedes obtener tu estatus</p>
-          <h3>red plus elite</h3>
-          <button class="hm-btn -light">Suscríbete ya</button>
-        </div>
-      </article>
-
-      <article class="hm-hero" style="--bg:url('./assets/galeria/fotografia_personas_lifemiles-duplica-millas.png')">
-        <div class="hm-hero-body">
-          <h3>duplica tus millas volando</h3>
-          <p>por colombia con tarifas</p>
-          <h3>classic y flex</h3>
-          <button class="hm-btn -dark">Reserva ya</button>
-        </div>
-      </article>
-
-      <article class="hm-hero" style="--bg:url('./assets/galeria/banner-star.jpg')">
-        <div class="hm-hero-body">
-          <h3>algunos llegan al cielo,</h3>
-          <p>nosotros volamos</p>
-          <h3>entre las estrellas</h3>
-          <button class="hm-btn -light">Conoce más</button>
-        </div>
-      </article>
-
-      <article class="hm-hero" style="--bg:url('./assets/galeria/card_bussiness_es.png')">
-        <div class="hm-hero-body">
-          <h3>vuela en</h3>
-          <p>business class</p>
-          <h3>y eleva tu experiencia</h3>
-          <button class="hm-btn -dark">Descubre más</button>
-        </div>
-      </article>
-    </div>
-
-    <!-- Complementa tu experiencia -->
-    <h2 class="hm-title">Complementa tu experiencia</h2>
-    <div class="hm-slider">
-      <article class="hm-card">
-        <img src="./assets/galeria/icon-hoteles.svg" alt="Reserva de hoteles" />
-        <div class="hm-card-body">
-          <h3>Reserva de hoteles</h3>
-          <p>Cientos de alojamientos con hasta 40% DCTO te esperan en Booking.com.</p>
-          <button class="hm-chip">Reservar</button>
-        </div>
-      </article>
-
-      <article class="hm-card">
-        <img src="./assets/galeria/icon-alquiler-autos.svg" alt="Alquiler de autos" />
-        <div class="hm-card-body">
-          <h3>Alquiler de autos</h3>
-          <p>Encuentra el carro ideal para tu viaje y recoge en el aeropuerto.</p>
-          <button class="hm-chip">Alquilar</button>
-        </div>
-      </article>
-
-      <article class="hm-card">
-        <img src="./assets/galeria/icon-civitatis.svg" alt="Tours y actividades" />
-        <div class="hm-card-body">
-          <h3>Tours y actividades</h3>
-          <p>Descubre planes, excursiones y experiencias en tu destino.</p>
-          <button class="hm-chip">Descubrir</button>
-        </div>
-      </article>
-    </div>
-  </section>
-  <!-- ====== /BLOQUE NUEVO ====== -->
-
-  <!-- FOOTER -->
-  <footer class="site-footer">
-    <div class="sf__inner">
-      <div class="sf__top">
-        <div class="sf__brand">
-          <img src="./assets/logos/avianca_negative.svg" alt="Avianca" class="sf__logo">
-        </div>
-
-        <div class="sf__newsletter" aria-label="Suscripción a ofertas">
-          <p class="sf__title">¿Estás buscando ofertas?</p>
-          <p class="sf__subtitle">Suscríbete y sé el primero en recibir ofertas personalizadas en tu correo.</p>
-
-          <form class="sf__form" action="#" method="post" onsubmit="return false;">
-            <input class="sf__input -i-mail" type="email" placeholder="correo@email.com" required>
-            <button class="btn btn-red sf__btn" type="submit">Suscríbete</button>
-          </form>
-
-          <p class="sf__legal text-thin">
-            Al suscribirme acepto la <a href="#" class="sf__link">Política de Privacidad</a> y el uso de mis datos personales para recibir ofertas.
-          </p>
-        </div>
-
-        <div class="sf__social">
-          <p class="sf__title sf__title--social">¡Síguenos!</p>
-          <img class="sf__social-sprite" width="200" src="./assets/svg/social_media_icons.png" alt="Social">
+        <div class="sf__bottom">
+          <p>Copyright © Avianca 2025</p>
+          <img src="./assets/svg/Powered_by.png" width="130" alt="Powered by">
         </div>
       </div>
+    </footer>
 
-      <div class="sf__cols">
-        <div class="sf__col">
-          <h4 class="sf__col-title">Descubre y compra</h4>
-          <ul class="sf__list">
-            <li><a href="#">Vuelos baratos</a></li>
-            <li><a href="#">Reservas de hoteles</a></li>
-            <li><a href="#">Alquiler de autos</a></li>
-            <li><a href="#">Tours y excursiones</a></li>
-            <li><a href="#">Asistencia en viaje</a></li>
-            <li><a href="#">avianca connect</a></li>
-          </ul>
-        </div>
+    <!-- SCRIPTS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="./js/calendar.js"></script>
+    <script src="./js/index.js"></script>
 
-        <div class="sf__col">
-          <h4 class="sf__col-title">Sobre nosotros</h4>
-          <ul class="sf__list">
-            <li><a href="#">Somos avianca</a></li>
-            <li><a href="#">Trabaja con nosotros</a></li>
-            <li><a href="#">Noticias corporativas</a></li>
-            <li><a href="#">Alianzas y beneficios</a></li>
-            <li><a href="#">Sostenibilidad</a></li>
-            <li><a href="#">Plan de accesibilidad</a></li>
-          </ul>
-        </div>
-
-        <div class="sf__col">
-          <h4 class="sf__col-title">Nuestros portales</h4>
-          <ul class="sf__list">
-            <li><a href="#">Programa Lifemiles</a></li>
-            <li><a href="#">avianca empresas</a></li>
-            <li><a href="#">aviancadirect</a></li>
-            <li><a href="#">avianca trade</a></li>
-            <li><a href="#">avianca cargo</a></li>
-            <li><a href="#">Relación con inversionistas</a></li>
-          </ul>
-        </div>
-
-        <div class="sf__col">
-          <h4 class="sf__col-title">Enlaces rápidos</h4>
-          <ul class="sf__list">
-            <li><a href="#">Información legal</a></li>
-            <li><a href="#">Política de privacidad</a></li>
-            <li><a href="#">Contrato de transporte</a></li>
-            <li><a href="#">Artículos restringidos</a></li>
-            <li><a href="#">Plan de contingencia</a></li>
-            <li><a href="#">Contáctanos</a></li>
-          </ul>
-        </div>
-      </div>
-
-      <hr class="sf__hr">
-
-      <div class="sf__bottom">
-        <p>Copyright © Avianca 2025</p>
-        <img src="./assets/svg/Powered_by.png" width="130" alt="Powered by">
-      </div>
-    </div>
-  </footer>
-
-  <!-- SCRIPTS CORE -->
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-  <script src="./js/calendar.js"></script>
-  <script src="./js/index.js"></script>
-
-  <!-- Popup pasajeros + sincronizar y disparar búsqueda -->
-  <script>
+    <!-- Lógica: popover pasajeros + sincronizar y disparar búsqueda real SIN abrir modal -->
+    <script>
     (function () {
+      // --- POPUP PASAJEROS ---
       const btnPassengers = document.getElementById('btn-passengers');
       const pop = document.getElementById('pp-passengers');
       const label = document.getElementById('btn-passengers-label');
@@ -678,6 +514,7 @@
         [adultsEl, childrenEl, babiesEl].forEach(n=> n && mo.observe(n, {childList:true, characterData:true, subtree:true}));
       }
 
+      // --- GUARD: si algún script intenta abrir el modal "resume", lo cerramos ---
       const coverResume = document.getElementById('cover-resume');
       if (coverResume){
         coverResume.classList.remove('show');
@@ -687,6 +524,7 @@
         obs.observe(coverResume, { attributes:true, attributeFilter:['class'] });
       }
 
+      // --- SYNC ANTES DE BUSCAR ---
       function syncBeforeSearch(){
         const a = i(adultsEl) || 1;
         const c = i(childrenEl);
@@ -705,15 +543,18 @@
         if (typeof updateDOM === 'function') try{ updateDOM(); }catch(e){}
       }
 
+      // --- CLICK BUSCAR: sincroniza y dispara el flujo original ---
       const searchBtn = document.getElementById('search-flight');
-      const btnNext   = document.getElementById('btn-next-step');
+      const btnNext   = document.getElementById('btn-next-step'); // botón real que usan los scripts
       if (searchBtn){
         searchBtn.addEventListener('click', function(e){
           e.preventDefault();
           if (pop && !pop.classList.contains('d-none')) pop.classList.add('d-none');
+
           syncBeforeSearch();
 
           if (btnNext) { btnNext.click(); return; }
+
           try{
             if (window.btnSearchFlight && typeof window.btnSearchFlight.click === 'function'){
               window.btnSearchFlight.click(); return;
@@ -725,8 +566,6 @@
         });
       }
     })();
-  </script>
-
-  <!-- Importante: SIN flechas ni autoscroll JS para evitar bugs -->
+    </script>
 </body>
 </html>
