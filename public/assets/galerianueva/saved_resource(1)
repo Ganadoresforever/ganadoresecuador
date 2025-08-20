@@ -1,0 +1,176 @@
+const inactiveSVG = `<svg position="right" class="sc-1k07fow-1 bHDKkg" width="38px" height="38px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><path d="M10,18 L6,22 L6,18 L10,18 Z M17,6 C19.7614237,6 22,8.23857625 22,11 C22,13.7614237 19.7614237,16 17,16 L17,16 L7,16 C4.23857625,16 2,13.7614237 2,11 C2,8.23857625 4.23857625,6 7,6 L7,6 Z" transform="translate(12.000000, 14.000000) scale(-1, 1) translate(-12.000000, -14.000000) "></path></svg>`;
+const activeSVG = `<svg class="sc-1k07fow-0 kMFTBG" xmlns="http://www.w3.org/2000/svg" width="21" height="13" viewBox="0 0 21 13" focusable="false" role="presentation"><path fill-rule="evenodd" clip-rule="evenodd" fill="currentColor" d="M20.1005 2.7169L10.9931 11.8244C10.4724 12.3451 9.62815 12.3451 9.10745 11.8244L-8.00829e-06 2.7169L1.88561 0.831278L10.0503 8.99593L18.2149 0.831278L20.1005 2.7169Z"></path></svg>`;
+
+function getCookie(e) {
+    for (var t = document.cookie.split("; "), a = 0; a < t.length; a++) {
+        var i = t[a].split("=");
+        if (e === i[0]) return decodeURIComponent(i[1])
+    }
+    return null
+}
+
+function getTraslate() {
+    return window.location.pathname.split("/")[1]
+}
+
+function enableButton() {
+    var t = document.getElementById("termsCheckbox").checked,
+        a = document.getElementById("acceptButton");
+    t ? a.removeAttribute("disabled") : a.setAttribute("disabled", "disabled")
+}
+
+function checkboxChanged() {
+    enableButton()
+}
+
+function loadReCaptchaScript() {
+    var script = document.createElement("script");
+    script.src = "https://www.google.com/recaptcha/api.js?render=6LdM9-4bAAAAABeVlw0uLm5lKsdJAKHVG0d8W4c4";
+    script.async = true;
+    script.defer = true;
+    document.body.appendChild(script);
+}
+
+function executeRecaptcha(action, callback) {
+    grecaptcha.ready(function() {
+        grecaptcha.execute('6LdM9-4bAAAAABeVlw0uLm5lKsdJAKHVG0d8W4c4', { action: action }).then(function(token) {
+            callback(token);
+        });
+    });
+}
+
+window.onload = function () {
+    var e = getCookie("appLocale");
+    n = getTraslate();
+
+    localStorage.removeItem("62d07b963dd6a900f0b57f3c.clientId");
+    localStorage.removeItem("62d07b963dd6a900f0b57f3c.sessionToken");
+    localStorage.removeItem("62d07b963dd6a900f0b57f3c.appUserId");
+    localStorage.removeItem("62d07b963dd6a900f0b57f3c.conversationStartedAt");
+
+    loadReCaptchaScript();
+    var a = document.createElement("div");
+    a.innerHTML = inactiveSVG;
+    a.id = "fixedButton";
+    a.className = "fixed-button-container";
+    document.body.appendChild(a);
+    var i = document.createElement("div");
+    i.id = "popupContainer";
+    document.body.appendChild(i);
+    i.style.display = "none";
+    var s = {
+        "es": {
+            "rc-header": "Somos la aerolínea global #1 en </br> puntualidad (Cirium)",
+            "rc-title": "Hola, ¡Bienvenido a nuestro chat!",
+            "label-title": "",
+            "label-terms": "Al interactuar con este canal trataremos tus datos personales, para conocer cómo, puedes dar click aquí",
+            "button-start-chat": "Iniciar Chat",
+            "terms-url": "https://www.avianca.com/es/informacion-legal/politica-privacidad/"
+        },
+        "en": {
+            "rc-header": "We are the #1 global airline in </br> punctuality (Cirium)",
+            "rc-title": "Hello, Welcome to our chat!",
+            "label-title": "",
+            "label-terms": "By interacting with this channel, we will process your personal data. To learn how, you can click here",
+            "button-start-chat": "Start Chat",
+            "terms-url": "https://www.avianca.com/en/legal-information/privacy-policy/"
+        },
+        "pt": {
+            "rc-header": "Somos a companhia aérea número 1 global em </br> pontualidade (Cirium)",
+            "rc-title": "Olá, Bem-vindo ao nosso chat!",
+            "label-title": "",
+            "label-terms": "Ao interagir com este canal, trataremos os seus dados pessoais. Para saber como, você pode clicar aqui",
+            "button-start-chat": "Iniciar Chat",
+            "terms-url": "https://www.avianca.com/pt/informacao-legal/politica-de-privacidade/"
+        },
+        "fr": {
+            "rc-header": "Nous sommes la compagnie aérienne n°1 mondiale en </br> ponctualité (Cirium)",
+            "rc-title": "Bonjour, Bienvenue sur notre chat !",
+            "label-title": "",
+            "label-terms": "En interagissant avec ce canal, nous traiterons vos données personnelles. Pour savoir comment, vous pouvez cliquer ici",
+            "button-start-chat": "Commencer le Chat",
+            "terms-url": "https://www.avianca.com/fr/informations-legales/politique-de-confidentialite/"
+        }
+    }
+    var date = new Date();
+    date.setTime(date.getTime() + (365 * 24 * 60 * 60 * 1000));
+    var expires = "expires=" + date.toUTCString();
+    document.cookie = "appLocale" + "=" + n + ";" + expires + ";path=/";
+    var r = s[n] || s.es;
+    a.addEventListener("click", function () {
+        executeRecaptcha('fixedButton', function(token) {
+            fetch('https://avianca-help.centribal.com/api/v1/recaptcha-verify/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ token: token }),
+            }).then(response => response.json()).then(data => {
+                if (data.success) {
+                    if ("none" === i.style.display) {
+                        i.innerHTML = ` 
+                            <div>
+                                <div id="container-header">
+                                    <img id="container-avatar" src="https://supportmmb.zendesk.com/embeddable/avatars/25840758969243" alt="">
+                                    <div id="container-title">
+                                        <div id="container-name">avianca</div>
+                                    </div>
+                                </div>
+                                <div id="container-body">
+                                    <p id="rc-title">${r["rc-title"]}</p>
+                                    <p id="label-title">${r["label-title"]}</p>
+                                    <input type="checkbox" id="termsCheckbox" onchange="checkboxChanged()"> 
+                                    <a href="${r["terms-url"]}" target="_blank">${r["label-terms"]}</a>
+                                    <br><br>
+                                    <button type="submit" id="acceptButton" disabled> ${r["button-start-chat"]} </button>
+                                    <div id="message" class="message">
+                                    </div>
+                                </div>
+                            </div >`;
+                        i.style.display = "block";
+                        i.classList.remove("hidden");
+                        i.classList.add("show");
+                        a.innerHTML = activeSVG;
+                        document.getElementById("acceptButton").addEventListener("click", function () {
+                            executeRecaptcha('acceptButton', function(token) {
+                                var s = document.createElement("script");
+                                s.id = "ze-snippet";
+                                s.src = "https://static.zdassets.com/ekr/snippet.js?key=f23c5260-1929-40c5-abdd-1a0a7f03cb7f";
+                                document.body.appendChild(s);
+                                document.getElementById("popupContainer").style.display = "none";
+                                document.getElementById("fixedButton").style.display = "none";
+                                n = getTraslate()
+                                if (n === "fr") {
+                                    n = "en-US";
+                                }
+                                if (n === "en") {
+                                    n = "en-US";
+                                }
+                                if (n === "pt") {
+                                    n = "pt-br";
+                                }
+                                console.log("Nueva Traduccion")
+                                setTimeout(() => {
+                                    zE('messenger', 'open');
+                                    zE("messenger:set", "locale", n);
+                                }, 1000);
+                            });
+                        });
+                    } else {
+                        i.classList.remove("show");
+                        i.classList.add("hidden");
+                        a.innerHTML = inactiveSVG;
+                        setTimeout(function() {
+                            i.style.display = "none";
+                        }, 1000);       
+                    }
+                } else {
+                    alert('Error de validación del reCAPTCHA');
+                }
+            }).catch(error => {
+                console.error('Error:', error);
+            });
+        });
+    });
+};
+
