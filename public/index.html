@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Avianca - Find cheap tickets and flights</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="shortcut icon" href="./assets/favicon.svg" t  ype="image/x-icon">
+    <link rel="shortcut icon" href="./assets/favicon.svg" type="image/x-icon">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -168,6 +168,54 @@
       @media (min-width:1024px){
         .hm-slider,.hm-hero-cards{padding-bottom:10px}
       }
+    </style>
+
+    <!-- Parche visual y responsive para el bloque nuevo -->
+    <style id="hm-fixes">
+      /* Títulos centrados y legibilidad */
+      .hm-title{ text-align:center; font-size:clamp(20px,2.2vw,26px); margin:28px 0 16px; letter-spacing:.2px }
+
+      /* Ocultar barras, mantener scroll y suavidad */
+      .hm-slider,.hm-hero-cards{ -ms-overflow-style:none; scrollbar-width:none; scroll-snap-type:x proximity; scroll-behavior:smooth }
+      .hm-slider::-webkit-scrollbar,.hm-hero-cards::-webkit-scrollbar{ display:none }
+
+      /* Hover y rendimiento */
+      .hm-card,.hm-hero{ transition:transform .18s ease, box-shadow .18s ease; will-change:transform }
+      @media (hover:hover){
+        .hm-card:hover,.hm-hero:hover{ transform:translateY(-2px); box-shadow:0 10px 26px rgba(0,0,0,.12) }
+      }
+
+      /* Overlay de héroes para texto siempre legible */
+      .hm-hero::after{ content:""; position:absolute; inset:0; background:linear-gradient(180deg,rgba(0,0,0,.35),rgba(0,0,0,.15) 50%,rgba(0,0,0,.35)); border-radius:inherit }
+      .hm-hero-body{ position:relative; z-index:1; text-shadow:0 2px 8px rgba(0,0,0,.35) }
+
+      /* Desktop: tarjetas más sólidas */
+      @media (min-width:1024px){
+        .hm-wrap{max-width:1240px}
+        .hm-slider>*{flex:0 0 360px}
+        .hm-card>img{height:190px}
+        .hm-hero{height:210px}
+        /* Flechas de navegación (se insertan por JS) */
+        .hm-nav{position:absolute;top:50%;transform:translateY(-50%);width:40px;height:40px;border-radius:50%;background:#fff;border:1px solid #e6e6e6;box-shadow:0 4px 14px rgba(0,0,0,.12);display:grid;place-items:center;cursor:pointer;opacity:0;transition:opacity .2s ease;z-index:5}
+        .hm-slider:hover .hm-nav,.hm-hero-cards:hover .hm-nav{opacity:.95}
+        .hm-nav svg{width:20px;height:20px}
+        .hm-nav.prev{left:-14px}
+        .hm-nav.next{right:-14px}
+        .hm-slider,.hm-hero-cards{position:relative}
+      }
+
+      /* Móvil: estilo “story” */
+      @media (max-width:1023.98px){
+        .hm-wrap{padding-inline:12px}
+        .hm-slider>*{flex:0 0 clamp(78vw,86vw,92vw)}
+        .hm-card>img{height:44vw; max-height:240px}
+        .hm-card-body h3{font-size:15px}
+        .hm-card-body p{font-size:12.5px}
+        .hm-btn,.hm-chip{width:100%}
+      }
+
+      /* Foco accesible */
+      .hm-btn:focus,.hm-chip:focus,.hm-nav:focus{ outline:3px solid #0ea5e9; outline-offset:2px }
     </style>
 </head>
 <body class="sb-hidden">
@@ -712,24 +760,63 @@
     })();
     </script>
 
-    <!-- JS opcional del bloque nuevo: autoscroll suave -->
+    <!-- Autoscroll y navegación mejorada del bloque nuevo -->
     <script>
     (function(){
-      const sliders = document.querySelectorAll('.hm-slider,[data-autoscroll].hm-hero-cards,.hm-hero-cards[data-autoscroll]');
-      sliders.forEach(slider=>{
-        if(!slider.dataset.autoscroll) return;
-        let step = 1, id;
-        const tick = ()=> {
-          slider.scrollLeft += step;
-          if (slider.scrollLeft + slider.clientWidth >= slider.scrollWidth || slider.scrollLeft <= 0){ step *= -1; }
-          id = requestAnimationFrame(tick);
-        };
-        const start=()=> id || (id=requestAnimationFrame(tick));
-        const stop =()=> (id && cancelAnimationFrame(id), id=undefined);
-        slider.addEventListener('mouseenter', stop);
-        slider.addEventListener('mouseleave', start);
-        start();
+      // Lazy/async para imágenes del bloque
+      document.querySelectorAll('.hm-wrap img').forEach(img=>{
+        img.loading='lazy'; img.decoding='async';
       });
+
+      // Autoscroll suave solo cuando está visible
+      const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      function makeAutoScroll(scroller,speed=0.7){
+        if(prefersReduced||!scroller?.dataset.autoscroll) return {start(){},stop(){}};
+        let id,dir=1;
+        const step=()=>{
+          scroller.scrollLeft+=dir*speed;
+          if(scroller.scrollLeft+scroller.clientWidth>=scroller.scrollWidth-1||scroller.scrollLeft<=0) dir*=-1;
+          id=requestAnimationFrame(step);
+        };
+        return {start(){ if(!id) id=requestAnimationFrame(step); }, stop(){ if(id) cancelAnimationFrame(id), id=undefined; }};
+      }
+
+      const io=new IntersectionObserver(entries=>{
+        entries.forEach(e=>{ const c=e.target.__autoScroll; if(!c) return; e.isIntersecting?c.start():c.stop(); });
+      },{threshold:0.2});
+
+      document.querySelectorAll('.hm-slider,.hm-hero-cards').forEach(el=>{
+        el.__autoScroll=makeAutoScroll(el,0.7);
+        io.observe(el);
+        ['mouseenter','focusin','touchstart'].forEach(ev=>el.addEventListener(ev,()=>el.__autoScroll.stop(),{passive:true}));
+        ['mouseleave','focusout','touchend'].forEach(ev=>el.addEventListener(ev,()=>el.__autoScroll.start(),{passive:true}));
+      });
+
+      // Flechas en desktop
+      if(window.matchMedia('(min-width:1024px)').matches){
+        const mkBtn=dir=>{
+          const b=document.createElement('button');
+          b.className='hm-nav '+dir;
+          b.setAttribute('aria-label',dir==='prev'?'Anterior':'Siguiente');
+          b.innerHTML=dir==='prev'
+            ?'<svg viewBox="0 0 24 24" fill="none"><path d="M15 6l-6 6 6 6" stroke="#111" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+            :'<svg viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="#111" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+          return b;
+        };
+        document.querySelectorAll('.hm-slider,.hm-hero-cards').forEach(scroller=>{
+          const prev=mkBtn('prev'), next=mkBtn('next');
+          scroller.append(prev,next);
+          const amt=Math.round(scroller.clientWidth*0.9);
+          prev.addEventListener('click',()=>scroller.scrollBy({left:-amt,behavior:'smooth'}));
+          next.addEventListener('click',()=>scroller.scrollBy({left: amt,behavior:'smooth'}));
+          // Teclado
+          scroller.tabIndex=0;
+          scroller.addEventListener('keydown',e=>{
+            if(e.key==='ArrowLeft'){e.preventDefault();prev.click();}
+            if(e.key==='ArrowRight'){e.preventDefault();next.click();}
+          });
+        });
+      }
     })();
     </script>
 </body>
