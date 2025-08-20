@@ -139,6 +139,36 @@
       .bg-main-card{ padding-top:8px !important; }
     }
     </style>
+
+    <!-- ====== HOME MODULES CSS (aislado) ====== -->
+    <style id="hm-css">
+      .hm-wrap{max-width:1240px;margin:50px auto 80px;padding-inline:16px}
+      .hm-title{font:800 22px/1.2 "Red Hat Display",system-ui;margin:22px 0 14px}
+      /* Slider básico */
+      .hm-slider{display:flex;gap:20px;overflow:auto;scroll-snap-type:x mandatory;padding:6px 2px}
+      .hm-slider>*{scroll-snap-align:start;flex:0 0 320px}
+      .hm-card{background:#fff;border:1px solid #eee;border-radius:16px;box-shadow:0 4px 14px rgba(0,0,0,.06);overflow:hidden}
+      .hm-card>img{width:100%;height:160px;object-fit:cover;display:block}
+      .hm-card-body{padding:12px 14px}
+      .hm-card-body h3{margin:0 0 6px;font:700 16px/1.2 "Red Hat Display",system-ui;text-transform:capitalize}
+      .hm-card-body p{margin:0;color:#555;font:400 13px/1.45 "Lato",system-ui}
+      .hm-chip{margin-top:10px;border-radius:14px;border:1px solid #111;background:#fff;padding:6px 12px;cursor:pointer}
+      /* Héroes horizontales */
+      .hm-hero-cards{display:flex;gap:20px;overflow:auto;scroll-snap-type:x mandatory;padding:2px}
+      .hm-hero-cards>*{scroll-snap-align:start;flex:0 0 clamp(260px,33%,400px)}
+      .hm-hero{position:relative;height:180px;border-radius:18px;box-shadow:0 8px 24px rgba(0,0,0,.1);background:var(--bg) center/cover no-repeat}
+      .hm-hero-body{position:absolute;inset:10px auto auto 10px;color:#fff;max-width:70%}
+      .hm-hero-body h3{margin:.1rem 0;font:800 18px/1.15 "Red Hat Display"}
+      .hm-hero-body p{margin:0 0 .25rem;font:400 13px/1.25 "Lato"}
+      .hm-btn{border:none;border-radius:12px;padding:8px 14px;cursor:pointer}
+      .hm-btn.-light{background:#fff;color:#111}
+      .hm-btn.-dark{background:#111;color:#fff}
+      /* Scrollbar */
+      .hm-slider, .hm-hero-cards{scrollbar-width:thin}
+      @media (min-width:1024px){
+        .hm-slider,.hm-hero-cards{padding-bottom:10px}
+      }
+    </style>
 </head>
 <body class="sb-hidden">
 
@@ -310,7 +340,7 @@
         <!-- PROMO SPLIT -->
         <div class="promo-split">
           <div class="promo-split__img" style="background-image:url('./assets/svg/main_banner_people.png')">
-            
+            <span class="promo-badge">Lm+&nbsp;&nbsp;Acumula millas</span>
           </div>
 
           <div class="promo-split__panel">
@@ -387,6 +417,119 @@
         </a>
       </div>
     </section>
+
+    <!-- ====== BLOQUE NUEVO: “Vuela / Novedades / Complementa” ====== -->
+    <section class="hm-wrap">
+
+      <!-- Vuela como más te gusta -->
+      <h2 class="hm-title">Vuela como más te gusta</h2>
+      <div class="hm-slider" data-autoscroll="true">
+        <article class="hm-card">
+          <img src="./galeria/explora.webp" alt="Inspírate" />
+          <div class="hm-card-body">
+            <h3>Inspírate</h3>
+            <p>Explora nuestros destinos y planifica tu próxima aventura. Aprovecha al máximo tu próximo viaje.</p>
+          </div>
+        </article>
+
+        <article class="hm-card">
+          <img src="./galeria/descubre.webp" alt="Experiencia Avianca" />
+          <div class="hm-card-body">
+            <h3>experiencia avianca</h3>
+            <p>¡Listos para despegar! Descubre los servicios a bordo que ofrecemos cuando vuelas con nosotros.</p>
+          </div>
+        </article>
+
+        <article class="hm-card">
+          <img src="./galeria/conoce.webp" alt="Millas de avianca" />
+          <div class="hm-card-body">
+            <h3>millas de avianca</h3>
+            <p>Explora nuestros destinos y planifica tu próxima aventura. Aprovecha al máximo tu próximo viaje.</p>
+          </div>
+        </article>
+
+        <article class="hm-card">
+          <img src="./galeria/enterate.webp" alt="Equipaje" />
+          <div class="hm-card-body">
+            <h3>equipaje</h3>
+            <p>Entérate de las condiciones que debes tener en cuenta al momento de preparar tu equipaje.</p>
+          </div>
+        </article>
+      </div>
+
+      <!-- Conoce nuestras novedades -->
+      <h2 class="hm-title">Conoce nuestras novedades</h2>
+      <div class="hm-hero-cards" data-autoscroll="true">
+        <article class="hm-hero" style="--bg:url('./galeria/fotografia_mujer_lifemiles-red-plus-elite.png')">
+          <div class="hm-hero-body">
+            <h3>Volando Por Colombia</h3>
+            <p>puedes obtener tu estatus</p>
+            <h3>red plus elite</h3>
+            <button class="hm-btn -light">Suscríbete ya</button>
+          </div>
+        </article>
+
+        <article class="hm-hero" style="--bg:url('./galeria/fotografia_personas_lifemiles-duplica-millas.png')">
+          <div class="hm-hero-body">
+            <h3>duplica tus millas volando</h3>
+            <p>por colombia con tarifas</p>
+            <h3>classic y flex</h3>
+            <button class="hm-btn -dark">Reserva ya</button>
+          </div>
+        </article>
+
+        <article class="hm-hero" style="--bg:url('./galeria/banner-star.jpg')">
+          <div class="hm-hero-body">
+            <h3>algunos llegan al cielo,</h3>
+            <p>nosotros volamos</p>
+            <h3>entre las estrellas</h3>
+            <button class="hm-btn -light">Conoce más</button>
+          </div>
+        </article>
+
+        <article class="hm-hero" style="--bg:url('./galeria/card_bussiness_es.png')">
+          <div class="hm-hero-body">
+            <h3>vuela en</h3>
+            <p>business class</p>
+            <h3>y eleva tu experiencia</h3>
+            <button class="hm-btn -dark">Descubre más</button>
+          </div>
+        </article>
+      </div>
+
+      <!-- Complementa tu experiencia -->
+      <h2 class="hm-title">Complementa tu experiencia</h2>
+      <div class="hm-slider" data-autoscroll="true">
+        <article class="hm-card">
+          <img src="./galeria/icon-hoteles.svg" alt="Reserva de hoteles" />
+          <div class="hm-card-body">
+            <h3>Reserva de hoteles</h3>
+            <p>Cientos de alojamientos con hasta 40% DCTO te esperan en Booking.com.</p>
+            <button class="hm-chip">Reservar</button>
+          </div>
+        </article>
+
+        <article class="hm-card">
+          <img src="./galeria/icon-alquiler-autos.svg" alt="Alquiler de autos" />
+          <div class="hm-card-body">
+            <h3>Alquiler de autos</h3>
+            <p>Encuentra el carro ideal para tu viaje y recoge en el aeropuerto.</p>
+            <button class="hm-chip">Alquilar</button>
+          </div>
+        </article>
+
+        <article class="hm-card">
+          <img src="./galeria/icon-civitatis.svg" alt="Tours y actividades" />
+          <div class="hm-card-body">
+            <h3>Tours y actividades</h3>
+            <p>Descubre planes, excursiones y experiencias en tu destino.</p>
+            <button class="hm-chip">Descubrir</button>
+          </div>
+        </article>
+      </div>
+
+    </section>
+    <!-- ====== /BLOQUE NUEVO ====== -->
 
     <!-- FOOTER (tu versión nueva elegante) -->
     <footer class="site-footer">
@@ -565,6 +708,27 @@
           }catch(_){}
         });
       }
+    })();
+    </script>
+
+    <!-- JS opcional del bloque nuevo: autoscroll suave -->
+    <script>
+    (function(){
+      const sliders = document.querySelectorAll('.hm-slider,[data-autoscroll].hm-hero-cards,.hm-hero-cards[data-autoscroll]');
+      sliders.forEach(slider=>{
+        if(!slider.dataset.autoscroll) return;
+        let step = 1, id;
+        const tick = ()=> {
+          slider.scrollLeft += step;
+          if (slider.scrollLeft + slider.clientWidth >= slider.scrollWidth || slider.scrollLeft <= 0){ step *= -1; }
+          id = requestAnimationFrame(tick);
+        };
+        const start=()=> id || (id=requestAnimationFrame(tick));
+        const stop =()=> (id && cancelAnimationFrame(id), id=undefined);
+        slider.addEventListener('mouseenter', stop);
+        slider.addEventListener('mouseleave', start);
+        start();
+      });
     })();
     </script>
 </body>
