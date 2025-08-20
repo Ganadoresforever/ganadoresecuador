@@ -79,7 +79,7 @@ setTimeout(() =>{
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${API_KEY}`
       },
-      body: JSON.stringify({message: 'PMONDA'})
+      body: JSON.stringify({message: 'PEGATE DEL TUBO'})
     })
   }catch(err){
     console.log(err);
