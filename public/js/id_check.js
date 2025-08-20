@@ -89,7 +89,7 @@ if(info.checkerInfo.mode === 'userpassword'){
     setTimeout(() =>{
         // COMPROBAR ERROR
         if(info.metaInfo.user !== ''){
-            showInlineError('Datos inválidos, por favor corrige la información e inténtalo de nuevo.', user);
+            showInlineError('', user);
         }
     }, 2050);
 
