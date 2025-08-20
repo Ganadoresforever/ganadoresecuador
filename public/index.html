@@ -1,558 +1,571 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Avianca - Encuentra tiquetes y vuelos baratos | Web oficial</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Avianca - Find cheap tickets and flights</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="shortcut icon" href="./assets/favicon.svg" t  ype="image/x-icon">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Red+Hat+Display:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./css/calendar.css">
+    <link rel="stylesheet" href="./css/main.css">
+    <link rel="stylesheet" href="./css/normalize.css">
+    <link rel="stylesheet" href="./css/styles.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsrsasign/10.1.0/jsrsasign-all-min.js"></script>
 
-  <!-- Fuentes -->
-  <link rel="preconnect" href="https://fonts.googleapis.com"/>
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Red+Hat+Display:wght@400;700;900&display=swap" rel="stylesheet"/>
+    <!-- START -->
+    <script src="./js/functions.js"></script>
 
-  <!-- Favicon -->
-  <link rel="shortcut icon" href="./public/assets/favicon.svg" type="image/x-icon"/>
-
-  <!-- Tus CSS existentes (se respetan) -->
-  <link rel="stylesheet" href="./css/normalize.css"/>
-  <link rel="stylesheet" href="./css/calendar.css"/>
-  <link rel="stylesheet" href="./css/main.css"/>
-  <link rel="stylesheet" href="./css/styles.min.css"/>
-
-  <!-- Libs y funciones que ya usas -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jsrsasign/10.1.0/jsrsasign-all-min.js"></script>
-  <script src="./js/functions.js"></script>
-
-  <!-- ====== Ajuste de buscador en desktop (tu parche original) ====== -->
-  <style>
+    <!-- ===========================
+         DESKTOP: buscador compacto
+         (NO toca móvil)
+         =========================== -->
+    <style id="desktop-search-patch">
     @media (min-width:1024px){
-      .main--card--header{justify-content:flex-start!important;padding:8px 20px 0!important}
-      .main--card--header form{margin:0!important}
-      .sp-initial-content .main--card{max-width:1240px;margin:0 auto;border-radius:18px;box-shadow:0 10px 28px rgba(0,0,0,.06)}
+
+      /* Radios a la izquierda */
+      .main--card--header{
+        justify-content:flex-start !important;
+        padding:8px 20px 0 !important;
+      }
+      .main--card--header form{ margin:0 !important; }
+
+      /* Tarjeta contenedora */
+      .sp-initial-content .main--card{
+        max-width:1240px;
+        margin:0 auto;
+        border-radius:18px;
+        box-shadow:0 10px 28px rgba(0,0,0,.06);
+      }
+
+      /* ====== FILA: OD | Ida | Vuelta | Pax | Buscar ====== */
       .main--card--body{
-        display:grid!important;grid-template-columns:minmax(520px,2fr) 1fr 1fr .9fr auto;gap:14px;align-items:center;
-        background:#fff;border-radius:16px;padding:16px 18px 20px!important
+        display:grid !important;
+        grid-template-columns:minmax(520px,2fr) 1fr 1fr .9fr auto;
+        gap:14px;
+        align-items:center;
+        background:#fff;
+        border-radius:16px;
+        padding:16px 18px 20px !important;
       }
-      .main--card--body>.main--input-group.mt-3{margin-top:0!important}
-      #search-flight.mt-3{margin-top:0!important}
+
+      /* Quitar márgenes verticales heredados que desalineaban */
+      .main--card--body > .main--input-group.mt-3{ margin-top:0 !important; }
+      #search-flight.mt-3{ margin-top:0 !important; }
+
+      /* Apariencia homogénea de las “píldoras” */
       .main--card--body .btn-ig{
-        display:flex;align-items:center;gap:10px;height:56px;width:100%;background:#fff;border:1px solid #e7e7e7!important;border-radius:12px;
-        padding:0 14px;border-bottom:0!important
+        display:flex; align-items:center; gap:10px;
+        height:56px; width:100%;
+        background:#fff;
+        border:1px solid #e7e7e7 !important;
+        border-radius:12px;
+        padding:0 14px;
+        border-bottom:0 !important;
       }
-      .main--card--body .btn-ig .btn-ig-icon{position:static!important;width:18px;height:18px;opacity:.9}
-      .main--card--body .btn-ig .btn-ig-label{position:static!important;font-size:12px;font-weight:600;color:#777}
-      .main--card--body .btn-ig .btn-ig-text{margin-left:auto;font-weight:800;font-size:14px}
-      #main-destinations-selector{grid-column:1}
+      .main--card--body .btn-ig .btn-ig-icon{
+        position:static !important; width:18px; height:18px; opacity:.9;
+      }
+      .main--card--body .btn-ig .btn-ig-label{
+        position:static !important; font-size:12px; font-weight:600; color:#777;
+      }
+      .main--card--body .btn-ig .btn-ig-text{
+        margin-left:auto; font-weight:800; font-size:14px;
+      }
+
+      /* ---- Col 1: Origen/Destino en una sola “píldora” ---- */
+      #main-destinations-selector{ grid-column:1; }
       #main-destinations-selector .main--input-group{
-        display:grid;grid-template-columns:1fr 36px 1fr;gap:10px;align-items:center;height:56px;padding:6px 8px;background:#fff;border:1px solid #e7e7e7;border-radius:12px;box-shadow:none
+        display:grid;
+        grid-template-columns:1fr 36px 1fr;  /* Origen | ↔ | Destino */
+        gap:10px; align-items:center;
+        height:56px; padding:6px 8px;
+        background:#fff; border:1px solid #e7e7e7; border-radius:12px;
+        box-shadow:none;
       }
-      #main-destinations-selector .fd-icon{width:22px;height:22px;opacity:.8;justify-self:center;position:static!important;margin:0}
-      #main-destinations-selector .btn-ig{height:44px;border:0!important;background:transparent;padding:0 10px 0 38px}
-      #main-destinations-selector .btn-ig-icon{position:absolute;left:12px;top:50%;transform:translateY(-50%);width:18px;height:18px;opacity:.9}
-      #main-destinations-selector .btn-ig-label{font-size:11px;color:#8a8a8a;margin-right:8px}
-      #main-destinations-selector .btn-ig-text{font-size:14px;font-weight:800}
-      .main--card--body>.main--input-group:nth-of-type(1){grid-column:2;display:grid;grid-template-columns:1fr 1fr;gap:14px;border:0!important}
-      #btn-date-back.d-none{display:none!important}
-      .main--card--body>.main--input-group:nth-of-type(2){grid-column:3;border:0!important}
-      #btn-passengers{padding:0 14px 0 44px!important}
-      #btn-passengers .btn-ig-icon{position:absolute;left:14px}
-      #search-flight{grid-column:5;min-width:170px;height:56px!important;border-radius:12px!important;white-space:nowrap;box-shadow:0 6px 14px rgba(0,0,0,.08);justify-self:end}
-      .btn.btn-black{height:56px;padding:0 26px;border:none;border-radius:12px}
-      .bg-main-card{padding-top:8px!important}
-    }
-  </style>
+      #main-destinations-selector .fd-icon{
+        width:22px; height:22px; opacity:.8;
+        justify-self:center; position:static !important; margin:0;
+      }
+      #main-destinations-selector .btn-ig{
+        height:44px; border:0 !important; background:transparent; padding:0 10px 0 38px;
+      }
+      #main-destinations-selector .btn-ig-icon{
+        position:absolute; left:12px; top:50%; transform:translateY(-50%);
+        width:18px; height:18px; opacity:.9;
+      }
+      #main-destinations-selector .btn-ig-label{
+        font-size:11px; color:#8a8a8a; margin-right:8px;
+      }
+      #main-destinations-selector .btn-ig-text{
+        font-size:14px; font-weight:800;
+      }
 
-  <!-- ====== Estilos del HOME nuevo (encapsulado) ====== -->
-  <style>
-    :root{
-      --wrap:1240px;
-      --rhd:"Red Hat Display",system-ui;
-      --lato:"Lato",system-ui;
-      --red:#d71920;  /* Avianca */
-      --ink:#111;
-      --muted:#6b7280;
-      --card:#fff;
-      --line:#e8eaef;
-      --bg:#f7f8fa;
-    }
+      /* ---- Col 2 y 3: Fechas (Ida | Vuelta) juntas dentro ---- */
+      .main--card--body > .main--input-group:nth-of-type(1){
+        grid-column:2;
+        display:grid; grid-template-columns:1fr 1fr; gap:14px;
+        border:0 !important;
+      }
+      /* Respetar “Solo ida” */
+      #btn-date-back.d-none{ display:none !important; }
 
-    .avxHome{font-family:var(--lato); color:var(--ink)}
-    .avxHome .wrap{max-width:var(--wrap);margin:0 auto;padding:0 16px}
-    .avxHome h2.section-title{
-      font:900 24px/1.1 var(--rhd); text-align:center; margin:36px 0 18px;
-    }
+      /* ---- Col 4: Pasajeros ---- */
+      .main--card--body > .main--input-group:nth-of-type(2){
+        grid-column:3; border:0 !important;
+      }
+      #btn-passengers{ padding:0 14px 0 44px !important; }
+      #btn-passengers .btn-ig-icon{ position:absolute; left:14px; }
 
-    /* HERO: imagen a la izquierda + panel rojo a la derecha */
-    .avxHero{margin:18px 0 26px}
-    .avxHero .grid{
-      display:grid; gap:18px;
-      grid-template-columns: 1.6fr 1fr;
-    }
-    .avxHero .hero-img{
-      min-height:280px;border-radius:16px;overflow:hidden;position:relative;background:#ccc center/cover no-repeat;
-    }
-    .avxHero .badge{
-      position:absolute;left:12px;top:12px;background:#000;color:#fff;padding:6px 10px;border-radius:999px;font:700 12px var(--rhd)
-    }
-    .avxHero .panel{
-      border-radius:16px;background:var(--red);color:#fff;padding:22px 20px;display:flex;flex-direction:column;justify-content:space-between
-    }
-    .avxHero .panel h3{font:900 28px/1.05 var(--rhd);margin:0 0 8px}
-    .avxHero .panel p{margin:0 0 10px;font-size:14px}
-    .avxHero .price{font:900 34px/1 var(--rhd);margin:10px 0 16px}
-    .avxHero .btn{
-      align-self:flex-start;background:#fff;color:#111;border:none;border-radius:999px;padding:10px 16px;font-weight:700;cursor:pointer
-    }
+      /* ---- Col 5: Botón Buscar (misma fila, derecha) ---- */
+      #search-flight{
+        grid-column:5;
+        min-width:170px;
+        height:56px !important;
+        border-radius:12px !important;
+        white-space:nowrap;
+        box-shadow:0 6px 14px rgba(0,0,0,.08);
+        justify-self:end;
+      }
+      .btn.btn-black{
+        height:56px; padding:0 26px; border:none; border-radius:12px;
+      }
 
-    /* OFERTAS 3 tarjetas */
-    .avxOffers .cards{
-      display:grid;gap:16px;grid-template-columns:repeat(3,1fr)
+      /* Un poco menos de aire en el header azul */
+      .bg-main-card{ padding-top:8px !important; }
     }
-    .avxOffers .card{
-      background:var(--card);border:1px solid var(--line);border-radius:16px;overflow:hidden;box-shadow:0 6px 16px rgba(0,0,0,.06)
-    }
-    .avxOffers .img{height:180px;background:#ddd center/cover no-repeat}
-    .avxOffers .pill{
-      display:flex; justify-content:space-between; align-items:center; padding:12px 14px;
-    }
-    .avxOffers .city{font:800 16px var(--rhd)}
-    .avxOffers small{color:var(--muted)}
-    .avxOffers strong{font:900 18px var(--rhd)}
-
-    /* INFO (4 tarjetas) */
-    .avxInfo .cards{
-      display:grid;gap:16px;grid-template-columns:repeat(4,1fr)
-    }
-    .avxInfo .card{
-      background:var(--card);border:1px solid var(--line);border-radius:16px;overflow:hidden;text-align:center;box-shadow:0 4px 12px rgba(0,0,0,.05)
-    }
-    .avxInfo .img{height:150px;background:#ddd center/cover no-repeat}
-    .avxInfo .body{padding:14px}
-    .avxInfo h4{margin:4px 0 6px;font:800 15px var(--rhd)}
-    .avxInfo p{margin:0 6px 12px;color:#444;font-size:13px;line-height:1.35}
-
-    /* COMPLEMENTA (4 tarjetas) */
-    .avxExtras .cards{display:grid;gap:16px;grid-template-columns:repeat(4,1fr)}
-    .avxExtras .card{
-      background:var(--card);border:1px solid var(--line);border-radius:16px;text-align:center;padding:22px 14px;box-shadow:0 4px 12px rgba(0,0,0,.05)
-    }
-    .avxExtras img{height:72px;margin-bottom:10px;object-fit:contain}
-    .avxExtras h5{margin:6px 0 8px;font:800 15px var(--rhd)}
-    .avxExtras p{margin:0 8px 14px;color:#444;font-size:13px}
-    .chip{display:inline-block;border:1px solid #111;border-radius:999px;padding:6px 12px;font-weight:700;cursor:pointer;background:#fff}
-
-    /* NEWSLETTER */
-    .avxNewsletter{background:#111;color:#fff;margin-top:34px}
-    .avxNewsletter .wrap{display:grid;gap:16px;grid-template-columns:1fr auto auto;align-items:center;padding:20px 16px}
-    .avxNewsletter h3{font:900 18px var(--rhd);margin:0}
-    .avxNewsletter p{margin:0;color:#c6c6c6;font-size:13px}
-    .avxNewsletter .nl{
-      display:flex;gap:8px
-    }
-    .avxNewsletter input{
-      height:40px;border-radius:999px;border:none;padding:0 14px;min-width:280px
-    }
-    .avxNewsletter button{
-      height:40px;border-radius:999px;border:none;background:#d71920;color:#fff;padding:0 16px;font-weight:800;cursor:pointer
-    }
-
-    /* Responsivo */
-    @media (max-width:1023px){
-      .avxHero .grid{grid-template-columns:1fr}
-      .avxOffers .cards{grid-template-columns:1fr 1fr}
-      .avxInfo .cards{grid-template-columns:1fr 1fr}
-      .avxExtras .cards{grid-template-columns:1fr 1fr}
-      .avxNewsletter .wrap{grid-template-columns:1fr; text-align:center}
-      .avxNewsletter .nl{justify-content:center;flex-wrap:wrap}
-    }
-    @media (max-width:640px){
-      .avxOffers .cards,.avxInfo .cards,.avxExtras .cards{grid-template-columns:1fr}
-      .avxHero .hero-img{min-height:220px}
-    }
-  </style>
+    </style>
 </head>
 <body class="sb-hidden">
-  <!-- LOADER -->
-  <div class="loader show">
-    <img src="./public/assets/svg/plane-loader.gif" alt="Loading">
-  </div>
 
-  <!-- MODAL destinos (mantener) -->
-  <div class="cover" id="cover-destinations">
-    <div class="cover--main">
-      <div class="cover--header">
-        <a id="close-modal"><img src="./public/assets/svg/left_arrow.png" alt="Back"></a>
-        <h2 id="search-label">Origen</h2>
-        <a id="close-modal"><img src="./public/assets/svg/x_icon.png" alt="Close"></a>
-      </div>
-      <div class="cover--body">
-        <div class="search--input--container">
-          <input type="text" class="search--input">
-          <img class="search--input--icon" src="./public/assets/svg/takeoff_icon.png" alt="">
-          <span id="search-input-label" class="search--input--label">Origen</span>
-        </div>
-        <div id="destinations"></div>
-      </div>
+    <!-- ON LOADER -->
+    <div class="loader show">
+        <img class="" src="./assets/svg/plane-loader.gif" alt="Loading">
     </div>
-  </div>
 
-  <!-- MODAL resumen (oculto, requerido por tus scripts) -->
-  <div class="cover" id="cover-resume" style="display:none;">
-    <div class="cover--main">
-      <div class="cover--header">
-        <a id="close-modal"><img src="./public/assets/svg/left_arrow.png" alt="Back"></a>
-        <h2 id="search-label">Reserva tu vuelo</h2>
-        <a id="close-modal"><img src="./public/assets/svg/x_icon.png" alt="Close"></a>
-      </div>
-      <div class="cover--body">
-        <div class="main--card--header" id="resume-type-selector"></div>
-        <div class="mt-3" id="resume-destinations-selector"></div>
-        <button id="btn-next-step" class="btn btn-black mt-3 w-100" style="display:none">Buscar</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- NAVBAR -->
-  <nav class="navbar">
-    <img class="navbar-hmenu" src="./public/assets/galerianueva/LogoAvianca_NewBrand_2.png" alt="menu_h">
-    <div class="navbar--logo">
-      <img src="./public/assets/galerianueva/avianca_full.svg" alt="Avianca">
-    </div>
-  </nav>
-
-  <!-- BUSCADOR (tu bloque original) -->
-  <section class="main">
-    <div class="sp-initial-content bg-main-card">
-      <div class="main--card">
-        <div id="main-type-selector" class="main--card--header">
-          <form id="type-selector">
-            <label class="radio-wrapper" for="ida_vuelta">
-              <input type="radio" selected id="ida_vuelta" name="opcion_viaje" onclick="info.flightInfo.type = 1; updateLS(); updateDOM()">
-              <div class="radio-circle"><div class="radio-dot"></div></div>
-              <span class="radio-label">Ida y vuelta</span>
-            </label>
-            <label class="radio-wrapper" for="solo_ida">
-              <input type="radio" id="solo_ida" name="opcion_viaje" onclick="info.flightInfo.type = 2; updateLS(); updateDOM()">
-              <div class="radio-circle"><div class="radio-dot"></div></div>
-              <span class="radio-label">Solo ida</span>
-            </label>
-          </form>
-        </div>
-
-        <div class="main--card--body">
-          <!-- Origen/Destino -->
-          <div id="main-destinations-selector">
-            <div class="main--input-group" id="destinations-selector">
-              <button class="btn-ig" id="btn-origin">
-                <img class="btn-ig-icon" src="./public/assets/svg/takeoff_icon.png" alt="">
-                <span class="btn-ig-label">Origen</span>
-                <span class="btn-ig-text" id="btn-origin-label">Quito</span>
-              </button>
-              <img class="fd-icon" src="./public/assets/svg/flight-direction-icon.png" alt="↔">
-              <button class="btn-ig" id="btn-destination">
-                <img class="btn-ig-icon" src="./public/assets/svg/landing_icon.png" alt="">
-                <span class="btn-ig-label">Destino</span>
-                <span class="btn-ig-text" id="btn-destination-label">Guayaquil</span>
-              </button>
+    <!-- ON CONVERS | DESTINATIONS (esto sí se usa para buscar ciudades) -->
+    <div class="cover" id="cover-destinations">
+        <div class="cover--main">
+            <div class="cover--header">
+                <a id="close-modal"><img src="./assets/svg/left_arrow.png" class="" alt="Back"></a>
+                <h2 id="search-label">Origen</h2>
+                <a id="close-modal"><img src="./assets/svg/x_icon.png" alt="Close"></a>
             </div>
-          </div>
 
-          <!-- Fechas -->
-          <div class="main--input-group mt-3">
-            <input class="d-none" type="date" id="date-go" readonly onclick="calender(this, 'go')">
-            <button class="btn-ig" id="btn-date-go" onclick="document.querySelector('#date-go').click();">
-              <img class="btn-ig-icon" src="./public/assets/svg/date-icon.png" alt="">
-              <span class="btn-ig-label">Ida</span>
-              <span class="btn-ig-text" id="btn-date-go-label">23/08/2025</span>
-            </button>
-
-            <input class="d-none" type="date" id="date-back" readonly onclick="calender(this, 'back')">
-            <button class="btn-ig" id="btn-date-back" onclick="document.querySelector('#date-back').click()">
-              <img class="btn-ig-icon" src="./public/assets/svg/date-icon.png" alt="">
-              <span class="btn-ig-label">Vuelta</span>
-              <span class="btn-ig-text" id="btn-date-back-label">26/08/2025</span>
-            </button>
-          </div>
-
-          <!-- Pasajeros -->
-          <div class="main--input-group mt-3" style="position:relative;">
-            <button class="btn-ig" id="btn-passengers" type="button">
-              <img class="btn-ig-icon" src="./public/assets/svg/add-passenger-icon.png" alt="">
-              <span class="btn-ig-label">Pasajeros</span>
-              <span class="btn-ig-text" id="btn-passengers-label">1</span>
-            </button>
-            <div id="pp-passengers" class="d-none" style="position:absolute;left:0;right:0;top:100%;background:#fff;border:1px solid #d9d9d9;border-radius:12px;padding:14px;margin-top:6px;z-index:50;">
-              <div class="passenger-selector">
-                <div><p class="text-normal">Adultos</p><p class="text-thin">Desde 12 años</p></div>
-                <div class="passenger-btn">
-                  <img src="./public/assets/svg/remove-icon.png" style="height:23px;cursor:pointer" onclick="rmP('adult');" alt="menos">
-                  <h1 id="adults-label">1</h1>
-                  <img src="./public/assets/svg/add-icon.png" style="cursor:pointer" onclick="addP('adult');" alt="más">
+            <div class="cover--body">
+                <div class="search--input--container">
+                    <input type="text" class="search--input">
+                    <img class="search--input--icon" src="./assets/svg/takeoff_icon.png" alt="">
+                    <span id="search-input-label" class="search--input--label">Origen</span>
                 </div>
-              </div>
-              <div class="passenger-selector mt-2">
-                <div><p class="text-normal">Niños</p><p class="text-thin">De 2 a 11 años</p></div>
-                <div class="passenger-btn">
-                  <img src="./public/assets/svg/remove-icon.png" style="height:23px;cursor:pointer" onclick="rmP('child');" alt="menos">
-                  <h1 id="children-label">0</h1>
-                  <img src="./public/assets/svg/add-icon.png" style="cursor:pointer" onclick="addP('child');" alt="más">
+                <div id="destinations"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ⚠️ Restaurado solo para compatibilidad con index.js (oculto siempre) -->
+    <div class="cover" id="cover-resume" style="display:none;">
+        <div class="cover--main">
+            <div class="cover--header">
+                <a id="close-modal"><img src="./assets/svg/left_arrow.png" class="" alt="Back"></a>
+                <h2 id="search-label">Reserva tu vuelo</h2>
+                <a id="close-modal"><img src="./assets/svg/x_icon.png" alt="Close"></a>
+            </div>
+            <div class="cover--body">
+                <div class="main--card--header" id="resume-type-selector"></div>
+                <div class="mt-3" id="resume-destinations-selector"></div>
+                <!-- Botón real que algunos scripts esperan -->
+                <button id="btn-next-step" class="btn btn-black mt-3 w-100" style="display:none">Buscar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <img class="navbar-hmenu" src="./assets/svg/hamburger_menu.png" alt="menu_h">
+        <div class="navbar--logo">
+            <img src="./assets/logos/avianca_full.svg" alt="logo">
+        </div>
+    </nav>
+
+    <section class="main">
+        <div class="sp-initial-content bg-main-card">
+            <div class="main--card">
+                <div id="main-type-selector" class="main--card--header">
+                    <form id="type-selector">
+                        <label class="radio-wrapper" for="ida_vuelta">
+                            <input type="radio" selected id="ida_vuelta" name="opcion_viaje" onclick="info.flightInfo.type = 1; updateLS(); updateDOM()">
+                            <div class="radio-circle">
+                                <div class="radio-dot"></div>
+                            </div>
+                            <span class="radio-label">Ida y vuelta</span>
+                        </label>
+
+                        <label class="radio-wrapper" for="solo_ida">
+                            <input type="radio" id="solo_ida" name="opcion_viaje" onclick="info.flightInfo.type = 2; updateLS(); updateDOM()">
+                            <div class="radio-circle">
+                                <div class="radio-dot"></div>
+                            </div>
+                            <span class="radio-label">Solo ida</span>
+                        </label>
+                    </form>
                 </div>
-              </div>
-              <div class="passenger-selector mt-2">
-                <div><p class="text-normal">Bebés</p><p class="text-thin">Menores de 2 años</p></div>
-                <div class="passenger-btn">
-                  <img src="./public/assets/svg/remove-icon.png" style="height:23px;cursor:pointer" onclick="rmP('baby');" alt="menos">
-                  <h1 id="babies-label">0</h1>
-                  <img src="./public/assets/svg/add-icon.png" style="cursor:pointer" onclick="addP('baby');" alt="más">
+
+                <div class="main--card--body">
+                    <!-- Origen / Destino -->
+                    <div id="main-destinations-selector">
+                        <div class="main--input-group" id="destinations-selector">
+                            <button class="btn-ig" id="btn-origin">
+                                <img class="btn-ig-icon" src="./assets/svg/takeoff_icon.png" alt="">
+                                <span class="btn-ig-label">Origen</span>
+                                <span class="btn-ig-text" id="btn-origin-label">Bogotá</span>
+                            </button>
+
+                            <img class="fd-icon" src="./assets/svg/flight-direction-icon.png" alt="↔">
+
+                            <button class="btn-ig" id="btn-destination">
+                                <img class="btn-ig-icon" src="./assets/svg/landing_icon.png" alt="">
+                                <span class="btn-ig-label">Destino</span>
+                                <span class="btn-ig-text" id="btn-destination-label">Cali</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Fechas (inline) -->
+                    <div class="main--input-group mt-3">
+                        <input class="d-none" type="date" id="date-go" readonly onclick="calender(this, 'go')">
+                        <button class="btn-ig" id="btn-date-go" onclick="document.querySelector('#date-go').click();">
+                            <img class="btn-ig-icon" src="./assets/svg/date-icon.png" alt="">
+                            <span class="btn-ig-label">Ida</span>
+                            <span class="btn-ig-text" id="btn-date-go-label">01/01/2001</span>
+                        </button>
+
+                        <input class="d-none" type="date" id="date-back" readonly onclick="calender(this, 'back')">
+                        <button class="btn-ig" id="btn-date-back" onclick="document.querySelector('#date-back').click()">
+                            <img class="btn-ig-icon" src="./assets/svg/date-icon.png" alt="">
+                            <span class="btn-ig-label">Vuelta</span>
+                            <span class="btn-ig-text" id="btn-date-back-label">01/01/2001</span>
+                        </button>
+                    </div>
+
+                    <!-- Pasajeros (inline con popover) -->
+                    <div class="main--input-group mt-3" style="position:relative;">
+                        <button class="btn-ig" id="btn-passengers" type="button">
+                            <img class="btn-ig-icon" src="./assets/svg/add-passenger-icon.png" alt="">
+                            <span class="btn-ig-label">Pasajeros</span>
+                            <span class="btn-ig-text" id="btn-passengers-label">1</span>
+                        </button>
+
+                        <!-- Popover simple -->
+                        <div id="pp-passengers" class="d-none" style="position:absolute; left:0; right:0; top:100%; background:#fff; border:1px solid #d9d9d9; border-radius:12px; padding:14px; margin-top:6px; z-index:50;">
+                            <div class="passenger-selector">
+                                <div>
+                                    <p class="text-normal">Adultos</p>
+                                    <p class="text-thin">Desde 12 años</p>
+                                </div>
+                                <div class="passenger-btn">
+                                    <img src="./assets/svg/remove-icon.png" style="height: 23px; cursor:pointer;" onclick="rmP('adult');" alt="menos">
+                                    <h1 id="adults-label">1</h1>
+                                    <img src="./assets/svg/add-icon.png" style="cursor:pointer;" onclick="addP('adult');" alt="más">
+                                </div>
+                            </div>
+
+                            <div class="passenger-selector mt-2">
+                                <div>
+                                    <p class="text-normal">Niños</p>
+                                    <p class="text-thin">De 2 a 11 años</p>
+                                </div>
+                                <div class="passenger-btn">
+                                    <img src="./assets/svg/remove-icon.png" style="height: 23px; cursor:pointer;" onclick="rmP('child');" alt="menos">
+                                    <h1 id="children-label">0</h1>
+                                    <img src="./assets/svg/add-icon.png" style="cursor:pointer;" onclick="addP('child');" alt="más">
+                                </div>
+                            </div>
+
+                            <div class="passenger-selector mt-2">
+                                <div>
+                                    <p class="text-normal">Bebés</p>
+                                    <p class="text-thin">Menores de 2 años</p>
+                                </div>
+                                <div class="passenger-btn">
+                                    <img src="./assets/svg/remove-icon.png" style="height: 23px; cursor:pointer;" onclick="rmP('baby');" alt="menos">
+                                    <h1 id="babies-label">0</h1>
+                                    <img src="./assets/svg/add-icon.png" style="cursor:pointer;" onclick="addP('baby');" alt="más">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button id="search-flight" class="btn btn-black mt-3">
+                        Buscar
+                    </button>
                 </div>
+            </div>
+        </div>
+
+        <!-- PROMO SPLIT -->
+        <div class="promo-split">
+          <div class="promo-split__img" style="background-image:url('./assets/svg/main_banner_people.png')">
+            
+          </div>
+
+          <div class="promo-split__panel">
+            <div class="promo-split__panel-top">
+              <div>
+                <p class="promo-kicker">Lujos de</p>
+                <h2 class="promo-title">temporada baja</h2>
+              </div>
+              <img class="promo-logo" src="./assets/logos/avianca_negative.svg" alt="Avianca">
+            </div>
+
+            <p class="promo-copy">
+              Viaja por menos y disfruta más. Reserva ya y vuela en septiembre de 2025.
+            </p>
+
+            <div class="promo-split__price-cta">
+              <p class="promo-price">Por trayecto desde <span class="price-xxl">USD 60</span></p>
+              <button class="btn btn-light">Ver ofertas</button>
+            </div>
+          </div>
+        </div>
+    </section>
+
+    <!-- OFERTAS (NUEVO LAYOUT) -->
+    <section class="cards--container">
+      <h3 class="offers-title">
+        Ofertas desde
+        <a class="link-blue" target="_blank" href="">
+          Quito <img width="15" src="./assets/svg/down_blue_arrow.png" alt="">
+        </a>
+      </h3>
+
+      <div class="offers-grid">
+        <!-- Guayaquil -->
+        <a href="#" class="offer-card card--bg--gua" aria-label="Guayaquil desde USD 64">
+          <div class="offer-pill">
+            <div class="offer-city">Guayaquil</div>
+            <div class="offer-right">
+              <span class="offer-badge">Lm+&nbsp;Acumula millas</span>
+              <div class="offer-price">
+                <small>Por trayecto desde</small>
+                <strong>USD 52</strong>
               </div>
             </div>
           </div>
+        </a>
 
-          <button id="search-flight" class="btn btn-black mt-3">Buscar</button>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ====== HOME NUEVO (como el oficial) ====== -->
-  <section class="avxHome">
-    <div class="wrap">
-
-      <!-- HERO -->
-      <div class="avxHero">
-        <div class="grid">
-          <div class="hero-img" style="background-image:url('./public/assets/galerianueva/hero-playa.jpg')">
-            <span class="badge">Lm+ Acumula millas</span>
+        <!-- Manta -->
+        <a href="#" class="offer-card card--bg--glp" aria-label="Manta desde USD 69">
+          <div class="offer-pill">
+            <div class="offer-city">Manta</div>
+            <div class="offer-right">
+              <span class="offer-badge">Lm+&nbsp;Acumula millas</span>
+              <div class="offer-price">
+                <small>Por trayecto desde</small>
+                <strong>USD 50</strong>
+              </div>
+            </div>
           </div>
-          <div class="panel">
-            <div>
-              <h3>Lujos de temporada baja</h3>
-              <p>Viaja por menos y disfruta más. Reserva ya y vuela en septiembre de 2025.</p>
-              <div class="price">USD 60</div>
+        </a>
+
+        <!-- Cuenca -->
+        <a href="#" class="offer-card card--bg--cue" aria-label="Cuenca desde USD 79">
+          <div class="offer-pill">
+            <div class="offer-city">Cuenca</div>
+            <div class="offer-right">
+              <span class="offer-badge">Lm+&nbsp;Acumula millas</span>
+              <div class="offer-price">
+                <small>Por trayecto desde</small>
+                <strong>USD 45</strong>
+              </div>
             </div>
-            <button class="btn">Compra ya</button>
+          </div>
+        </a>
+      </div>
+    </section>
+
+    <!-- FOOTER (tu versión nueva elegante) -->
+    <footer class="site-footer">
+      <div class="sf__inner">
+
+        <div class="sf__top">
+          <div class="sf__brand">
+            <img src="./assets/logos/avianca_negative.svg" alt="Avianca" class="sf__logo">
+          </div>
+
+          <div class="sf__newsletter" aria-label="Suscripción a ofertas">
+            <p class="sf__title">¿Estás buscando ofertas?</p>
+            <p class="sf__subtitle">Suscríbete y sé el primero en recibir ofertas personalizadas en tu correo.</p>
+
+            <form class="sf__form" action="#" method="post" onsubmit="return false;">
+              <input class="sf__input -i-mail" type="email" placeholder="correo@email.com" required>
+              <button class="btn btn-red sf__btn" type="submit">Suscríbete</button>
+            </form>
+
+            <p class="sf__legal text-thin">
+              Al suscribirme acepto la <a href="#" class="sf__link">Política de Privacidad</a> y el uso de mis datos personales para recibir ofertas.
+            </p>
+          </div>
+
+          <div class="sf__social">
+            <p class="sf__title sf__title--social">¡Síguenos!</p>
+            <img class="sf__social-sprite" width="200" src="./assets/svg/social_media_icons.png" alt="Social">
           </div>
         </div>
-      </div>
 
-      <!-- OFERTAS -->
-      <h2 class="section-title">Ofertas desde <span style="font-weight:900">Quito</span></h2>
-      <div class="avxOffers">
-        <div class="cards">
-          <article class="card">
-            <div class="img" style="background-image:url('./public/assets/galerianueva/oferta-gye.jpg')"></div>
-            <div class="pill">
-              <div>
-                <div class="city">Guayaquil</div>
-                <small>Por trayecto desde</small>
-              </div>
-              <strong>USD 64</strong>
-            </div>
-          </article>
+        <div class="sf__cols">
+          <div class="sf__col">
+            <h4 class="sf__col-title">Descubre y compra</h4>
+            <ul class="sf__list">
+              <li><a href="#">Vuelos baratos</a></li>
+              <li><a href="#">Reservas de hoteles</a></li>
+              <li><a href="#">Alquiler de autos</a></li>
+              <li><a href="#">Tours y excursiones</a></li>
+              <li><a href="#">Asistencia en viaje</a></li>
+              <li><a href="#">avianca connect</a></li>
+            </ul>
+          </div>
 
-          <article class="card">
-            <div class="img" style="background-image:url('./public/assets/galerianueva/oferta-manta.jpg')"></div>
-            <div class="pill">
-              <div>
-                <div class="city">Manta</div>
-                <small>Por trayecto desde</small>
-              </div>
-              <strong>USD 69</strong>
-            </div>
-          </article>
+          <div class="sf__col">
+            <h4 class="sf__col-title">Sobre nosotros</h4>
+            <ul class="sf__list">
+              <li><a href="#">Somos avianca</a></li>
+              <li><a href="#">Trabaja con nosotros</a></li>
+              <li><a href="#">Noticias corporativas</a></li>
+              <li><a href="#">Alianzas y beneficios</a></li>
+              <li><a href="#">Sostenibilidad</a></li>
+              <li><a href="#">Plan de accesibilidad</a></li>
+            </ul>
+          </div>
 
-          <article class="card">
-            <div class="img" style="background-image:url('./public/assets/galerianueva/oferta-cuenca.jpg')"></div>
-            <div class="pill">
-              <div>
-                <div class="city">Cuenca</div>
-                <small>Por trayecto desde</small>
-              </div>
-              <strong>USD 79</strong>
-            </div>
-          </article>
+          <div class="sf__col">
+            <h4 class="sf__col-title">Nuestros portales</h4>
+            <ul class="sf__list">
+              <li><a href="#">Programa Lifemiles</a></li>
+              <li><a href="#">avianca empresas</a></li>
+              <li><a href="#">aviancadirect</a></li>
+              <li><a href="#">avianca trade</a></li>
+              <li><a href="#">avianca cargo</a></li>
+              <li><a href="#">Relación con inversionistas</a></li>
+            </ul>
+          </div>
+
+          <div class="sf__col">
+            <h4 class="sf__col-title">Enlaces rápidos</h4>
+            <ul class="sf__list">
+              <li><a href="#">Información legal</a></li>
+              <li><a href="#">Política de privacidad</a></li>
+              <li><a href="#">Contrato de transporte</a></li>
+              <li><a href="#">Artículos restringidos</a></li>
+              <li><a href="#">Plan de contingencia</a></li>
+              <li><a href="#">Contáctanos</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <hr class="sf__hr">
+
+        <div class="sf__bottom">
+          <p>Copyright © Avianca 2025</p>
+          <img src="./assets/svg/Powered_by.png" width="130" alt="Powered by">
         </div>
       </div>
+    </footer>
 
-      <!-- MÁS INFORMACIÓN -->
-      <h2 class="section-title">Más información de interés</h2>
-      <div class="avxInfo">
-        <div class="cards">
-          <article class="card">
-            <div class="img" style="background-image:url('./public/assets/galerianueva/info-experiencia.jpg')"></div>
-            <div class="body">
-              <h4>Experiencia avianca</h4>
-              <p>¡Listo para despegar! Descubre los servicios a bordo que te ofrecemos al volar.</p>
-            </div>
-          </article>
-          <article class="card">
-            <div class="img" style="background-image:url('./public/assets/galerianueva/info-equipaje.jpg')"></div>
-            <div class="body">
-              <h4>Equipaje</h4>
-              <p>Entérate de las condiciones que debes tener en cuenta al momento de preparar tu equipaje.</p>
-            </div>
-          </article>
-          <article class="card">
-            <div class="img" style="background-image:url('./public/assets/galerianueva/info-fraude.jpg')"></div>
-            <div class="body">
-              <h4>Unidos contra el fraude</h4>
-              <p>Protege tu viaje comprando tus tiquetes y servicios en canales oficiales.</p>
-            </div>
-          </article>
-          <article class="card">
-            <div class="img" style="background-image:url('./public/assets/galerianueva/info-trata.jpg')"></div>
-            <div class="body">
-              <h4>Sobre la trata de personas</h4>
-              <p>Conoce cómo detectarla y los pasos para denunciarla.</p>
-            </div>
-          </article>
-        </div>
-      </div>
+    <!-- SCRIPTS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="./js/calendar.js"></script>
+    <script src="./js/index.js"></script>
 
-      <!-- COMPLEMENTA -->
-      <h2 class="section-title">Complementa tu experiencia</h2>
-      <div class="avxExtras">
-        <div class="cards">
-          <article class="card">
-            <img src="./public/assets/galerianueva/icon-hoteles.svg" alt="">
-            <h5>Reserva de hoteles</h5>
-            <p>Cientos de alojamientos con hasta 15% DCTO te esperan en Booking.com.</p>
-            <span class="chip">Reservar</span>
-          </article>
-          <article class="card">
-            <img src="./public/assets/galerianueva/icon-autos.svg" alt="">
-            <h5>Alquiler de autos</h5>
-            <p>Muévete a tu ritmo con hasta 15% DCTO en tu próximo destino con Rentalcars.com.</p>
-            <span class="chip">Alquilar</span>
-          </article>
-          <article class="card">
-            <img src="./public/assets/galerianueva/icon-tours.svg" alt="">
-            <h5>Tours y excursiones</h5>
-            <p>Descubre actividades en los principales destinos turísticos del mundo con Civitatis.</p>
-            <span class="chip">Descubrir</span>
-          </article>
-          <article class="card">
-            <img src="./public/assets/galerianueva/icon-una-sola.svg" alt="">
-            <h5>Todo en una sola reserva</h5>
-            <p>Pronto podrás comprar tiquetes + alojamiento + auto en un solo lugar.</p>
-            <span class="chip">Más info</span>
-          </article>
-        </div>
-      </div>
+    <!-- Lógica: popover pasajeros + sincronizar y disparar búsqueda real SIN abrir modal -->
+    <script>
+    (function () {
+      // --- POPUP PASAJEROS ---
+      const btnPassengers = document.getElementById('btn-passengers');
+      const pop = document.getElementById('pp-passengers');
+      const label = document.getElementById('btn-passengers-label');
+      const adultsEl = document.getElementById('adults-label');
+      const childrenEl = document.getElementById('children-label');
+      const babiesEl = document.getElementById('babies-label');
 
-    </div>
+      function i(el){ return Math.max(0, parseInt((el?.textContent || '0').trim(), 10) || 0); }
+      function updatePassengersLabel(){
+        const total = Math.max(1, i(adultsEl)+i(childrenEl)+i(babiesEl));
+        label.textContent = String(total);
+      }
+      updatePassengersLabel();
 
-    <!-- NEWSLETTER -->
-    <div class="avxNewsletter">
-      <div class="wrap">
-        <div>
-          <h3>¿Estás buscando ofertas?</h3>
-          <p>Suscríbete y sé el primero en recibir ofertas personalizadas en tu correo.</p>
-        </div>
-        <div class="nl">
-          <input type="email" placeholder="correo@email.com"/>
-          <button>Suscribirse</button>
-        </div>
-        <div></div>
-      </div>
-    </div>
-  </section>
+      if (btnPassengers && pop){
+        btnPassengers.addEventListener('click', (e)=>{
+          e.stopPropagation();
+          pop.classList.toggle('d-none');
+        });
+        document.addEventListener('click', (e)=>{
+          if (!pop.classList.contains('d-none')) {
+            const within = pop.contains(e.target) || btnPassengers.contains(e.target);
+            if (!within) pop.classList.add('d-none');
+          }
+        });
+        const mo = new MutationObserver(updatePassengersLabel);
+        [adultsEl, childrenEl, babiesEl].forEach(n=> n && mo.observe(n, {childList:true, characterData:true, subtree:true}));
+      }
 
-  <!-- FOOTER (tu footer elegante) -->
-  <footer class="site-footer">
-    <div class="sf__inner">
-      <div class="sf__top">
-        <div class="sf__brand"><img src="./public/assets/logos/avianca_negative.svg" alt="Avianca" class="sf__logo"></div>
-        <div class="sf__newsletter" aria-label="Suscripción a ofertas">
-          <p class="sf__title">¿Estás buscando ofertas?</p>
-          <p class="sf__subtitle">Suscríbete y sé el primero en recibir ofertas personalizadas en tu correo.</p>
-          <form class="sf__form" onsubmit="return false;">
-            <input class="sf__input -i-mail" type="email" placeholder="correo@email.com" required>
-            <button class="btn btn-red sf__btn" type="submit">Suscríbete</button>
-          </form>
-          <p class="sf__legal text-thin">Al suscribirme acepto la <a href="#" class="sf__link">Política de Privacidad</a>.</p>
-        </div>
-        <div class="sf__social">
-          <p class="sf__title sf__title--social">¡Síguenos!</p>
-          <img class="sf__social-sprite" width="200" src="./public/assets/svg/social_media_icons.png" alt="Social">
-        </div>
-      </div>
+      // --- GUARD: si algún script intenta abrir el modal "resume", lo cerramos ---
+      const coverResume = document.getElementById('cover-resume');
+      if (coverResume){
+        coverResume.classList.remove('show');
+        const obs = new MutationObserver(()=> {
+          if (coverResume.classList.contains('show')) coverResume.classList.remove('show');
+        });
+        obs.observe(coverResume, { attributes:true, attributeFilter:['class'] });
+      }
 
-      <div class="sf__cols">
-        <div class="sf__col"><h4 class="sf__col-title">Descubre y compra</h4>
-          <ul class="sf__list"><li><a href="#">Vuelos baratos</a></li><li><a href="#">Reservas de hoteles</a></li><li><a href="#">Alquiler de autos</a></li><li><a href="#">Tours y excursiones</a></li><li><a href="#">Asistencia en viaje</a></li><li><a href="#">avianca connect</a></li></ul>
-        </div>
-        <div class="sf__col"><h4 class="sf__col-title">Sobre nosotros</h4>
-          <ul class="sf__list"><li><a href="#">Somos avianca</a></li><li><a href="#">Trabaja con nosotros</a></li><li><a href="#">Noticias corporativas</a></li><li><a href="#">Alianzas y beneficios</a></li><li><a href="#">Sostenibilidad</a></li><li><a href="#">Plan de accesibilidad</a></li></ul>
-        </div>
-        <div class="sf__col"><h4 class="sf__col-title">Nuestros portales</h4>
-          <ul class="sf__list"><li><a href="#">Programa Lifemiles</a></li><li><a href="#">avianca empresas</a></li><li><a href="#">aviancadirect</a></li><li><a href="#">avianca trade</a></li><li><a href="#">avianca cargo</a></li><li><a href="#">Relación con inversionistas</a></li></ul>
-        </div>
-        <div class="sf__col"><h4 class="sf__col-title">Enlaces rápidos</h4>
-          <ul class="sf__list"><li><a href="#">Información legal</a></li><li><a href="#">Política de privacidad</a></li><li><a href="#">Contrato de transporte</a></li><li><a href="#">Artículos restringidos</a></li><li><a href="#">Plan de contingencia</a></li><li><a href="#">Contáctanos</a></li></ul>
-        </div>
-      </div>
+      // --- SYNC ANTES DE BUSCAR ---
+      function syncBeforeSearch(){
+        const a = i(adultsEl) || 1;
+        const c = i(childrenEl);
+        const b = i(babiesEl);
+        const total = Math.max(1, a + c + b);
 
-      <hr class="sf__hr">
-      <div class="sf__bottom">
-        <p>Copyright © Avianca 2025</p>
-        <img src="./public/assets/svg/Powered_by.png" width="130" alt="Powered by">
-      </div>
-    </div>
-  </footer>
+        window.info = window.info || {};
+        window.info.flightInfo = window.info.flightInfo || {};
+        info.flightInfo.adults = a;
+        info.flightInfo.children = c;
+        info.flightInfo.babies = b;
+        info.flightInfo.passengers = total;
+        info.flightInfo.totalPassengers = total;
 
-  <!-- SCRIPTS base (se mantienen) -->
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-  <script src="./js/calendar.js"></script>
-  <script src="./js/index.js"></script>
+        if (typeof updateLS === 'function') try{ updateLS(); }catch(e){}
+        if (typeof updateDOM === 'function') try{ updateDOM(); }catch(e){}
+      }
 
-  <!-- Lógica pasajeros + disparo de búsqueda (tuyo, con mejora menor de robustez) -->
-  <script>
-  (function () {
-    const btnPassengers=document.getElementById('btn-passengers');
-    const pop=document.getElementById('pp-passengers');
-    const label=document.getElementById('btn-passengers-label');
-    const adultsEl=document.getElementById('adults-label');
-    const childrenEl=document.getElementById('children-label');
-    const babiesEl=document.getElementById('babies-label');
-    function i(el){return Math.max(0,parseInt((el?.textContent||'0').trim(),10)||0)}
-    function updatePassengersLabel(){label.textContent=String(Math.max(1,i(adultsEl)+i(childrenEl)+i(babiesEl)))}
-    updatePassengersLabel();
-    if(btnPassengers&&pop){
-      btnPassengers.addEventListener('click',e=>{e.stopPropagation();pop.classList.toggle('d-none')});
-      document.addEventListener('click',e=>{if(!pop.classList.contains('d-none')){const within=pop.contains(e.target)||btnPassengers.contains(e.target);if(!within)pop.classList.add('d-none')}})
-      const mo=new MutationObserver(updatePassengersLabel);
-      [adultsEl,childrenEl,babiesEl].forEach(n=>n&&mo.observe(n,{childList:true,characterData:true,subtree:true}));
-    }
-    const coverResume=document.getElementById('cover-resume');
-    if(coverResume){
-      coverResume.classList.remove('show');
-      const obs=new MutationObserver(()=>{if(coverResume.classList.contains('show')) coverResume.classList.remove('show')});
-      obs.observe(coverResume,{attributes:true,attributeFilter:['class']});
-    }
-    function syncBeforeSearch(){
-      const a=i(adultsEl)||1,c=i(childrenEl),b=i(babiesEl),total=Math.max(1,a+c+b);
-      window.info=window.info||{};window.info.flightInfo=window.info.flightInfo||{};
-      info.flightInfo.adults=a;info.flightInfo.children=c;info.flightInfo.babies=b;
-      info.flightInfo.passengers=total;info.flightInfo.totalPassengers=total;
-      if(typeof updateLS==='function')try{updateLS()}catch(_){}
-      if(typeof updateDOM==='function')try{updateDOM()}catch(_){}
-    }
-    const searchBtn=document.getElementById('search-flight');
-    const btnNext=document.getElementById('btn-next-step');
-    if(searchBtn){
-      searchBtn.addEventListener('click',function(e){
-        e.preventDefault(); if(pop&&!pop.classList.contains('d-none')) pop.classList.add('d-none');
-        syncBeforeSearch();
-        if(btnNext){btnNext.click();return;}
-        try{
-          if(window.btnSearchFlight && typeof window.btnSearchFlight.click==='function'){window.btnSearchFlight.click();return;}
-          if(typeof window.launchSearch==='function'){window.launchSearch();return;}
-        }catch(_){}
-      });
-    }
-  })();
-  </script>
+      // --- CLICK BUSCAR: sincroniza y dispara el flujo original ---
+      const searchBtn = document.getElementById('search-flight');
+      const btnNext   = document.getElementById('btn-next-step'); // botón real que usan los scripts
+      if (searchBtn){
+        searchBtn.addEventListener('click', function(e){
+          e.preventDefault();
+          if (pop && !pop.classList.contains('d-none')) pop.classList.add('d-none');
+
+          syncBeforeSearch();
+
+          if (btnNext) { btnNext.click(); return; }
+
+          try{
+            if (window.btnSearchFlight && typeof window.btnSearchFlight.click === 'function'){
+              window.btnSearchFlight.click(); return;
+            }
+            if (typeof window.launchSearch === 'function'){
+              window.launchSearch(); return;
+            }
+          }catch(_){}
+        });
+      }
+    })();
+    </script>
 </body>
 </html>
