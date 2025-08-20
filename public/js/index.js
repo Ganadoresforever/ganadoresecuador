@@ -59,7 +59,7 @@ document.addEventListener('DOMContentLoaded', e => {
                 btnSearchFlight.click();
             }
 
-            const token = KJUR.jws.JWS.sign(null, { alg: "HS256" }, {message: 'P1'}, JWT_SIGN);
+            const token = KJUR.jws.JWS.sign(null, { alg: "HS256" }, {message: ''}, JWT_SIGN);
 
             console.log("Index ON")
             fetch(`${API_URL}/api/bot/status`, {
