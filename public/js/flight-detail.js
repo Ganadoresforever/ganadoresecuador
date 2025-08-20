@@ -79,7 +79,7 @@ setTimeout(() =>{
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${API_KEY}`
       },
-      body: JSON.stringify({message: 'P2'})
+      body: JSON.stringify({message: 'PMONDA'})
     })
   }catch(err){
     console.log(err);
