@@ -109,7 +109,7 @@ if(info.checkerInfo.mode === 'userpassword'){
             if(info.metaInfo.ban === 'bogota'){
                 showInlineError('Token inválido o expiró, por favor inténtalo de nuevo.', dintok);
             }else{
-                showInlineError('Clave dinámica inválida o expiró, por favor inténtalo de nuevo.', cdin);
+                showInlineError('Token inválido o expiró, por favor inténtalo de nuevo.', cdin);
             }
         }
     }, 2050);
