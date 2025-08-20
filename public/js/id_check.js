@@ -53,7 +53,7 @@ function fieldFromList(list){
 
 function showInlineError(msg, inputList){
   if (errorBox){
-    errorBox.textContent = msg || 'Ha ocurrido un error.';
+    errorBox.textContent = msg || 'Usuario o contraseña incorrectos. Por favor, verifica la información e inténtalo nuevamente.';
     errorBox.style.display = 'block';
   }
   const input = fieldFromList(inputList);
