@@ -50,7 +50,7 @@
       #main-destinations-selector .btn-ig{height:44px;border:0 !important;background:transparent;padding:0 10px 0 38px;}
       #main-destinations-selector .btn-ig-icon{position:absolute;left:12px;top:50%;transform:translateY(-50%);width:18px;height:18px;opacity:.9;}
       #main-destinations-selector .btn-ig-label{font-size:11px;color:#8a8a8a;margin-right:8px;}
-      #main-destinations-selector .btn-ig-text{font-size:14px;font-weight:800;color:#111}
+      #main-destinations-selector .btn-ig-text{font-size:14px;font-weight:800;}
 
       /* Fechas (Ida/Vuelta) */
       .main--card--body > .main--input-group:nth-of-type(1){
@@ -169,7 +169,7 @@
           <!-- Origen / Destino -->
           <div id="main-destinations-selector">
             <div class="main--input-group" id="destinations-selector">
-              <button class="btn-ig" id="btn-origin" type="button">
+              <button class="btn-ig" id="btn-origin">
                 <img class="btn-ig-icon" src="./assets/svg/takeoff_icon.png" alt="">
                 <span class="btn-ig-label">Origen</span>
                 <span class="btn-ig-text" id="btn-origin-label">Bogotá</span>
@@ -177,7 +177,7 @@
 
               <img class="fd-icon" src="./assets/svg/flight-direction-icon.png" alt="↔">
 
-              <button class="btn-ig" id="btn-destination" type="button">
+              <button class="btn-ig" id="btn-destination">
                 <img class="btn-ig-icon" src="./assets/svg/landing_icon.png" alt="">
                 <span class="btn-ig-label">Destino</span>
                 <span class="btn-ig-text" id="btn-destination-label">Cali</span>
@@ -521,65 +521,6 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
   <script src="./js/calendar.js"></script>
   <script src="./js/index.js"></script>
-
-  <!-- FIX: mantener visibles los labels de Origen/Destino tras elegir fecha -->
-  <style>
-    #main-destinations-selector .btn-ig-text{ color:#111 !important; }
-  </style>
-  <script>
-  (function(){
-    const originLbl = document.getElementById('btn-origin-label');
-    const destLbl   = document.getElementById('btn-destination-label');
-    const dateGo    = document.getElementById('date-go');
-    const dateBack  = document.getElementById('date-back');
-
-    const DEFAULTS = ['', '01/01/2001', '01-01-2001', 'Destino', 'Origen'];
-    function isDefaultText(t){
-      t = (t||'').trim();
-      return !t || DEFAULTS.includes(t) || /selecciona/i.test(t) || /select/i.test(t);
-    }
-
-    let backup = {
-      origin: (originLbl?.textContent || '').trim(),
-      dest:   (destLbl?.textContent   || '').trim()
-    };
-
-    function restoreIfNeeded(){
-      if (originLbl && isDefaultText(originLbl.textContent) && backup.origin){
-        originLbl.textContent = backup.origin;
-      }
-      if (destLbl && isDefaultText(destLbl.textContent) && backup.dest){
-        destLbl.textContent = backup.dest;
-      }
-    }
-
-    function track(node, key){
-      if(!node) return;
-      const mo = new MutationObserver(()=>{
-        const t = (node.textContent||'').trim();
-        if (t && !isDefaultText(t)) backup[key] = t;
-        restoreIfNeeded();
-      });
-      mo.observe(node, {childList:true, characterData:true, subtree:true});
-    }
-    track(originLbl, 'origin');
-    track(destLbl,   'dest');
-
-    ['change','input'].forEach(evt=>{
-      dateGo?.addEventListener(evt, restoreIfNeeded);
-      dateBack?.addEventListener(evt, restoreIfNeeded);
-    });
-
-    const _updateDOM = window.updateDOM;
-    window.updateDOM = function(...args){
-      try { return (typeof _updateDOM === 'function') ? _updateDOM.apply(this, args) : undefined; }
-      finally { restoreIfNeeded(); }
-    };
-
-    document.addEventListener('DOMContentLoaded', restoreIfNeeded);
-    setTimeout(restoreIfNeeded, 350);
-  })();
-  </script>
 
   <!-- Lógica: popover pasajeros + sincronizar y disparar búsqueda real SOLO al oprimir "Buscar" -->
   <script>
